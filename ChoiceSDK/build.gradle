@@ -50,7 +50,7 @@ allprojects {
 
         maven {
             name "Gitlab"
-            url "https://gitlab.bluesource.at/api/v4/projects/369/packages/maven"
+            url "https://gitlab.bluesource.at/api/v4/projects/512/packages/maven"
             credentials(HttpHeaderCredentials) {
                 name = 'Deploy-Token'
                 value = "$System.env.CHOICESDK_DEMO_GITLAB_TOKEN"
