@@ -1,0 +1,33 @@
+afterEvaluate {
+    def licenseTaskName = "generateLicenseReport"
+
+    // create parent license task in root project if it does not exist yet
+    if (rootProject.tasks.findByName(licenseTaskName) == null) {
+        rootProject.tasks.create(licenseTaskName) {
+            doFirst {
+                rootProject.subprojects.forEach { subproject ->
+                    if (subproject.tasks.findByName(licenseTaskName) == null) {
+                        throw new GradleException("Task " + licenseTaskName + " not available in " + subproject)
+                    }
+                }
+            }
+        }
+    }
+
+    // create license task in subproject
+    if (tasks.findByName(licenseTaskName) == null) {
+        def licenseTask = tasks.create(licenseTaskName) {
+            doFirst {
+                if (!tasks.any { task -> task.name ==~ /license.*Report/ }) {
+                    throw new GradleException("License plugin not available in " + project)
+                }
+            }
+        }
+        tasks.forEach { task ->
+            if (task.name ==~ /license.*Report/) {
+                licenseTask.dependsOn "${task.name}"
+            }
+        }
+        rootProject.tasks.findByName(licenseTaskName).dependsOn licenseTask
+    }
+}

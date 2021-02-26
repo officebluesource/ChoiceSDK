@@ -1,0 +1,129 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'com.huawei.hms.plugin.analytics'
+apply plugin: 'com.jaredsburrows.license'
+apply from: "../licenseCheck.gradle"
+
+// Load keystore.properties file
+def keystorePropertiesFile = rootProject.file("../keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+project.ext.keystoreProperties = keystoreProperties
+
+// Load hms.properties file
+def hmsPropertiesFile = rootProject.file("choicesdk-app/hms.properties")
+def hmsProperties = new Properties()
+hmsProperties.load(new FileInputStream(hmsPropertiesFile))
+
+android {
+    compileSdkVersion 29
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        applicationId "com.bluesource.choicesdk_app"
+        minSdkVersion 19
+        targetSdkVersion 29
+        versionCode project.versionCode
+        versionName project.appVersionName
+        multiDexEnabled true
+
+        // make sure to copy google-services.json and agconnect-services.json into the project
+        // and replace `hmsProperties['HMS_APP_ID']` with your HMS app id here:
+        manifestPlaceholders += [huaweiAppId: hmsProperties['HMS_APP_ID']]
+    }
+
+    // Release signing
+    signingConfigs {
+        release {
+            // add your keystore properties
+            keyAlias keystoreProperties['KEY_ALIAS']
+            keyPassword System.getenv(keystoreProperties['KEY_PASSWORD'])
+            storeFile file("../../${keystoreProperties['STORE_FILE']}")
+            storePassword System.getenv(keystoreProperties['STORE_PASSWORD'])
+        }
+    }
+
+    buildTypes {
+        debug {
+            manifestPlaceholders += [crashlyticsCollectionEnabled: "false"]
+        }
+
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+
+            manifestPlaceholders += [crashlyticsCollectionEnabled: "true"]
+        }
+    }
+
+    // Abort build on lint error
+    lintOptions {
+        abortOnError true
+    }
+
+    // Exclude common meta files from build
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+    }
+
+    // Rename APK output file
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "${project.parent.name}-${variant.name}-${project.appVersionName}.apk"
+        }
+    }
+}
+
+dependencies {
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'com.android.support:multidex:1.0.3'
+
+    implementation project(":choicesdk-analytics")
+    implementation project(":choicesdk-location")
+    implementation project(":choicesdk-maps")
+    implementation project(":choicesdk-messaging")
+    implementation project(":choicesdk-signin")
+
+    // hms plugin version of analytics needs to have a dependency
+    // in the gradle file where the plugin is applied
+    implementation 'com.huawei.hms:hianalytics:5.0.1.300'
+
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2"
+
+    // HTTP Lib
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation 'com.squareup.retrofit2:converter-scalars:2.9.0'
+
+    implementation "androidx.biometric:biometric:1.1.0"
+
+}
+
+afterEvaluate {
+    android.applicationVariants.all { variant ->
+        // Automatic lint checks for release builds
+        if (variant.name.endsWith("Release")) {
+            def lintTask = "lint${variant.name.capitalize()}"
+            tasks."assemble${variant.name.capitalize()}".dependsOn lintTask
+            tasks."bundle${variant.name.capitalize()}".dependsOn lintTask
+        }
+    }
+}
+

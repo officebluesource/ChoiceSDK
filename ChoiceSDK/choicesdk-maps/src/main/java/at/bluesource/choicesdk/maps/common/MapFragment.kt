@@ -1,0 +1,97 @@
+package at.bluesource.choicesdk.maps.common
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import at.bluesource.choicesdk.core.MobileServicesDetector
+import at.bluesource.choicesdk.maps.R
+import at.bluesource.choicesdk.maps.common.Map.Companion.toChoiceMap
+import com.jakewharton.rxrelay3.BehaviorRelay
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+
+/**
+ * A simple map fragment wrapper for hms and gms
+ * Automatically returns the needed fragment depending on what mobile service is available.
+ *
+ * @see com.google.android.gms.maps.SupportMapFragment
+ * @see com.huawei.hms.maps.SupportMapFragment
+ */
+open class MapFragment : Fragment() {
+
+    private val disposables = CompositeDisposable()
+
+    private val mapRelay: BehaviorRelay<Map> = BehaviorRelay.create()
+
+    fun getMapAsync(callback: OnMapReadyCallback) {
+        disposables.add(mapRelay.firstElement()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { map ->
+                callback.onMapReady(map)
+            })
+    }
+
+    fun getMapObservable(): Observable<Map> {
+        return mapRelay
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val mapFragment: Fragment = when {
+            MobileServicesDetector.isGmsAvailable() -> {
+                val instance = com.google.android.gms.maps.SupportMapFragment.newInstance()
+                instance.getMapAsync {
+                    mapRelay.accept(it.toChoiceMap())
+                }
+
+                instance
+            }
+            MobileServicesDetector.isHmsAvailable() -> {
+
+                val instance = com.huawei.hms.maps.SupportMapFragment.newInstance()
+                instance.getMapAsync {
+                    mapRelay.accept(it.toChoiceMap())
+                }
+
+                instance
+            }
+
+            else -> throw IllegalArgumentException("Neither GMS nor HMS services are available. Therefore no MapFragment can be instantiated.")
+        }
+
+        replaceFragment(mapFragment)
+    }
+
+    /**
+     * Replace everything inside a FrameLayout with instance
+     */
+    private fun replaceFragment(instance: Fragment) {
+        childFragmentManager.beginTransaction()
+            .replace(R.id.mapFrameLayout, instance)
+            .commit()
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_map, container, false)
+    }
+
+    override fun onDestroy() {
+        disposables.dispose()
+        super.onDestroy()
+    }
+
+    companion object {
+
+        @JvmStatic
+        fun newInstance(): MapFragment {
+            return MapFragment()
+        }
+    }
+}

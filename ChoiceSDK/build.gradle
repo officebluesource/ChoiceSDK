@@ -1,0 +1,67 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+
+    // Get build number from CI
+    def buildNumber = 0
+    if (System.getenv().CI_PIPELINE_ID) {
+        buildNumber = System.getenv().CI_PIPELINE_ID?.toInteger()
+    }
+    project.ext.buildNumber = buildNumber
+
+    project.ext.sdkVersionName = "0.1.0"
+    project.ext.appVersionName = "${project.sdkVersionName}.${project.buildNumber}"
+    project.ext.versionCode = 1
+
+    ext.kotlin_version = "1.4.30"
+
+    repositories {
+        google()
+        jcenter()
+        maven { url 'http://developer.huawei.com/repo/' }
+    }
+
+    dependencies {
+        classpath "com.android.tools.build:gradle:4.1.2"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
+        classpath 'com.jaredsburrows:gradle-license-plugin:0.8.80'
+
+        // GMS
+        classpath 'com.google.gms:google-services:4.3.5'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.5.0'
+
+        // HMS
+        classpath 'com.huawei.agconnect:agcp:1.4.1.300'
+        classpath 'com.huawei.hms.plugin:analytics:5.0.1.300'
+
+    }
+}
+
+plugins {
+    id("org.jetbrains.dokka") version "1.4.0"
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+
+        maven { url 'http://developer.huawei.com/repo/' }
+
+        maven {
+            name "Gitlab"
+            url "https://gitlab.bluesource.at/api/v4/projects/369/packages/maven"
+            credentials(HttpHeaderCredentials) {
+                name = 'Deploy-Token'
+                value = "$System.env.CHOICESDK_DEMO_GITLAB_TOKEN"
+            }
+            authentication {
+                header(HttpHeaderAuthentication)
+            }
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
