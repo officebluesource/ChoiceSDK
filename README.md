@@ -1,12 +1,8 @@
-<div align="center"><h1 align="center">Choice SDK</h1></div>
+# Choice SDK
 
-<div align="center">
 A SDK that aims to wrap similar functionalities from HMS and GMS services to one common interface. This is the launchpad for app providers expanding from GMS (Google Mobile Services) to HMS (Huawei Mobile Services) without having another codebranch to be setup, published and maintained. Choice SDK is already in use in multiple commercial, public and privat operated apps. The goal is to save development, maintainance and security issues now and in future.
-</div>
 
-<br />
-
-# Contents
+## Contents
 - [Features](#features)
 - [Installation](#installation)
   - [HMS / GMS specific](#hms--gms-specific)
@@ -19,9 +15,10 @@ A SDK that aims to wrap similar functionalities from HMS and GMS services to one
   - [Maps](#maps)
   - [Messaging](#messaging)
   - [Sign-In](#sign-in)
+- [Demo app setup](#demo-app-setup)
 - [Links](#links)
 
-# Features
+## Features
 The SDK currently supports the following kits/APIs:
 - Analytics
 - Location
@@ -29,9 +26,9 @@ The SDK currently supports the following kits/APIs:
 - Messaging
 - Sign-In
 
-# Installation
+## Installation
 
-## HMS / GMS specific
+### HMS / GMS specific
 To use HMS services in the first place, integration of the HMS core SDK is needed. Follow the steps mentioned in [How to set up the HMS core sdk](./documentation/hmscoresdksetup.md).   
 As for the firebase integration just follow the official guide: https://firebase.google.com/docs/android/setup
 
@@ -66,7 +63,7 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.huawei.agconnect'
 ```
 
-## Choice SDK
+### Choice SDK
 Add the following dependencies as required to your app. GMS, Firebase and HMS dependencies are included, so they do not need to be declared in your app.
 ```gradle
 dependencies {
@@ -78,7 +75,7 @@ dependencies {
 }
 ```
 
-## Initialization
+### Initialization
 The Choice SDK needs the application context at start. You can provide the needed context by calling `ChoiceSdk.init(this)` in your application class:
 ```kotlin
 class YourApp : Application() {
@@ -90,7 +87,7 @@ class YourApp : Application() {
 }
 ```
 
-# Usage
+## Usage
 Usually instances of SDK classes can be created by using their corresponding factory, for example `AnalyticsFactory.getAnalytics(this)`. These calls can throw an `UnsupportedOperationException` if neither GMS nor HMS services are available, so make sure to check beforehand.
 
 The SDK might need some additional permissions, so add them if you see any Lint errors in your IDE.
@@ -99,26 +96,33 @@ The SDK might need some additional permissions, so add them if you see any Lint 
 
 Examples for each part are described in the documentation below.
 
-## HMS Setup
+### HMS Setup
 [How to set up the HMS core SDK](./documentation/hmscoresdksetup.md)
 
-## Analytics
+### Analytics
 [Analytics documentation](./documentation/analytics.md)
 
-## Location
+### Location
 [Location documentation](./documentation/location.md)
 
-## Maps
+### Maps
 [Maps documentation](./documentation/map.md)
 
-## Messaging
+### Messaging
 [Messaging documentation](./documentation/messaging.md)
 
-## Sign-In
+### Sign-In
 [Sign-In documentation](./documentation/signin.md)
 
-# Links
-- [RxJava](https://github.com/ReactiveX/RxJava)
-- [RxAndroid](https://github.com/ReactiveX/RxAndroid)
+## Demo app setup
+If you would like to use our demo app, you have to follow some steps to be able to build and run the project:
+- Create a GMS and HMS project and download `google-services.json` and `agconnect-services.json` files into `ChoiceSDK/choicesdk-app`.
+- In the app's `build.gradle` file replace `hmsProperties['HMS_APP_ID']` with your HMS app id, or create a `ChoiceSDK/choicesdk-app/hms.properties` file in with the following content and your HMS app id: `HMS_APP_ID=xxx`
+- Change the `applicationId` of the app to the ID which you used to create the GMS/HMS projects.
+- To build a release version replace our release signing config with your keystore properties.
+
+## Links
 - [Google APIs for Android](https://developers.google.com/android)
 - [Huawei APIs](https://developer.huawei.com/consumer/en/hms)
+- [RxJava](https://github.com/ReactiveX/RxJava)
+- [RxAndroid](https://github.com/ReactiveX/RxAndroid)
