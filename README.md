@@ -1,50 +1,15 @@
 <div align="center"><h1 align="center">Choice SDK</h1></div>
 
 <div align="center">
-  A SDK that aims to wrap similar functionalities from HMS and GMS services to one common interface.
+A SDK that aims to wrap similar functionalities from HMS and GMS services to one common interface. This is the launchpad for app providers expanding from GMS (Google Mobile Services) to HMS (Huawei Mobile Services) without having another codebranch to be setup, published and maintained. Choice SDK is already in use in multiple commercial, public and privat operated apps. The goal is to save development, maintainance and security issues now and in future.
 </div>
 
 <br />
 
-<div align="center">
-  <!-- Build Status -->
-  <a href="">
-    <img src="https://gitlab.bluesource.at/bs_projects/huawei/choicesdk/android/badges/develop/pipeline.svg?style=flat-square"
-      alt="Build Status" />
-  </a>
-  <!-- Test Coverage -->
-  <a href="">
-    <img src="https://gitlab.bluesource.at/bs_projects/huawei/choicesdk/android/badges/develop/coverage.svg?style=flat-square"
-      alt="Test Coverage" />
-  </a>
-  <!-- Latest version 
-  <a href="">
-    <img src=""
-      alt="Latest version" />
-  </a>-->
-</div>
-
-<div align="center">
-  <h3>
-    <a href="https://developer.huawei.com/consumer/en/doc/10123">
-      HMS Reference
-    </a>
-    <span> | </span>
-    <a href="https://developers.google.com/android">
-      GMS Reference
-    </a>
-    <span> | </span>
-    <a href="https://gitlab.bluesource.at/bs_projects/huawei/choicesdk/android/-/tree/master/ChoiceSDK/choicesdk-app">
-      Sample app
-    </a>
-  
-  </h3>
-</div>
-
 # Contents
 - [Features](#features)
 - [Installation](#installation)
-  - [HMS / GMS specific](#hms-gms-specific)
+  - [HMS / GMS specific](#hms--gms-specific)
   - [Choice SDK](#choice-sdk-1)
   - [Initialization](#initialization)
 - [Usage](#usage)
@@ -53,7 +18,7 @@
   - [Location](#location)
   - [Maps](#maps)
   - [Messaging](#messaging)
-  - [Signin](#signin)
+  - [Sign-In](#sign-in)
 - [Links](#links)
 
 # Features
@@ -62,7 +27,7 @@ The SDK currently supports the following kits/APIs:
 - Location
 - Maps
 - Messaging
-- Sign in
+- Sign-In
 
 # Installation
 
@@ -149,8 +114,8 @@ Examples for each part are described in the documentation below.
 ## Messaging
 [Messaging documentation](./documentation/messaging.md)
 
-## Signin
-[Signin documentation](./documentation/signin.md)
+## Sign-In
+[Sign-In documentation](./documentation/signin.md)
 
 # Links
 - [RxJava](https://github.com/ReactiveX/RxJava)
