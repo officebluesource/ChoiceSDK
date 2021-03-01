@@ -2,6 +2,16 @@ apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
 afterEvaluate {
+    task androidSourcesJar(type: Jar) {
+        archiveClassifier.set('sources')
+        from android.sourceSets.main.java.srcDirs
+        from android.sourceSets.main.kotlin.srcDirs
+    }
+
+    artifacts {
+        archives androidSourcesJar
+    }
+
     publishing {
         publications {
             release(MavenPublication) {
@@ -10,6 +20,8 @@ afterEvaluate {
                 groupId "at.bluesource.choicesdk"
                 artifactId project.name
                 version project.sdkVersionName
+
+                artifact androidSourcesJar
 
                 pom {
                     name = "Choice SDK Analytics"
