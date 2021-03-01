@@ -1,0 +1,49 @@
+apply plugin: 'maven-publish'
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+
+                groupId "at.bluesource.choicesdk"
+                artifactId project.name
+                version project.sdkVersionName
+
+                pom {
+                    name = "Choice SDK Location"
+                    url = "https://github.com/bluesource/ChoiceSDK"
+
+                    licenses {
+                        license {
+                            name = 'The Apache License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id = "bluesource"
+                            name = "bluesource - mobile solutions gmbh"
+                            email = "https://www.bluesource.at"
+                        }
+                    }
+                }
+            }
+        }
+
+        repositories {
+            maven {
+                name "Gitlab"
+                url "https://gitlab.bluesource.at/api/v4/projects/512/packages/maven"
+                credentials(HttpHeaderCredentials) {
+                    name = 'Job-Token'
+                    value = System.getenv("CI_JOB_TOKEN")
+                }
+                authentication {
+                    header(HttpHeaderAuthentication)
+                }
+            }
+        }
+    }
+}

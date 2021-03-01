@@ -1,0 +1,58 @@
+include:
+  - project: 'tools/gitlab_ci'
+    ref: master
+    file: 'android-sdk/android-sdk-template.gitlab-ci.yml'
+
+stages:
+  - test
+  - build auto
+  - build manual
+  - release
+
+build_demo_app:
+  extends: .build_auto
+  stage: build auto
+  script:
+    - ./base64-decode-files.sh
+    - ChoiceSDK/gradlew assembleRelease -b ChoiceSDK/choicesdk-app/build.gradle
+
+build_sdks:
+  extends: .build_manual
+  stage: build manual
+  script:
+    - ./base64-decode-files.sh
+    - ChoiceSDK/gradlew assembleRelease -b ChoiceSDK/choicesdk-core/build.gradle
+    - ChoiceSDK/gradlew assembleRelease -b ChoiceSDK/choicesdk-analytics/build.gradle
+    - ChoiceSDK/gradlew assembleRelease -b ChoiceSDK/choicesdk-location/build.gradle
+    - ChoiceSDK/gradlew assembleRelease -b ChoiceSDK/choicesdk-maps/build.gradle
+    - ChoiceSDK/gradlew assembleRelease -b ChoiceSDK/choicesdk-messaging/build.gradle
+    - ChoiceSDK/gradlew assembleRelease -b ChoiceSDK/choicesdk-signin/build.gradle
+
+release_sdks:
+  extends: .release
+  script:
+    - ./base64-decode-files.sh
+    - ChoiceSDK/gradlew assembleRelease publish -b ChoiceSDK/choicesdk-core/build.gradle
+    - ChoiceSDK/gradlew assembleRelease publish -b ChoiceSDK/choicesdk-analytics/build.gradle
+    - ChoiceSDK/gradlew assembleRelease publish -b ChoiceSDK/choicesdk-location/build.gradle
+    - ChoiceSDK/gradlew assembleRelease publish -b ChoiceSDK/choicesdk-maps/build.gradle
+    - ChoiceSDK/gradlew assembleRelease publish -b ChoiceSDK/choicesdk-messaging/build.gradle
+    - ChoiceSDK/gradlew assembleRelease publish -b ChoiceSDK/choicesdk-signin/build.gradle
+  when: manual
+
+pages:
+  stage: release
+  when: manual
+  needs: []
+  tags: 
+    - android
+  image: gitlab.bluesource.at:5050/tools/docker_images/android_docker_image:api-30-ndk
+  script:
+    - ./base64-decode-files.sh
+    - mkdir public
+    - cd ChoiceSDK
+    - ./gradlew dokkaHtmlCollector
+    - cp -r ./build/dokka/htmlCollector/* ../public
+  artifacts:
+    paths:
+      - public
