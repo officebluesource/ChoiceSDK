@@ -1,4 +1,4 @@
-# Messaging 
+# Messaging (Push Kit)
 
 Messaging consists of two different parts: `Messaging` and `MessagingService`. The difference is that the `Messaging` instance is used to send messages upstream whereas the `MessagingService` handles downstream messages.
 

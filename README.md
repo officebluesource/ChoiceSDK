@@ -13,7 +13,7 @@ A SDK that aims to wrap similar functionalities from HMS and GMS services to one
   - [Analytics](#analytics)
   - [Location](#location)
   - [Maps](#maps)
-  - [Messaging](#messaging)
+  - [Messaging (Push Kit)](#messaging--push-kit)
   - [Sign-In](#sign-in)
 - [Demo app setup](#demo-app-setup)
 - [Links](#links)
@@ -108,7 +108,7 @@ Examples for each part are described in the documentation below.
 ### Maps
 [Maps documentation](./documentation/map.md)
 
-### Messaging
+### Messaging (Push Kit)
 [Messaging documentation](./documentation/messaging.md)
 
 ### Sign-In
