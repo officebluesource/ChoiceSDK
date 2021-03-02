@@ -66,7 +66,7 @@ afterEvaluate {
 
             maven {
                 name = "MavenCentral"
-                url = "TODO"
+                url = "https://s01.oss.sonatype.org"
                 credentials {
                     username System.getenv("SONATYPE_USERNAME")
                     password System.getenv("SONATYPE_PASSWORD")
