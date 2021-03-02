@@ -1,5 +1,7 @@
 # Choice SDK
 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/at.bluesource.choicesdk/choicesdk-core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/at.bluesource.choicesdk/choicesdk-core)
+
 A SDK that aims to wrap similar functionalities from HMS and GMS services to one common interface. This is the launchpad for app providers expanding from GMS (Google Mobile Services) to HMS (Huawei Mobile Services) without having another codebranch to be setup, published and maintained. Choice SDK is already in use in multiple commercial, public and privat operated apps. The goal is to save development, maintainance and security issues now and in future.
 
 ## Contents
