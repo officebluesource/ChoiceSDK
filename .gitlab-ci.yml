@@ -32,13 +32,12 @@ release_sdks:
   extends: .release
   script:
     - ./base64-decode-files.sh
-    - ChoiceSDK/gradlew assembleRelease publish -b ChoiceSDK/choicesdk-core/build.gradle
-    - ChoiceSDK/gradlew assembleRelease publish -b ChoiceSDK/choicesdk-analytics/build.gradle
-    - ChoiceSDK/gradlew assembleRelease publish -b ChoiceSDK/choicesdk-location/build.gradle
-    - ChoiceSDK/gradlew assembleRelease publish -b ChoiceSDK/choicesdk-maps/build.gradle
-    - ChoiceSDK/gradlew assembleRelease publish -b ChoiceSDK/choicesdk-messaging/build.gradle
-    - ChoiceSDK/gradlew assembleRelease publish -b ChoiceSDK/choicesdk-signin/build.gradle
-    - ChoiceSDK/gradlew closeAndReleaseStagingRepository
+    - ChoiceSDK/gradlew assembleRelease publish closeAndReleaseStagingRepository -b ChoiceSDK/choicesdk-core/build.gradle
+    - ChoiceSDK/gradlew assembleRelease publish closeAndReleaseStagingRepository -b ChoiceSDK/choicesdk-analytics/build.gradle
+    - ChoiceSDK/gradlew assembleRelease publish closeAndReleaseStagingRepository -b ChoiceSDK/choicesdk-location/build.gradle
+    - ChoiceSDK/gradlew assembleRelease publish closeAndReleaseStagingRepository -b ChoiceSDK/choicesdk-maps/build.gradle
+    - ChoiceSDK/gradlew assembleRelease publish closeAndReleaseStagingRepository -b ChoiceSDK/choicesdk-messaging/build.gradle
+    - ChoiceSDK/gradlew assembleRelease publish closeAndReleaseStagingRepository -b ChoiceSDK/choicesdk-signin/build.gradle
   when: manual
 
 pages:
