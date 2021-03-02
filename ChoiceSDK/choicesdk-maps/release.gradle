@@ -25,6 +25,7 @@ afterEvaluate {
 
                 pom {
                     name = "Choice SDK Maps"
+                    description = "A SDK that aims to wrap similar functionalities from HMS and GMS services to one common interface."
                     url = "https://github.com/bluesource/ChoiceSDK"
 
                     licenses {
