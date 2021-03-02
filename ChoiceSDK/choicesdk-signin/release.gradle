@@ -25,6 +25,7 @@ afterEvaluate {
 
                 pom {
                     name = "Choice SDK SignIn"
+                    description = "A SDK that aims to wrap similar functionalities from HMS and GMS services to one common interface."
                     url = "https://github.com/bluesource/ChoiceSDK"
 
                     licenses {
@@ -66,7 +67,7 @@ afterEvaluate {
 
             maven {
                 name = "MavenCentral"
-                url = "https://s01.oss.sonatype.org"
+                url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
                 credentials {
                     username System.getenv("SONATYPE_USERNAME")
                     password System.getenv("SONATYPE_PASSWORD")
