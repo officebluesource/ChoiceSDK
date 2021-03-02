@@ -14,31 +14,30 @@ build_demo_app:
   stage: build auto
   script:
     - ./base64-decode-files.sh
-    - ChoiceSDK/gradlew assembleRelease -b ChoiceSDK/choicesdk-app/build.gradle
+    - ChoiceSDK/gradlew :choicesdk-app:assembleRelease -b ChoiceSDK/build.gradle
 
 build_sdks:
   extends: .build_manual
   stage: build manual
   script:
     - ./base64-decode-files.sh
-    - ChoiceSDK/gradlew assembleRelease -b ChoiceSDK/choicesdk-core/build.gradle
-    - ChoiceSDK/gradlew assembleRelease -b ChoiceSDK/choicesdk-analytics/build.gradle
-    - ChoiceSDK/gradlew assembleRelease -b ChoiceSDK/choicesdk-location/build.gradle
-    - ChoiceSDK/gradlew assembleRelease -b ChoiceSDK/choicesdk-maps/build.gradle
-    - ChoiceSDK/gradlew assembleRelease -b ChoiceSDK/choicesdk-messaging/build.gradle
-    - ChoiceSDK/gradlew assembleRelease -b ChoiceSDK/choicesdk-signin/build.gradle
+    - ChoiceSDK/gradlew :choicesdk-core:assembleRelease -b ChoiceSDK/build.gradle
+    - ChoiceSDK/gradlew :choicesdk-analytics:assembleRelease -b ChoiceSDK/build.gradle
+    - ChoiceSDK/gradlew :choicesdk-location:assembleRelease -b ChoiceSDK/build.gradle
+    - ChoiceSDK/gradlew :choicesdk-maps:assembleRelease -b ChoiceSDK/build.gradle
+    - ChoiceSDK/gradlew :choicesdk-messaging:assembleRelease -b ChoiceSDK/build.gradle
+    - ChoiceSDK/gradlew :choicesdk-signin:assembleRelease -b ChoiceSDK/build.gradle
 
 release_sdks:
   extends: .release
   script:
     - ./base64-decode-files.sh
-    - ChoiceSDK/gradlew assembleRelease publish -b ChoiceSDK/choicesdk-core/build.gradle
-    - ChoiceSDK/gradlew assembleRelease publish -b ChoiceSDK/choicesdk-analytics/build.gradle
-    - ChoiceSDK/gradlew assembleRelease publish -b ChoiceSDK/choicesdk-location/build.gradle
-    - ChoiceSDK/gradlew assembleRelease publish -b ChoiceSDK/choicesdk-maps/build.gradle
-    - ChoiceSDK/gradlew assembleRelease publish -b ChoiceSDK/choicesdk-messaging/build.gradle
-    - ChoiceSDK/gradlew assembleRelease publish -b ChoiceSDK/choicesdk-signin/build.gradle
-    - ChoiceSDK/gradlew closeAndReleaseStagingRepository -b ChoiceSDK/build.gradle
+    - ChoiceSDK/gradlew :choicesdk-core:assembleRelease :choicesdk-core:publish closeAndReleaseStagingRepository -b ChoiceSDK/build.gradle
+    - ChoiceSDK/gradlew :choicesdk-analytics:assembleRelease :choicesdk-analytics:publish closeAndReleaseStagingRepository -b ChoiceSDK/build.gradle
+    - ChoiceSDK/gradlew :choicesdk-location:assembleRelease :choicesdk-location:publish closeAndReleaseStagingRepository -b ChoiceSDK/build.gradle
+    - ChoiceSDK/gradlew :choicesdk-maps:assembleRelease :choicesdk-maps:publish closeAndReleaseStagingRepository -b ChoiceSDK/build.gradle
+    - ChoiceSDK/gradlew :choicesdk-messaging:assembleRelease :choicesdk-messaging:publish closeAndReleaseStagingRepository -b ChoiceSDK/build.gradle
+    - ChoiceSDK/gradlew :choicesdk-signin:assembleRelease :choicesdk-signin:publish closeAndReleaseStagingRepository -b ChoiceSDK/build.gradle
   when: manual
 
 pages:
