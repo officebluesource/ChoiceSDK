@@ -38,6 +38,7 @@ release_sdks:
     - ChoiceSDK/gradlew assembleRelease publish -b ChoiceSDK/choicesdk-maps/build.gradle
     - ChoiceSDK/gradlew assembleRelease publish -b ChoiceSDK/choicesdk-messaging/build.gradle
     - ChoiceSDK/gradlew assembleRelease publish -b ChoiceSDK/choicesdk-signin/build.gradle
+    - ChoiceSDK/gradlew closeAndReleaseStagingRepository
   when: manual
 
 pages:

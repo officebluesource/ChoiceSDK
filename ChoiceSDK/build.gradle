@@ -11,8 +11,9 @@ buildscript {
     project.ext.sdkVersionName = "0.1.1"
     project.ext.appVersionName = "${project.sdkVersionName}.${project.buildNumber}"
     project.ext.versionCode = 2
+    project.ext.groupId = "at.bluesource.choicesdk"
 
-    ext.kotlin_version = "1.4.30"
+    ext.kotlin_version = "1.4.31"
 
     repositories {
         google()
@@ -39,6 +40,7 @@ buildscript {
 
 plugins {
     id("org.jetbrains.dokka") version "1.4.0"
+    id "io.github.gradle-nexus.publish-plugin" version "1.0.0"
 }
 
 allprojects {
@@ -64,4 +66,16 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+nexusPublishing {
+    packageGroup = project.groupId
+    repositories {
+        sonatype {
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            stagingProfileId = System.getenv("SONATYPE_STAGING_PROFILE_ID")
+            username = System.getenv("SONATYPE_USERNAME")
+            password = System.getenv("SONATYPE_PASSWORD")
+        }
+    }
 }
