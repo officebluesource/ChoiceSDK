@@ -7,10 +7,10 @@ import com.huawei.hms.maps.HuaweiMapOptions
 internal class HmsMapOptions : MapOptions {
     private val mapOptions = HuaweiMapOptions()
 
-    override val liteMode: Boolean
+    override val liteMode: Boolean?
         get() = mapOptions.liteMode
 
-    override val mapToolbarEnabled: Boolean
+    override val mapToolbarEnabled: Boolean?
         get() = mapOptions.mapToolbarEnabled
 
     override fun liteMode(enable: Boolean) {
