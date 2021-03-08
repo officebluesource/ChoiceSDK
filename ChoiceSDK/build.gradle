@@ -32,7 +32,7 @@ buildscript {
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.5.0'
 
         // HMS
-        classpath 'com.huawei.agconnect:agcp:1.4.1.300'
+        classpath 'com.huawei.agconnect:agcp:1.5.0.300'
         classpath 'com.huawei.hms.plugin:analytics:5.0.1.300'
 
     }
