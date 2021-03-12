@@ -63,7 +63,7 @@ Project integration:
           maven { url 'http://developer.huawei.com/repo/' }
       }
       dependencies {
-          classpath 'com.huawei.agconnect:agcp:1.4.1.300'
+          classpath 'com.huawei.agconnect:agcp:1.5.0.300'
       }
   }
   
