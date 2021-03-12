@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import at.bluesource.choicesdk.core.MobileServicesDetector
 import at.bluesource.choicesdk.maps.R
 import at.bluesource.choicesdk.maps.common.Map.Companion.toChoiceMap
+import at.bluesource.choicesdk.maps.common.MapOptions.Companion.toGmsMapOptions
+import at.bluesource.choicesdk.maps.common.MapOptions.Companion.toHmsMapOptions
 import com.jakewharton.rxrelay3.BehaviorRelay
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
@@ -20,7 +22,9 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
  * @see com.google.android.gms.maps.SupportMapFragment
  * @see com.huawei.hms.maps.SupportMapFragment
  */
-open class MapFragment : Fragment() {
+open class MapFragment(
+    private val options: MapOptions?
+) : Fragment() {
 
     private val disposables = CompositeDisposable()
 
@@ -43,16 +47,26 @@ open class MapFragment : Fragment() {
 
         val mapFragment: Fragment = when {
             MobileServicesDetector.isGmsAvailable() -> {
-                val instance = com.google.android.gms.maps.SupportMapFragment.newInstance()
+                val instance = if (options == null) {
+                    com.google.android.gms.maps.SupportMapFragment.newInstance()
+                } else {
+                    com.google.android.gms.maps.SupportMapFragment.newInstance(options.toGmsMapOptions())
+                }
+
                 instance.getMapAsync {
                     mapRelay.accept(it.toChoiceMap())
                 }
 
                 instance
             }
-            MobileServicesDetector.isHmsAvailable() -> {
 
-                val instance = com.huawei.hms.maps.SupportMapFragment.newInstance()
+            MobileServicesDetector.isHmsAvailable() -> {
+                val instance = if (options == null) {
+                    com.huawei.hms.maps.SupportMapFragment.newInstance()
+                } else {
+                    com.huawei.hms.maps.SupportMapFragment.newInstance(options.toHmsMapOptions())
+                }
+
                 instance.getMapAsync {
                     mapRelay.accept(it.toChoiceMap())
                 }
@@ -91,7 +105,12 @@ open class MapFragment : Fragment() {
 
         @JvmStatic
         fun newInstance(): MapFragment {
-            return MapFragment()
+            return newInstance(null)
+        }
+
+        @JvmStatic
+        fun newInstance(options: MapOptions? = null): MapFragment {
+            return MapFragment(options)
         }
     }
 }

@@ -7,10 +7,10 @@ import com.google.android.gms.maps.GoogleMapOptions
 internal class GmsMapOptions : MapOptions {
     private val mapOptions = GoogleMapOptions()
 
-    override val liteMode: Boolean
+    override val liteMode: Boolean?
         get() = mapOptions.liteMode
 
-    override val mapToolbarEnabled: Boolean
+    override val mapToolbarEnabled: Boolean?
         get() = mapOptions.mapToolbarEnabled
 
     override fun liteMode(enable: Boolean) {

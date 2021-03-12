@@ -8,8 +8,8 @@ import com.huawei.hms.maps.HuaweiMapOptions
 
 interface MapOptions {
 
-    val liteMode: Boolean
-    val mapToolbarEnabled: Boolean
+    val liteMode: Boolean?
+    val mapToolbarEnabled: Boolean?
 
     fun liteMode(enable: Boolean)
     fun mapToolbarEnabled(enable: Boolean)
@@ -30,15 +30,17 @@ interface MapOptions {
         }
 
         fun MapOptions.toGmsMapOptions(): GoogleMapOptions {
-            return GoogleMapOptions()
-                .liteMode(liteMode)
-                .mapToolbarEnabled(mapToolbarEnabled)
+            val options = GoogleMapOptions()
+            liteMode?.let { options.liteMode(it) }
+            mapToolbarEnabled?.let { options.mapToolbarEnabled(it) }
+            return options
         }
 
         fun MapOptions.toHmsMapOptions(): HuaweiMapOptions {
-            return HuaweiMapOptions()
-                .liteMode(liteMode)
-                .mapToolbarEnabled(mapToolbarEnabled)
+            val options = HuaweiMapOptions()
+            liteMode?.let { options.liteMode(it) }
+            mapToolbarEnabled?.let { options.mapToolbarEnabled(it) }
+            return options
         }
     }
 
