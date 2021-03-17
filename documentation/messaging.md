@@ -1,24 +1,37 @@
 # Messaging (Push Kit)
 
-Messaging consists of two different parts: `Messaging` and `MessagingService`. The difference is that the `Messaging` instance is used to send messages upstream whereas the `MessagingService` handles downstream messages.
+Messaging consists of two different parts: `Messaging` and `MessagingService`. The difference is that the `Messaging` instance is used to send messages upstream and subscribe to topics, whereas the `MessagingService` handles downstream messages.
 
 ## Setup
 Be sure to active Huawei Push Kit in AppGallery Connect!
 
 ## Usage
 
-Upstream:
+Subscribe to token changes:
 ```kotlin
-MessagingFactory.getMessaging().subscribeToTopic("News")
+val tokenObserver = object : DisposableObserver<String>() {
+    override fun onNext(token: String) {}
+    override fun onError(e: Throwable?) {}
+    override fun onComplete() {}
+}
+MessagingRepositoryFactory.getMessagingService()
+    .getNewTokenObservable()
+    .subscribeWith(tokenObserver)
 ```
 
-Downstream:
+Get token once:
+```kotlin
+MessagingRepositoryFactory.getMessagingService()
+    .requestToken(context)
+```
+
+Receive messages:
 ```kotlin
 val messageObserver: DisposableObserver<RemoteMessage> = object : DisposableObserver<RemoteMessage>() {
-    override fun onNext(result: RemoteMessage) {
-        val from = result.from
-        val data = result.data
-        val title = result.notification?.title
+    override fun onNext(remoteMessage: RemoteMessage) {
+        val from = remoteMessage.from
+        val data = remoteMessage.data
+        val title = remoteMessage.notification?.title
     }
 
     override fun onError(e: Throwable?) {}
@@ -29,6 +42,21 @@ MessagingRepositoryFactory.getMessagingService()
     .getMessageReceivedObservable()
     .observeOn(AndroidSchedulers.mainThread())
     .subscribeWith(messageObserver)
+```
+
+Subscribe to topic:
+```kotlin
+MessagingFactory.getMessaging().subscribeToTopic("News")
+```
+
+Send message:
+```kotlin
+val message = RemoteMessage
+    .Builder(destination)
+    .setMessageId(id)
+    .addData("my_message", "Hello World")
+    .build()
+MessagingFactory.getMessaging().send(message)
 ```
 
 ## Links
