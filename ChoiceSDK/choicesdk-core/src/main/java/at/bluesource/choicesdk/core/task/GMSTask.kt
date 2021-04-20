@@ -6,6 +6,9 @@ import at.bluesource.choicesdk.core.task.listener.OnCompleteListener
 import at.bluesource.choicesdk.core.task.listener.OnFailureListener
 import at.bluesource.choicesdk.core.task.listener.OnSuccessListener
 import java.util.concurrent.Executor
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 /**
  * Wrapper class for gms version of task
@@ -253,6 +256,19 @@ class GmsTask<TResult>(private var task: com.google.android.gms.tasks.Task<TResu
                 ((successContinuation.then(it) as GmsTask<TContinuationResult?>?)!!).task
             }
         )
+    }
+
+    override suspend fun await(): TResult? = suspendCoroutine { continuation ->
+        val listener = object : OnCompleteListener<TResult?> {
+            override fun onComplete(task: Task<TResult?>) {
+                if (task.isSuccessful()) {
+                    continuation.resume(task.getResult())
+                } else {
+                    continuation.resumeWithException(task.getException() ?: RuntimeException("Unknown task exception"))
+                }
+            }
+        }
+        addOnCompleteListener(listener)
     }
 
     companion object {

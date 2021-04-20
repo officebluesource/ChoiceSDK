@@ -15,7 +15,8 @@ import io.reactivex.rxjava3.core.Observable
  */
 interface Analytics {
     fun getAppInstanceIdObservable(): Observable<String>
-    fun getAppInstanceId(): Task<String>
+    fun getAppInstanceIdTask(): Task<String>
+    suspend fun getAppInstanceId(): String?
     fun logEvent(name: String, params: Bundle?)
     fun resetAnalyticsData()
     fun setAnalyticsCollectionEnabled(enabled: Boolean)

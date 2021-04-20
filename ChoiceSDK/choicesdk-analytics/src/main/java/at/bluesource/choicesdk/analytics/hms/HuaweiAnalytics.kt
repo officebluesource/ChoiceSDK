@@ -21,14 +21,18 @@ internal class HuaweiAnalytics private constructor() : Analytics {
     private val appInstanceIdRelay: BehaviorRelay<String> = BehaviorRelay.create()
 
     override fun getAppInstanceIdObservable(): Observable<String> {
-        getAppInstanceId()
+        getAppInstanceIdTask()
         return appInstanceIdRelay
     }
 
-    override fun getAppInstanceId(): Task<String> {
+    override fun getAppInstanceIdTask(): Task<String> {
         return HmsTask<String>(hiAnalytics.aaid.addOnSuccessListener {
             appInstanceIdRelay.accept(it)
         })
+    }
+
+    override suspend fun getAppInstanceId(): String? {
+        return HmsTask<String>(hiAnalytics.aaid).await()
     }
 
     override fun logEvent(name: String, params: Bundle?) {
