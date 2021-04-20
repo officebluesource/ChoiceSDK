@@ -19,10 +19,14 @@ MessagingRepositoryFactory.getMessagingService()
     .subscribeWith(tokenObserver)
 ```
 
-Get token once:
+Request token once in order to get token in `tokenObserver` (see above):
 ```kotlin
-MessagingRepositoryFactory.getMessagingService()
-    .requestToken(context)
+MessagingRepositoryFactory.getMessagingService().requestToken(context)
+```
+
+Directly get token via suspending function:
+```kotlin
+MessagingRepositoryFactory.getMessagingService().getToken(context)
 ```
 
 Receive messages:
