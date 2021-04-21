@@ -29,6 +29,7 @@ import at.bluesource.choicesdk.maps.common.shape.Polygon.Companion.toChoicePolyg
 import at.bluesource.choicesdk.maps.common.shape.PolygonOptions.Companion.toHmsPolygonOptions
 import at.bluesource.choicesdk.maps.common.shape.Polyline.Companion.toChoicePolyline
 import at.bluesource.choicesdk.maps.common.shape.PolylineOptions.Companion.toHmsPolylineOptions
+import com.google.android.gms.maps.GoogleMap
 import com.huawei.hms.maps.HuaweiMap
 
 /**
@@ -252,9 +253,9 @@ internal class HmsMap(private var map: HuaweiMap) : Map {
     }
 
     override fun animateCamera(
-            update: CameraUpdate,
-            durationMilliseconds: Int,
-            callback: CancelableCallback?
+        update: CameraUpdate,
+        durationMilliseconds: Int,
+        callback: CancelableCallback?
     ) {
         if (update is CameraUpdate.HmsUpdate) {
             map.animateCamera(update.value, durationMilliseconds, createOrReturnCallback(callback))
@@ -332,8 +333,8 @@ internal class HmsMap(private var map: HuaweiMap) : Map {
 
     override fun snapshot(listener: OnSnapshotReadyCallback, bitmap: Bitmap) {
         map.snapshot(
-                { mBitmap -> listener.onSnapShotReady(mBitmap) },
-                bitmap
+            { mBitmap -> listener.onSnapShotReady(mBitmap) },
+            bitmap
         )
     }
 
@@ -358,5 +359,13 @@ internal class HmsMap(private var map: HuaweiMap) : Map {
                 }
             }
         }
+    }
+
+    override fun getGoogleMap(): GoogleMap? {
+        return null
+    }
+
+    override fun getHuaweiMap(): HuaweiMap {
+        return map
     }
 }
