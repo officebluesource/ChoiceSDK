@@ -223,6 +223,7 @@ class MapActivity : AppCompatActivity() {
                 .title("Location4")
                 .draggable(true)
                 .anchor(0.5f, 1f)
+                .clusterable(true)
         )
         map.addMarker(
             MarkerOptions.create()
@@ -231,6 +232,7 @@ class MapActivity : AppCompatActivity() {
                 .title("Location5")
                 .draggable(true)
                 .anchor(0.5f, 1f)
+                .clusterable(true)
         )
         map.addMarker(
             MarkerOptions.create()
@@ -239,6 +241,7 @@ class MapActivity : AppCompatActivity() {
                 .title("Location6")
                 .draggable(true)
                 .anchor(0.5f, 1f)
+                .clusterable(true)
         )
         map.addMarker(
             MarkerOptions.create()
@@ -247,6 +250,7 @@ class MapActivity : AppCompatActivity() {
                 .title("Location7")
                 .draggable(true)
                 .anchor(0.5f, 1f)
+                .clusterable(true)
         )
         map.addMarker(
             MarkerOptions.create()
@@ -255,6 +259,7 @@ class MapActivity : AppCompatActivity() {
                 .title("Location8")
                 .draggable(true)
                 .anchor(0.5f, 1f)
+                .clusterable(true)
         )
         map.addMarker(
             MarkerOptions.create()
@@ -263,6 +268,7 @@ class MapActivity : AppCompatActivity() {
                 .title("Location9")
                 .draggable(true)
                 .anchor(0.5f, 1f)
+                .clusterable(true)
         )
         map.addMarker(
             MarkerOptions.create()
@@ -271,6 +277,7 @@ class MapActivity : AppCompatActivity() {
                 .title("Midpoint 4 / 5")
                 .draggable(true)
                 .anchor(0.5f, 1f)
+                .clusterable(true)
         )
 
         if (MobileServicesDetector.isHmsAvailable()) {

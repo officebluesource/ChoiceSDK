@@ -51,9 +51,9 @@ interface MarkerOptions {
     fun snippet(snippet: String): MarkerOptions
     fun title(title: String): MarkerOptions
     fun visible(visible: Boolean): MarkerOptions
-    fun writeToParcel(out: Parcel, flags: Int)
-    fun zIndex(zIndex: Float)
-
+    fun writeToParcel(out: Parcel, flags: Int): MarkerOptions
+    fun zIndex(zIndex: Float): MarkerOptions
+    fun clusterable(clusterable: Boolean): MarkerOptions
 
     fun toGmsMarkerOptions(): com.google.android.gms.maps.model.MarkerOptions {
         return when (this) {

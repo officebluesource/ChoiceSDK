@@ -128,12 +128,19 @@ internal class HmsMarkerOptions(private val markerOptions: com.huawei.hms.maps.m
         return this
     }
 
-    override fun writeToParcel(out: Parcel, flags: Int) {
+    override fun writeToParcel(out: Parcel, flags: Int): MarkerOptions {
         markerOptions.writeToParcel(out, flags)
+        return this
     }
 
-    override fun zIndex(zIndex: Float) {
+    override fun zIndex(zIndex: Float): MarkerOptions {
         markerOptions.zIndex(zIndex)
+        return this
+    }
+
+    override fun clusterable(clusterable: Boolean): MarkerOptions {
+        markerOptions.clusterable(clusterable)
+        return this
     }
 
     internal fun getHmsMarkerOptions(): com.huawei.hms.maps.model.MarkerOptions {

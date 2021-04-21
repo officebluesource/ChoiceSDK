@@ -128,12 +128,19 @@ internal class GmsMarkerOptions(private val markerOptions: com.google.android.gm
         return this
     }
 
-    override fun writeToParcel(out: Parcel, flags: Int) {
+    override fun writeToParcel(out: Parcel, flags: Int): MarkerOptions {
         markerOptions.writeToParcel(out, flags)
+        return this
     }
 
-    override fun zIndex(zIndex: Float) {
+    override fun zIndex(zIndex: Float): MarkerOptions {
         markerOptions.zIndex(zIndex)
+        return this
+    }
+
+    override fun clusterable(clusterable: Boolean): MarkerOptions {
+        // property not available in GMS marker options
+        return this
     }
 
     internal fun getGmsMarkerOptions(): com.google.android.gms.maps.model.MarkerOptions {
