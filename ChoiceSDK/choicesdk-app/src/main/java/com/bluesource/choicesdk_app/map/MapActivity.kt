@@ -281,7 +281,8 @@ class MapActivity : AppCompatActivity() {
         )
 
         if (MobileServicesDetector.isHmsAvailable()) {
-            map.getHuaweiMap()?.setMarkersClustering(true)
+            val huaweiMap: com.huawei.hms.maps.HuaweiMap? = map.getHuaweiMap()
+            huaweiMap?.setMarkersClustering(true)
         }
 
         map.setOnMarkerClickListener(object : OnMarkerClickListener {
