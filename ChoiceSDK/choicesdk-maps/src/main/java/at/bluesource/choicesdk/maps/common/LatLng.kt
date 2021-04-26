@@ -69,7 +69,8 @@ data class LatLng(var latitude: Double, var longitude: Double) {
             return this.orEmpty().map { it.toChoiceLatLng() }
         }
 
-        internal fun com.huawei.hms.maps.model.LatLng.toChoiceLatLng(): LatLng {
+        @JvmStatic
+        fun com.huawei.hms.maps.model.LatLng.toChoiceLatLng(): LatLng {
             return LatLng(
                     latitude,
                     longitude
