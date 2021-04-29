@@ -42,6 +42,10 @@ internal class MessagingRepository : MessagingService {
         }
     }
 
+    override suspend fun getToken(context: Context): String {
+        return tokenProvider.requestToken(context)
+    }
+
     override fun deleteToken(context: Context) {
         Log.d("ChoiceSDK", "Delete token")
         GlobalScope.launch {

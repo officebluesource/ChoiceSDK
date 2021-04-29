@@ -101,6 +101,9 @@ dependencies {
     implementation project(":choicesdk-messaging")
     implementation project(":choicesdk-signin")
 
+    // for HMS map clustering
+    implementation 'com.huawei.hms:maps:5.0.5.301'
+
     // hms plugin version of analytics needs to have a dependency
     // in the gradle file where the plugin is applied
     implementation 'com.huawei.hms:hianalytics:5.0.1.300'

@@ -21,14 +21,18 @@ internal class FirebaseAnalytics private constructor() : Analytics {
     private val appInstanceIdRelay: BehaviorRelay<String> = BehaviorRelay.create()
 
     override fun getAppInstanceIdObservable(): Observable<String> {
-        getAppInstanceId()
+        getAppInstanceIdTask()
         return appInstanceIdRelay
     }
 
-    override fun getAppInstanceId(): Task<String> {
+    override fun getAppInstanceIdTask(): Task<String> {
         return GmsTask<String>(firebaseAnalytics.appInstanceId.addOnSuccessListener {
             appInstanceIdRelay.accept(it)
         })
+    }
+
+    override suspend fun getAppInstanceId(): String? {
+        return GmsTask<String>(firebaseAnalytics.appInstanceId).await()
     }
 
     override fun logEvent(name: String, params: Bundle?) {

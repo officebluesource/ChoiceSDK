@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import at.bluesource.choicesdk.core.MobileServicesDetector
 import at.bluesource.choicesdk.core.task.listener.OnSuccessListener
 import at.bluesource.choicesdk.location.common.FusedLocationProviderClient
 import at.bluesource.choicesdk.location.factory.FusedLocationProviderFactory
@@ -154,28 +155,14 @@ class MapActivity : AppCompatActivity() {
         map: at.bluesource.choicesdk.maps.common.Map
     ) {
         val location = LatLng(result.latitude, result.longitude)
-        val location2 = LatLng(
-            result.latitude - 0.0005,
-            result.longitude - 0.0005
-        )
-        val location3 = LatLng(
-            result.latitude + 0.0005,
-            result.longitude + 0.0005
-        )
-
-        val location4 = LatLng(
-            result.latitude - 0.001,
-            result.longitude + 0.001
-        )
-        val location5 = LatLng(
-            result.latitude + 0.002,
-            result.longitude + 0.003
-        )
-
-        val location6 = LatLng(
-            result.latitude + 0.001,
-            result.longitude + 0.003
-        )
+        val location2 = LatLng(result.latitude - 0.0005, result.longitude - 0.0005)
+        val location3 = LatLng(result.latitude + 0.0005, result.longitude + 0.0005)
+        val location4 = LatLng(result.latitude - 0.001, result.longitude + 0.001)
+        val location5 = LatLng(result.latitude + 0.002, result.longitude + 0.003)
+        val location6 = LatLng(result.latitude + 0.003, result.longitude + 0.003)
+        val location7 = LatLng(result.latitude + 0.004, result.longitude + 0.002)
+        val location8 = LatLng(result.latitude + 0.005, result.longitude + 0.001)
+        val location9 = LatLng(result.latitude + 0.006, result.longitude + 0.002)
 
         val locationHole1: LatLng = LatLng.midPoint(location4, location5)
 
@@ -236,6 +223,7 @@ class MapActivity : AppCompatActivity() {
                 .title("Location4")
                 .draggable(true)
                 .anchor(0.5f, 1f)
+                .clusterable(true)
         )
         map.addMarker(
             MarkerOptions.create()
@@ -244,6 +232,7 @@ class MapActivity : AppCompatActivity() {
                 .title("Location5")
                 .draggable(true)
                 .anchor(0.5f, 1f)
+                .clusterable(true)
         )
         map.addMarker(
             MarkerOptions.create()
@@ -252,8 +241,35 @@ class MapActivity : AppCompatActivity() {
                 .title("Location6")
                 .draggable(true)
                 .anchor(0.5f, 1f)
+                .clusterable(true)
         )
-
+        map.addMarker(
+            MarkerOptions.create()
+                .defaultIcon()
+                .position(location7)
+                .title("Location7")
+                .draggable(true)
+                .anchor(0.5f, 1f)
+                .clusterable(true)
+        )
+        map.addMarker(
+            MarkerOptions.create()
+                .defaultIcon()
+                .position(location8)
+                .title("Location8")
+                .draggable(true)
+                .anchor(0.5f, 1f)
+                .clusterable(true)
+        )
+        map.addMarker(
+            MarkerOptions.create()
+                .defaultIcon()
+                .position(location9)
+                .title("Location9")
+                .draggable(true)
+                .anchor(0.5f, 1f)
+                .clusterable(true)
+        )
         map.addMarker(
             MarkerOptions.create()
                 .defaultIcon()
@@ -261,7 +277,13 @@ class MapActivity : AppCompatActivity() {
                 .title("Midpoint 4 / 5")
                 .draggable(true)
                 .anchor(0.5f, 1f)
+                .clusterable(true)
         )
+
+        if (MobileServicesDetector.isHmsAvailable()) {
+            val huaweiMap: com.huawei.hms.maps.HuaweiMap? = map.getHuaweiMap()
+            huaweiMap?.setMarkersClustering(true)
+        }
 
         map.setOnMarkerClickListener(object : OnMarkerClickListener {
             override fun onMarkerClick(marker: Marker): Boolean {

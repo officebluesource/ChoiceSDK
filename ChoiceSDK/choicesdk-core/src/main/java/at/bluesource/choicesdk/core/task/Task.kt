@@ -98,4 +98,6 @@ interface Task<TResult> {
     fun <TContinuationResult> onSuccessTask(
             successContinuation: SuccessContinuation<TResult?, TContinuationResult?>
     ): Task<TContinuationResult?>
+
+    suspend fun await(): TResult?
 }

@@ -29,6 +29,7 @@ import at.bluesource.choicesdk.maps.common.shape.PolygonOptions.Companion.toGmsP
 import at.bluesource.choicesdk.maps.common.shape.Polyline.Companion.toChoicePolyline
 import at.bluesource.choicesdk.maps.common.shape.PolylineOptions.Companion.toGmsPolylineOptions
 import com.google.android.gms.maps.GoogleMap
+import com.huawei.hms.maps.HuaweiMap
 
 /**
  * Wrapper class for gms version of Map
@@ -251,9 +252,9 @@ internal class GmsMap(private val map: GoogleMap) : Map {
     }
 
     override fun animateCamera(
-            update: CameraUpdate,
-            durationMilliseconds: Int,
-            callback: CancelableCallback?
+        update: CameraUpdate,
+        durationMilliseconds: Int,
+        callback: CancelableCallback?
     ) {
         if (update is CameraUpdate.GmsUpdate) {
             map.animateCamera(update.value, durationMilliseconds, createOrReturnCallback(callback))
@@ -330,8 +331,8 @@ internal class GmsMap(private val map: GoogleMap) : Map {
 
     override fun snapshot(listener: OnSnapshotReadyCallback, bitmap: Bitmap) {
         map.snapshot(
-                { mBitmap -> listener.onSnapShotReady(mBitmap) },
-                bitmap
+            { mBitmap -> listener.onSnapShotReady(mBitmap) },
+            bitmap
         )
     }
 
@@ -356,5 +357,13 @@ internal class GmsMap(private val map: GoogleMap) : Map {
                 }
             }
         }
+    }
+
+    override fun getGoogleMap(): GoogleMap {
+        return map
+    }
+
+    override fun getHuaweiMap(): HuaweiMap? {
+        return null
     }
 }

@@ -6,7 +6,6 @@ import at.bluesource.choicesdk.core.MobileServicesDetector
 import at.bluesource.choicesdk.location.common.FusedLocationProviderClient
 import at.bluesource.choicesdk.location.gms.GmsFusedLocationProviderClient
 import at.bluesource.choicesdk.location.hms.HmsFusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 
 /**
  * FusedLocationProvider factory, uses [MobileServicesDetector] to get instance of [FusedLocationProviderClient]
@@ -23,22 +22,15 @@ class FusedLocationProviderFactory {
 
         @Throws(UnsupportedOperationException::class)
         fun getFusedLocationProviderClient(context: Context): FusedLocationProviderClient {
-
             return when {
-                MobileServicesDetector.isGmsAvailable() -> {
-                    GmsFusedLocationProviderClient(
-                        LocationServices.getFusedLocationProviderClient(
-                            context
-                        )
-                    )
-                }
-                MobileServicesDetector.isHmsAvailable() -> {
-                    HmsFusedLocationProviderClient(
-                        com.huawei.hms.location.LocationServices.getFusedLocationProviderClient(
-                            context
-                        )
-                    )
-                }
+                MobileServicesDetector.isGmsAvailable() -> GmsFusedLocationProviderClient(
+                    com.google.android.gms.location.LocationServices.getFusedLocationProviderClient(context)
+                )
+
+                MobileServicesDetector.isHmsAvailable() -> HmsFusedLocationProviderClient(
+                    com.huawei.hms.location.LocationServices.getFusedLocationProviderClient(context)
+                )
+
                 else -> {
                     throw UnsupportedOperationException(EXCEPTION_MESSAGE)
                 }
@@ -47,22 +39,15 @@ class FusedLocationProviderFactory {
 
         @Throws(UnsupportedOperationException::class)
         fun getFusedLocationProviderClient(activity: Activity): FusedLocationProviderClient {
-
             return when {
-                MobileServicesDetector.isGmsAvailable() -> {
-                    GmsFusedLocationProviderClient(
-                        LocationServices.getFusedLocationProviderClient(
-                            activity
-                        )
-                    )
-                }
-                MobileServicesDetector.isHmsAvailable() -> {
-                    HmsFusedLocationProviderClient(
-                        com.huawei.hms.location.LocationServices.getFusedLocationProviderClient(
-                            activity
-                        )
-                    )
-                }
+                MobileServicesDetector.isGmsAvailable() -> GmsFusedLocationProviderClient(
+                    com.google.android.gms.location.LocationServices.getFusedLocationProviderClient(activity)
+                )
+
+                MobileServicesDetector.isHmsAvailable() -> HmsFusedLocationProviderClient(
+                    com.huawei.hms.location.LocationServices.getFusedLocationProviderClient(activity)
+                )
+
                 else -> {
                     throw UnsupportedOperationException(EXCEPTION_MESSAGE)
                 }

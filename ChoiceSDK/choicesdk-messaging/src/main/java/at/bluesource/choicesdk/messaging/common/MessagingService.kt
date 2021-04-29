@@ -17,6 +17,7 @@ import io.reactivex.rxjava3.core.Observable
  */
 interface MessagingService {
     fun requestToken(context: Context)
+    suspend fun getToken(context: Context): String
     fun deleteToken(context: Context)
     fun getMessageReceivedObservable(): Observable<RemoteMessage>
     fun getMessageSentObservable(): Observable<String>

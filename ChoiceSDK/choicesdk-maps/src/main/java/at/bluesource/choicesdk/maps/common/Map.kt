@@ -92,6 +92,9 @@ interface Map {
     fun snapshot(listener: OnSnapshotReadyCallback, bitmap: Bitmap)
     fun stopAnimation()
 
+    fun getGoogleMap(): com.google.android.gms.maps.GoogleMap?
+    fun getHuaweiMap(): com.huawei.hms.maps.HuaweiMap?
+
     companion object {
 
         // Values

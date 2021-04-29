@@ -115,6 +115,12 @@ map.addPolyline(
 )
 ```
 
+The Google or Huawei map object can be retrieved for use-cases which ChoiceSDK does not provide, e.g. clustering. Please note that you need to add the corresponding GMS/HMS dependencies in your `build.gradle` file.
+```kotlin
+val googleMap: com.google.android.gms.maps.GoogleMap? = map.getGoogleMap()
+val huaweiMap: com.huawei.hms.maps.HuaweiMap? = map.getHuaweiMap()
+```
+
 ## Links
 - [GMS Maps](https://developers.google.com/maps/documentation/android-sdk/overview)
 - [HMS Maps](https://developer.huawei.com/consumer/en/hms/huawei-MapKit)
