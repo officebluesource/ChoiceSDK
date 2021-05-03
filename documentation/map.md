@@ -53,18 +53,13 @@ Using the location to animate the camera to the current position:
 ```kotlin
 val fused: FusedLocationProviderClient = FusedLocationProviderFactory.getFusedLocationProviderClient(this)
 fused.getLastLocation()
-  .addOnSuccessListener(object : OnSuccessListener<Location?> {
-      override fun onSuccess(result: Location?) {
-          if (result != null) {
-            val location = LatLng(result.latitude, result.longitude)
-            map.animateCamera(
-              CameraUpdateFactory.instance().newLatLngZoom(location, 13f),
-              4000,
-              null
-            )
-          }
+  .addOnSuccessListener { location ->
+      if (location != null) {
+          val latLng = LatLng(location.latitude, location.longitude)
+          val cameraUpdate = CameraUpdateFactory.get().newLatLngZoom(latLng, 13f)
+          map.animateCamera(cameraUpdate, 4000, null)
       }
-  })
+  }
 ```
 
 Adding a marker:

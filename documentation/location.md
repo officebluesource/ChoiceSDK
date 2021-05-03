@@ -32,11 +32,11 @@ val client: FusedLocationProviderClient = FusedLocationProviderFactory.getFusedL
 Get last location:
 ```kotlin
 client.getLastLocation()
-    .addOnSuccessListener(object : OnSuccessListener<Location?> {
-        override fun onSuccess(result: Location?) {
-            
+    .addOnSuccessListener { location ->
+        if (location != null) {
+            ...
         }
-    })
+    }
 ```
 
 Request location updates:
@@ -95,11 +95,9 @@ val locationSettingsRequest: LocationSettingsRequest = LocationSettingsRequest.B
     .build()
 
 settingsClient.checkLocationSettings(locationSettingsRequest)
-    .addOnSuccessListener(object : OnSuccessListener<LocationSettingsResponse?> {
-        override fun onSuccess(result: LocationSettingsResponse?) {
-            val locationUsable = result?.getLocationSettingsStates()?.isLocationUsable
-        }
-    })
+    .addOnSuccessListener { result ->
+        val locationUsable = result?.getLocationSettingsStates()?.isLocationUsable
+    }
 ```
 
 ## Links
