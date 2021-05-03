@@ -34,7 +34,7 @@ Get last location:
 client.getLastLocation()
     .addOnSuccessListener { location ->
         if (location != null) {
-            ...
+            
         }
     }
 ```
