@@ -31,7 +31,7 @@ class AnalyticsActivity : AppCompatActivity() {
         val textView = findViewById<TextView>(R.id.textView_appInstanceId)
 
         sendEventBtn.setOnClickListener {
-            val bundle: Bundle = Bundle()
+            val bundle = Bundle()
             bundle.putString("custom_key", "custom_value")
             analytics.logEvent("Demo_Analytics_Btn", bundle)
         }

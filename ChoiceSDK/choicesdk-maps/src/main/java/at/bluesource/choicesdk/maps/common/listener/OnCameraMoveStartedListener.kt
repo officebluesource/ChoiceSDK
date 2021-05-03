@@ -5,7 +5,7 @@ package at.bluesource.choicesdk.maps.common.listener
  *
  * This is called on the Android UI thread.
  */
-interface OnCameraMoveStartedListener {
+fun interface OnCameraMoveStartedListener {
     fun onCameraMoveStarted(reason: Int)
 
     /**

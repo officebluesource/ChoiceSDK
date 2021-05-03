@@ -7,6 +7,6 @@ import at.bluesource.choicesdk.maps.common.PointOfInterest
  *
  * This is called on the Android UI thread.
  */
-interface OnPoiClickListener {
+fun interface OnPoiClickListener {
     fun onPoiClick(poi: PointOfInterest)
 }

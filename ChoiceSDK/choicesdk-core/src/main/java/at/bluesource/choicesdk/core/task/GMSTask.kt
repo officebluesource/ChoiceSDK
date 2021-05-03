@@ -30,7 +30,7 @@ class GmsTask<TResult>(private var task: com.google.android.gms.tasks.Task<TResu
         return GmsTask<TResult?>(
             task.addOnCanceledListener(
                 executor,
-                com.google.android.gms.tasks.OnCanceledListener { listener.onCanceled() }
+                { listener.onCanceled() }
             )
         )
     }
@@ -80,7 +80,7 @@ class GmsTask<TResult>(private var task: com.google.android.gms.tasks.Task<TResu
         return GmsTask<TResult?>(
             task.addOnCompleteListener(
                 executor,
-                com.google.android.gms.tasks.OnCompleteListener { task ->
+                { task ->
                     listener.onComplete(
                         GmsTask<TResult?>(
                             task
@@ -117,7 +117,7 @@ class GmsTask<TResult>(private var task: com.google.android.gms.tasks.Task<TResu
         return GmsTask<TResult?>(
             task.addOnFailureListener(
                 executor,
-                com.google.android.gms.tasks.OnFailureListener { e -> listener.onFailure(e) })
+                { e -> listener.onFailure(e) })
         )
     }
 
@@ -128,7 +128,7 @@ class GmsTask<TResult>(private var task: com.google.android.gms.tasks.Task<TResu
         return GmsTask<TResult?>(
             task.addOnSuccessListener(
                 executor,
-                com.google.android.gms.tasks.OnSuccessListener { result ->
+                { result ->
                     listener.onSuccess(
                         result
                     )
@@ -157,7 +157,7 @@ class GmsTask<TResult>(private var task: com.google.android.gms.tasks.Task<TResu
     }
 
     override fun <TContinuationResult> continueWith(continuation: Continuation<TResult?, TContinuationResult?>): Task<TContinuationResult?> {
-        return GmsTask<TContinuationResult?>(
+        return GmsTask(
             task.continueWith { task ->
                 continuation.then(
                     GmsTask<TResult?>(task)
@@ -173,7 +173,7 @@ class GmsTask<TResult>(private var task: com.google.android.gms.tasks.Task<TResu
         return GmsTask<TContinuationResult?>(
             task.continueWith<TContinuationResult?>(
                 executor,
-                com.google.android.gms.tasks.Continuation<TResult?, TContinuationResult?> { task ->
+                { task ->
                     continuation.then(
                         GmsTask<TResult?>(
                             task
@@ -201,7 +201,7 @@ class GmsTask<TResult>(private var task: com.google.android.gms.tasks.Task<TResu
         return GmsTask<TContinuationResult?>(
             task.continueWithTask<TContinuationResult?>(
                 executor,
-                com.google.android.gms.tasks.Continuation<TResult?, com.google.android.gms.tasks.Task<TContinuationResult?>?> { task ->
+                { task ->
                     (continuation.then(
                         GmsTask<TResult?>(
                             task
@@ -243,7 +243,7 @@ class GmsTask<TResult>(private var task: com.google.android.gms.tasks.Task<TResu
         return GmsTask<TContinuationResult?>(
             task.onSuccessTask<TContinuationResult?>(
                 executor,
-                com.google.android.gms.tasks.SuccessContinuation<TResult, TContinuationResult?> {
+                {
                     ((successContinuation.then(it) as GmsTask<TContinuationResult?>?)!!).task
                 }
             )
@@ -251,7 +251,7 @@ class GmsTask<TResult>(private var task: com.google.android.gms.tasks.Task<TResu
     }
 
     override fun <TContinuationResult> onSuccessTask(successContinuation: SuccessContinuation<TResult?, TContinuationResult?>): Task<TContinuationResult?> {
-        return GmsTask<TContinuationResult?>(
+        return GmsTask(
             task.onSuccessTask {
                 ((successContinuation.then(it) as GmsTask<TContinuationResult?>?)!!).task
             }
@@ -259,13 +259,11 @@ class GmsTask<TResult>(private var task: com.google.android.gms.tasks.Task<TResu
     }
 
     override suspend fun await(): TResult? = suspendCoroutine { continuation ->
-        val listener = object : OnCompleteListener<TResult?> {
-            override fun onComplete(task: Task<TResult?>) {
-                if (task.isSuccessful()) {
-                    continuation.resume(task.getResult())
-                } else {
-                    continuation.resumeWithException(task.getException() ?: RuntimeException("Unknown task exception"))
-                }
+        val listener = OnCompleteListener<TResult?> { task ->
+            if (task.isSuccessful()) {
+                continuation.resume(task.getResult())
+            } else {
+                continuation.resumeWithException(task.getException() ?: RuntimeException("Unknown task exception"))
             }
         }
         addOnCompleteListener(listener)
@@ -273,7 +271,7 @@ class GmsTask<TResult>(private var task: com.google.android.gms.tasks.Task<TResu
 
     companion object {
         fun <TResult> com.google.android.gms.tasks.Task<TResult>.toGMSTask(): GmsTask<TResult> {
-            return GmsTask<TResult>(this)
+            return GmsTask(this)
         }
     }
 }

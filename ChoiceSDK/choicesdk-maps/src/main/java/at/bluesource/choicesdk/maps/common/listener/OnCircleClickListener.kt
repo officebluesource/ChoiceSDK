@@ -7,6 +7,6 @@ import at.bluesource.choicesdk.maps.common.shape.Circle
  *
  * This is called on the Android UI thread.
  */
-interface OnCircleClickListener {
+fun interface OnCircleClickListener {
     fun onCircleClick(circle: Circle)
 }

@@ -11,7 +11,7 @@ import at.bluesource.choicesdk.maps.hms.HmsTileProvider
  * @see com.google.android.gms.maps.model.TileProvider
  * @see com.huawei.hms.maps.model.TileProvider
  */
-interface TileProvider {
+fun interface TileProvider {
 
     fun getTile(x: Int, y: Int, zoom: Int): Tile
 

@@ -16,13 +16,9 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import at.bluesource.choicesdk.core.MobileServicesDetector
-import at.bluesource.choicesdk.core.task.listener.OnSuccessListener
 import at.bluesource.choicesdk.location.common.FusedLocationProviderClient
 import at.bluesource.choicesdk.location.factory.FusedLocationProviderFactory
 import at.bluesource.choicesdk.maps.common.*
-import at.bluesource.choicesdk.maps.common.listener.OnCircleClickListener
-import at.bluesource.choicesdk.maps.common.listener.OnGroundOverlayClickListener
-import at.bluesource.choicesdk.maps.common.listener.OnMarkerClickListener
 import at.bluesource.choicesdk.maps.common.options.GroundOverlayOptions
 import at.bluesource.choicesdk.maps.common.options.MarkerOptions
 import at.bluesource.choicesdk.maps.common.shape.*
@@ -123,13 +119,11 @@ class MapActivity : AppCompatActivity() {
                     ) {
 
                         fused.getLastLocation()
-                            .addOnSuccessListener(object : OnSuccessListener<Location?> {
-                                override fun onSuccess(result: Location?) {
-                                    if (result != null) {
-                                        mapLocationTest(result, map)
-                                    }
+                            .addOnSuccessListener { result ->
+                                if (result != null) {
+                                    mapLocationTest(result, map)
                                 }
-                            })
+                            }
                     }
 
                     map.addMarker(
@@ -285,22 +279,16 @@ class MapActivity : AppCompatActivity() {
             huaweiMap?.setMarkersClustering(true)
         }
 
-        map.setOnMarkerClickListener(object : OnMarkerClickListener {
-            override fun onMarkerClick(marker: Marker): Boolean {
-                map.animateCamera(CameraUpdateFactory.get().newLatLng(marker.position))
-                marker.showInfoWindow()
+        map.setOnMarkerClickListener { marker ->
+            map.animateCamera(CameraUpdateFactory.get().newLatLng(marker.position))
+            marker.showInfoWindow()
 
-                Toast.makeText(this@MapActivity, "Clicked ${marker.title}", Toast.LENGTH_SHORT)
-                    .show()
-                return true
-            }
-        })
+            Toast.makeText(this@MapActivity, "Clicked ${marker.title}", Toast.LENGTH_SHORT)
+                .show()
+            true
+        }
 
-        map.setOnCircleClickListener(object : OnCircleClickListener {
-            override fun onCircleClick(circle: Circle) {
-                Toast.makeText(this@MapActivity, "Clicked a circle!", Toast.LENGTH_SHORT).show()
-            }
-        })
+        map.setOnCircleClickListener { Toast.makeText(this@MapActivity, "Clicked a circle!", Toast.LENGTH_SHORT).show() }
 
         val descriptor: BitmapDescriptor? = BitmapDescriptorFactory.Provider.instance()
             .fromVector(this@MapActivity, R.drawable.ic_launcher_foreground)
@@ -314,12 +302,9 @@ class MapActivity : AppCompatActivity() {
 
         map.addGroundOverlay(go)
 
-        map.setOnGroundOverlayClickListener(object : OnGroundOverlayClickListener {
-            override fun onGroundOverlayClickListener(groundOverlay: GroundOverlay) {
-                Toast.makeText(this@MapActivity, "Clicked a groundOverlay!", Toast.LENGTH_SHORT)
-                    .show()
-            }
-        })
+        map.setOnGroundOverlayClickListener {
+            Toast.makeText(this@MapActivity, "Clicked a groundOverlay!", Toast.LENGTH_SHORT).show()
+        }
 
         map.setInfoWindowAdapter(object : InfoWindowAdapter {
             override fun getInfoContents(marker: Marker?): View? {

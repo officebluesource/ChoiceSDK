@@ -15,6 +15,6 @@ package at.bluesource.choicesdk.maps.common.listener
  *
  *      the default behavior is for the camera move such that it is centered on the user location.
  */
-interface OnMyLocationButtonClickListener {
+fun interface OnMyLocationButtonClickListener {
     fun onMyLocationButtonClick(): Boolean
 }

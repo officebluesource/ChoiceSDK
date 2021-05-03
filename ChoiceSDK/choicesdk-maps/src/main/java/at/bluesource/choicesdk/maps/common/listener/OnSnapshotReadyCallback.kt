@@ -7,6 +7,6 @@ import android.graphics.Bitmap
  *
  * This is called on the Android UI thread.
  */
-interface OnSnapshotReadyCallback {
+fun interface OnSnapshotReadyCallback {
     fun onSnapShotReady(snapshot: Bitmap)
 }

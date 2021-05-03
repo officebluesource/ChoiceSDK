@@ -7,6 +7,6 @@ import android.location.Location
  *
  * This is called on the Android UI thread.
  */
-interface OnMyLocationClickListener {
+fun interface OnMyLocationClickListener {
     fun onMyLocationClick(location: Location)
 }

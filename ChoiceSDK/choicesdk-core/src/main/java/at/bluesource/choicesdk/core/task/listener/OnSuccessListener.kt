@@ -5,6 +5,6 @@ package at.bluesource.choicesdk.core.task.listener
  *
  * @param TResult type of task
  */
-interface OnSuccessListener<TResult> {
+fun interface OnSuccessListener<TResult> {
     fun onSuccess(result: TResult)
 }

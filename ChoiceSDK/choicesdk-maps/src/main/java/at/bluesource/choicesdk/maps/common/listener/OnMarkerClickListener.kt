@@ -11,6 +11,6 @@ import at.bluesource.choicesdk.maps.common.Marker
  * Then the OnMarkerClickListener is triggered. Therefore, calling isInfoWindowShown()
  * on any marker from the OnMarkerClickListener will return false.
  */
-interface OnMarkerClickListener {
+fun interface OnMarkerClickListener {
     fun onMarkerClick(marker: Marker): Boolean
 }

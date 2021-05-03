@@ -30,7 +30,7 @@ class HmsTask<TResult>(private var task: com.huawei.hmf.tasks.Task<TResult>) :
         return HmsTask<TResult?>(
             task.addOnCanceledListener(
                 executor,
-                com.huawei.hmf.tasks.OnCanceledListener { listener.onCanceled() }
+                { listener.onCanceled() }
             )
         )
     }
@@ -80,7 +80,7 @@ class HmsTask<TResult>(private var task: com.huawei.hmf.tasks.Task<TResult>) :
         return HmsTask<TResult?>(
             task.addOnCompleteListener(
                 executor,
-                com.huawei.hmf.tasks.OnCompleteListener { task ->
+                { task ->
                     listener.onComplete(
                         HmsTask<TResult?>(
                             task
@@ -117,7 +117,7 @@ class HmsTask<TResult>(private var task: com.huawei.hmf.tasks.Task<TResult>) :
         return HmsTask<TResult?>(
             task.addOnFailureListener(
                 executor,
-                com.huawei.hmf.tasks.OnFailureListener { e -> listener.onFailure(e) }
+                { e -> listener.onFailure(e) }
             )
         )
     }
@@ -129,7 +129,7 @@ class HmsTask<TResult>(private var task: com.huawei.hmf.tasks.Task<TResult>) :
         return HmsTask<TResult?>(
             task.addOnSuccessListener(
                 executor,
-                com.huawei.hmf.tasks.OnSuccessListener { result ->
+                { result ->
                     listener.onSuccess(
                         result
                     )
@@ -158,7 +158,7 @@ class HmsTask<TResult>(private var task: com.huawei.hmf.tasks.Task<TResult>) :
     }
 
     override fun <TContinuationResult> continueWith(continuation: Continuation<TResult?, TContinuationResult?>): Task<TContinuationResult?> {
-        return HmsTask<TContinuationResult?>(
+        return HmsTask(
             task.continueWith { task ->
                 continuation.then(
                     HmsTask<TResult?>(task)
@@ -174,7 +174,7 @@ class HmsTask<TResult>(private var task: com.huawei.hmf.tasks.Task<TResult>) :
         return HmsTask<TContinuationResult?>(
             task.continueWith<TContinuationResult?>(
                 executor,
-                com.huawei.hmf.tasks.Continuation<TResult?, TContinuationResult?> { task ->
+                { task ->
                     continuation.then(
                         HmsTask<TResult?>(
                             task
@@ -202,7 +202,7 @@ class HmsTask<TResult>(private var task: com.huawei.hmf.tasks.Task<TResult>) :
         return HmsTask<TContinuationResult?>(
             task.continueWithTask<TContinuationResult?>(
                 executor,
-                com.huawei.hmf.tasks.Continuation<TResult?, com.huawei.hmf.tasks.Task<TContinuationResult?>?> { task ->
+                { task ->
                     (continuation.then(
                         HmsTask<TResult?>(
                             task
@@ -244,7 +244,7 @@ class HmsTask<TResult>(private var task: com.huawei.hmf.tasks.Task<TResult>) :
         return HmsTask<TContinuationResult?>(
             task.onSuccessTask<TContinuationResult?>(
                 executor,
-                com.huawei.hmf.tasks.SuccessContinuation<TResult, TContinuationResult?> {
+                {
                     ((successContinuation.then(it) as HmsTask<TContinuationResult?>?)!!).task
                 }
             )
@@ -252,7 +252,7 @@ class HmsTask<TResult>(private var task: com.huawei.hmf.tasks.Task<TResult>) :
     }
 
     override fun <TContinuationResult> onSuccessTask(successContinuation: SuccessContinuation<TResult?, TContinuationResult?>): Task<TContinuationResult?> {
-        return HmsTask<TContinuationResult?>(
+        return HmsTask(
             task.onSuccessTask {
                 ((successContinuation.then(it) as HmsTask<TContinuationResult?>?)!!).task
             }
@@ -261,18 +261,16 @@ class HmsTask<TResult>(private var task: com.huawei.hmf.tasks.Task<TResult>) :
 
     companion object {
         fun <TResult> com.huawei.hmf.tasks.Task<TResult>.toHMSTask(): HmsTask<TResult> {
-            return HmsTask<TResult>(this)
+            return HmsTask(this)
         }
     }
 
     override suspend fun await(): TResult? = suspendCoroutine { continuation ->
-        val listener = object : OnCompleteListener<TResult?> {
-            override fun onComplete(task: Task<TResult?>) {
-                if (task.isSuccessful()) {
-                    continuation.resume(task.getResult())
-                } else {
-                    continuation.resumeWithException(task.getException() ?: RuntimeException("Unknown task exception"))
-                }
+        val listener = OnCompleteListener<TResult?> { task ->
+            if (task.isSuccessful()) {
+                continuation.resume(task.getResult())
+            } else {
+                continuation.resumeWithException(task.getException() ?: RuntimeException("Unknown task exception"))
             }
         }
         addOnCompleteListener(listener)

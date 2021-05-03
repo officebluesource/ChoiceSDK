@@ -7,6 +7,6 @@ import at.bluesource.choicesdk.maps.common.shape.Polyline
  *
  * This is called on the Android UI thread.
  */
-interface OnPolylineClickListener {
+fun interface OnPolylineClickListener {
     fun onPolylineClick(polyline: Polyline)
 }

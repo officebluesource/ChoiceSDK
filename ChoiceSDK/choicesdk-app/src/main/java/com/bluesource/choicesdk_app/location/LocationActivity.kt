@@ -13,7 +13,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import at.bluesource.choicesdk.core.Outcome
-import at.bluesource.choicesdk.core.task.listener.OnFailureListener
 import at.bluesource.choicesdk.core.task.listener.OnSuccessListener
 import at.bluesource.choicesdk.location.common.*
 import at.bluesource.choicesdk.location.factory.FusedLocationProviderFactory
@@ -92,20 +91,18 @@ class LocationActivity : AppCompatActivity() {
                 location.latitude = 47.859026
                 location.longitude = 13.543000
                 fusedLocationProviderClient.setMockLocation(location)
-                    .addOnFailureListener(object : OnFailureListener {
-                        override fun onFailure(e: Exception) {
-                            when (e) {
-                                is at.bluesource.choicesdk.core.exception.ApiException -> {
-                                    Toast.makeText(
-                                        this@LocationActivity,
-                                        e.message,
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                }
+                    .addOnFailureListener { e ->
+                        when (e) {
+                            is at.bluesource.choicesdk.core.exception.ApiException -> {
+                                Toast.makeText(
+                                    this@LocationActivity,
+                                    e.message,
+                                    Toast.LENGTH_LONG
+                                ).show()
                             }
-                            Log.w(TAG, e.message ?: "")
                         }
-                    })
+                        Log.w(TAG, e.message ?: "")
+                    }
             }
         }
     }
@@ -213,26 +210,12 @@ class LocationActivity : AppCompatActivity() {
                     ) {
                         return
                     }
-                    fusedLocationProviderClient.requestLocationUpdates(
-                        locationRequest,
-                        locationCallback,
-                        Looper.getMainLooper()
-                    ).addOnSuccessListener(object : OnSuccessListener<Void?> {
-                        override fun onSuccess(result: Void?) {
-                            Log.i(TAG, "requestLocationUpdatesWithCallback onSuccess")
-                        }
-                    }).addOnFailureListener(object : OnFailureListener {
-                        override fun onFailure(e: Exception) {
-                            Log.i(TAG, "requestLocationUpdatesWithCallback failure")
-                        }
-                    })
+                    fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
+                        .addOnSuccessListener { Log.i(TAG, "requestLocationUpdatesWithCallback onSuccess") }
+                        .addOnFailureListener { Log.i(TAG, "requestLocationUpdatesWithCallback failure") }
                 }
             })
-            .addOnFailureListener(object : OnFailureListener {
-                override fun onFailure(e: Exception) {
-                    Log.e(TAG, "checkLocationSetting onFailure:  ${e.message}")
-                }
-            })
+            .addOnFailureListener { e -> Log.e(TAG, "checkLocationSetting onFailure:  ${e.message}") }
     }
 
 

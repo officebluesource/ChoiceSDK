@@ -26,7 +26,7 @@ internal class HuaweiAnalytics private constructor() : Analytics {
     }
 
     override fun getAppInstanceIdTask(): Task<String> {
-        return HmsTask<String>(hiAnalytics.aaid.addOnSuccessListener {
+        return HmsTask(hiAnalytics.aaid.addOnSuccessListener {
             appInstanceIdRelay.accept(it)
         })
     }

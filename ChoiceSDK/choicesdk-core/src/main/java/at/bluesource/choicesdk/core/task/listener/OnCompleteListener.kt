@@ -7,6 +7,6 @@ import at.bluesource.choicesdk.core.task.Task
  *
  * @param TResult type of the task
  */
-interface OnCompleteListener<TResult> {
+fun interface OnCompleteListener<TResult> {
     fun onComplete(result: Task<TResult>)
 }
