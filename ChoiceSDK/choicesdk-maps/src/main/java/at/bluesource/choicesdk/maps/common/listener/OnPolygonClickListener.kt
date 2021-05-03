@@ -7,6 +7,6 @@ import at.bluesource.choicesdk.maps.common.shape.Polygon
  *
  * This is called on the Android UI thread.
  */
-interface OnPolygonClickListener {
+fun interface OnPolygonClickListener {
     fun onPolygonClick(polygon: Polygon)
 }

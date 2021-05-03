@@ -7,6 +7,6 @@ import at.bluesource.choicesdk.maps.common.GroundOverlay
  *
  * This is called on the Android UI thread.
  */
-interface OnGroundOverlayClickListener {
+fun interface OnGroundOverlayClickListener {
     fun onGroundOverlayClickListener(groundOverlay: GroundOverlay)
 }

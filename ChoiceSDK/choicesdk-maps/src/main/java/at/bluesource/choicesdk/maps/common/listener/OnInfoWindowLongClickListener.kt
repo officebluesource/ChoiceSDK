@@ -7,6 +7,6 @@ import at.bluesource.choicesdk.maps.common.Marker
  *
  * This is called on the Android UI thread.
  */
-interface OnInfoWindowLongClickListener {
+fun interface OnInfoWindowLongClickListener {
     fun onInfoWindowLongClick(marker: Marker)
 }

@@ -6,9 +6,6 @@ import at.bluesource.choicesdk.maps.common.PatternItem.Dot.Companion.toGmsDot
 import at.bluesource.choicesdk.maps.common.PatternItem.Dot.Companion.toHmsDot
 import at.bluesource.choicesdk.maps.common.PatternItem.Gap.Companion.toGmsGap
 import at.bluesource.choicesdk.maps.common.PatternItem.Gap.Companion.toHmsGap
-import com.google.android.gms.maps.model.Dash
-import com.google.android.gms.maps.model.Dot
-import com.google.android.gms.maps.model.Gap
 
 /**
  * Wrapper class for hms and gms PatternItem
@@ -38,13 +35,13 @@ sealed class PatternItem {
     /**
      * A class representing a dot used in the stroke pattern for a Polyline or the outline of a Polygon or Circle.
      */
-    class Dot() : PatternItem() {
+    class Dot : PatternItem() {
         companion object {
-            internal fun Dot.toGmsDot(): com.google.android.gms.maps.model.Dot {
+            internal fun toGmsDot(): com.google.android.gms.maps.model.Dot {
                 return com.google.android.gms.maps.model.Dot()
             }
 
-            internal fun Dot.toHmsDot(): com.huawei.hms.maps.model.Dot {
+            internal fun toHmsDot(): com.huawei.hms.maps.model.Dot {
                 return com.huawei.hms.maps.model.Dot()
             }
         }
@@ -81,7 +78,7 @@ sealed class PatternItem {
         internal fun PatternItem.toGmsPatternItem(): com.google.android.gms.maps.model.PatternItem {
             return when (this) {
                 is Dash -> this.toGmsDash()
-                is Dot -> this.toGmsDot()
+                is Dot -> toGmsDot()
                 is Gap -> this.toGmsGap()
             }
         }
@@ -89,7 +86,7 @@ sealed class PatternItem {
         internal fun PatternItem.toHmsPatternItem(): com.huawei.hms.maps.model.PatternItem {
             return when (this) {
                 is Dash -> this.toHmsDash()
-                is Dot -> this.toHmsDot()
+                is Dot -> toHmsDot()
                 is Gap -> this.toHmsGap()
             }
         }

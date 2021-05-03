@@ -6,10 +6,8 @@ import android.os.Looper
 import android.util.Log
 import androidx.annotation.RequiresPermission
 import at.bluesource.choicesdk.core.Outcome
-import at.bluesource.choicesdk.core.task.Continuation
 import at.bluesource.choicesdk.core.task.GmsTask
 import at.bluesource.choicesdk.core.task.Task
-import at.bluesource.choicesdk.core.task.listener.OnFailureListener
 import at.bluesource.choicesdk.location.common.*
 import at.bluesource.choicesdk.location.common.LocationAvailability.Companion.toChoiceLocationAvailability
 import at.bluesource.choicesdk.location.common.LocationCallback.Companion.toGmsLocationCallback
@@ -55,16 +53,10 @@ internal class GmsFusedLocationProviderClient(private val fusedLocationProviderC
             }
         }
 
-        requestLocationUpdates(
-            locationRequest,
-            locationCallback,
-            Looper.getMainLooper()
-        ).continueWith(ContinuationIdentity())
-            .addOnFailureListener(object : OnFailureListener {
-                override fun onFailure(e: Exception) {
-                    locationRelay.accept(Outcome.Failure(e) as Outcome<LocationResult>)
-                }
-            })
+        requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
+            .continueWith(ContinuationIdentity())
+            .addOnFailureListener { e -> locationRelay.accept(Outcome.Failure(e) as Outcome<LocationResult>) }
+
         return locationRelay
     }
 
@@ -95,15 +87,9 @@ internal class GmsFusedLocationProviderClient(private val fusedLocationProviderC
 
     @RequiresPermission(anyOf = ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"])
     override fun getLocationAvailability(): Task<LocationAvailability?> {
-        return GmsTask(
-            fusedLocationProviderClient.locationAvailability
-        ).continueWith(object :
-            Continuation<com.google.android.gms.location.LocationAvailability?, LocationAvailability?> {
-            @Throws(Exception::class)
-            override fun then(result: Task<com.google.android.gms.location.LocationAvailability?>): LocationAvailability? {
-                return result.getResult()?.toChoiceLocationAvailability()
-            }
-        }).continueWith(ContinuationIdentity<LocationAvailability?>())
+        return GmsTask(fusedLocationProviderClient.locationAvailability)
+            .continueWith { result -> result.getResult()?.toChoiceLocationAvailability() }
+            .continueWith(ContinuationIdentity<LocationAvailability?>())
     }
 
     override fun removeLocationUpdates(callbackIntent: PendingIntent): Task<Void?> {

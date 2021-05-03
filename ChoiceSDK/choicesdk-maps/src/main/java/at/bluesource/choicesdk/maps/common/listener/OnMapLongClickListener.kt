@@ -8,6 +8,6 @@ import at.bluesource.choicesdk.maps.common.LatLng
  *
  * Implementations of this method are always invoked on the Android UI thread.
  */
-interface OnMapLongClickListener {
+fun interface OnMapLongClickListener {
     fun onMapLongClick(point: LatLng)
 }

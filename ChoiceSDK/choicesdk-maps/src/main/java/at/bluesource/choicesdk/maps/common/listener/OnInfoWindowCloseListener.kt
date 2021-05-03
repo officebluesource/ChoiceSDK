@@ -7,6 +7,6 @@ import at.bluesource.choicesdk.maps.common.Marker
  *
  * This is called on the Android UI thread.
  */
-interface OnInfoWindowCloseListener {
+fun interface OnInfoWindowCloseListener {
     fun onInfoWindowClose(marker: Marker)
 }
