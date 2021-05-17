@@ -62,7 +62,7 @@ interface Map {
      * Other
      */
     @Throws(ApiException::class)
-    fun addCircle(options: Circle.CircleOptions): Circle
+    fun addCircle(options: CircleOptions): Circle
     fun addGroundOverlay(options: GroundOverlayOptions)
     fun addMarker(options: MarkerOptions): Marker
     fun addPolygon(options: PolygonOptions): Polygon

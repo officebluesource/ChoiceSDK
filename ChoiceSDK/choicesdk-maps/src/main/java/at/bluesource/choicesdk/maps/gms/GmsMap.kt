@@ -22,8 +22,8 @@ import at.bluesource.choicesdk.maps.common.options.TileOverlay
 import at.bluesource.choicesdk.maps.common.options.TileOverlayOptions
 import at.bluesource.choicesdk.maps.common.options.TileOverlayOptions.Companion.toGmsTileOverlayOptions
 import at.bluesource.choicesdk.maps.common.shape.*
-import at.bluesource.choicesdk.maps.common.shape.Circle.CircleOptions.Companion.toGmsCircleOptions
 import at.bluesource.choicesdk.maps.common.shape.Circle.Companion.toChoiceCircle
+import at.bluesource.choicesdk.maps.common.shape.CircleOptions.Companion.toGmsCircleOptions
 import at.bluesource.choicesdk.maps.common.shape.Polygon.Companion.toChoicePolygon
 import at.bluesource.choicesdk.maps.common.shape.PolygonOptions.Companion.toGmsPolygonOptions
 import at.bluesource.choicesdk.maps.common.shape.Polyline.Companion.toChoicePolyline
@@ -218,7 +218,7 @@ internal class GmsMap(private val map: GoogleMap) : Map {
         return GmsMarker(map.addMarker(options.toGmsMarkerOptions()))
     }
 
-    override fun addCircle(options: Circle.CircleOptions): Circle {
+    override fun addCircle(options: CircleOptions): Circle {
         return map.addCircle(options.toGmsCircleOptions()).toChoiceCircle()
     }
 

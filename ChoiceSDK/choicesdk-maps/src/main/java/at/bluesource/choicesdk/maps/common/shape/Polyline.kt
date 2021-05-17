@@ -3,6 +3,7 @@
 package at.bluesource.choicesdk.maps.common.shape
 
 import at.bluesource.choicesdk.maps.common.LatLng
+import at.bluesource.choicesdk.maps.common.PatternItem
 import at.bluesource.choicesdk.maps.gms.shape.GmsPolyline
 import at.bluesource.choicesdk.maps.hms.shape.HmsPolyline
 
@@ -11,11 +12,20 @@ import at.bluesource.choicesdk.maps.hms.shape.HmsPolyline
  * When a polyline is returned, the custom start and end cap bitmap id's are always -1
  * In order to set a new cap use the designated get/set methods of polyline caps to set a new CustomCap
  */
-interface Polyline : Shape {
-    val linePoints: List<LatLng>
-    var geodesic: Boolean
-    var startCap: Cap
+interface Polyline {
+    val id: String
+    var clickable: Boolean
+    var color: Int
     var endCap: Cap
+    var geodesic: Boolean
+    var jointType: Int
+    var pattern: List<PatternItem>
+    var points: List<LatLng>
+    var startCap: Cap
+    var tag: Any?
+    var visible: Boolean
+    var width: Float
+    var zIndex: Float
 
     fun remove()
 

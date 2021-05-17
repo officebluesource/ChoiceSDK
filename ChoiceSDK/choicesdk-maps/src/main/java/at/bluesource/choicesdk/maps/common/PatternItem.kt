@@ -37,11 +37,11 @@ sealed class PatternItem {
      */
     class Dot : PatternItem() {
         companion object {
-            internal fun toGmsDot(): com.google.android.gms.maps.model.Dot {
+            internal fun Dot.toGmsDot(): com.google.android.gms.maps.model.Dot {
                 return com.google.android.gms.maps.model.Dot()
             }
 
-            internal fun toHmsDot(): com.huawei.hms.maps.model.Dot {
+            internal fun Dot.toHmsDot(): com.huawei.hms.maps.model.Dot {
                 return com.huawei.hms.maps.model.Dot()
             }
         }
@@ -75,10 +75,19 @@ sealed class PatternItem {
             }
         }
 
+        internal fun com.huawei.hms.maps.model.PatternItem.toChoice(): PatternItem {
+            return when (this) {
+                is com.huawei.hms.maps.model.Dash -> Dash(length = this.length)
+                is com.huawei.hms.maps.model.Dot -> Dot()
+                is com.huawei.hms.maps.model.Gap -> Gap(length = this.length)
+                else -> throw IllegalArgumentException("No implementation provided for PatternItem of type: ${this.javaClass}")
+            }
+        }
+
         internal fun PatternItem.toGmsPatternItem(): com.google.android.gms.maps.model.PatternItem {
             return when (this) {
                 is Dash -> this.toGmsDash()
-                is Dot -> toGmsDot()
+                is Dot -> this.toGmsDot()
                 is Gap -> this.toGmsGap()
             }
         }
@@ -86,7 +95,7 @@ sealed class PatternItem {
         internal fun PatternItem.toHmsPatternItem(): com.huawei.hms.maps.model.PatternItem {
             return when (this) {
                 is Dash -> this.toHmsDash()
-                is Dot -> toHmsDot()
+                is Dot -> this.toHmsDot()
                 is Gap -> this.toHmsGap()
             }
         }
