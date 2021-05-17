@@ -1,6 +1,7 @@
 package com.bluesource.choicesdk_app.map
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -28,17 +29,8 @@ import io.reactivex.rxjava3.observers.DisposableObserver
 
 
 class MapActivity : AppCompatActivity() {
-    private val TAG = "Test"
     private lateinit var mapDisposable: Disposable
     private lateinit var mapFragment: MapFragment
-
-    private val PERMISSIONS = arrayOf(
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.ACCESS_COARSE_LOCATION,
-        Manifest.permission.ACCESS_FINE_LOCATION,
-        Manifest.permission.INTERNET
-    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +43,7 @@ class MapActivity : AppCompatActivity() {
         fragmentTransaction.add(R.id.mapContainer, mapFragment)
         fragmentTransaction.commit()
 
-        if (!hasPermissions(this, PERMISSIONS)) {
+        if (!hasPermissions(this)) {
             ActivityCompat.requestPermissions(this, PERMISSIONS, 3)
         } else {
             testMap()
@@ -75,9 +67,9 @@ class MapActivity : AppCompatActivity() {
         }
     }
 
-    private fun hasPermissions(context: Context, permissions: Array<String>): Boolean {
+    private fun hasPermissions(context: Context): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            for (permission in permissions) {
+            for (permission in PERMISSIONS) {
                 if (ActivityCompat.checkSelfPermission(
                         context,
                         permission
@@ -168,7 +160,7 @@ class MapActivity : AppCompatActivity() {
         )
 
         map.addCircle(
-            Circle.CircleOptions()
+            CircleOptions()
                 .center(location)
                 .radius(100.0)
                 .fillColor(Color.YELLOW)
@@ -185,7 +177,7 @@ class MapActivity : AppCompatActivity() {
         map.addPolyline(
             PolylineOptions()
                 .add(location2, location3)
-                .strokeWidth(15f)
+                .width(15f)
                 .startCap(Cap.RoundCap())
                 .endCap(
                     Cap.CustomCap(
@@ -204,7 +196,6 @@ class MapActivity : AppCompatActivity() {
                 .fillColor(Color.RED)
                 .strokeColor(Color.GREEN)
                 .strokeWidth(3f)
-                .addHole(listOf(locationHole1, location6))
         )
 
         map.addMarker(
@@ -311,6 +302,7 @@ class MapActivity : AppCompatActivity() {
                 return null
             }
 
+            @SuppressLint("SetTextI18n")
             override fun getInfoWindow(marker: Marker?): View {
                 val view: View = layoutInflater.inflate(R.layout.infow_window_layout, null)
 
@@ -330,5 +322,17 @@ class MapActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         mapDisposable.dispose()
+    }
+
+    companion object {
+        private const val TAG = "MapActivity"
+
+        private val PERMISSIONS = arrayOf(
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.INTERNET
+        )
     }
 }

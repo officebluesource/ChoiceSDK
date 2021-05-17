@@ -23,8 +23,8 @@ import at.bluesource.choicesdk.maps.common.options.TileOverlay
 import at.bluesource.choicesdk.maps.common.options.TileOverlayOptions
 import at.bluesource.choicesdk.maps.common.options.TileOverlayOptions.Companion.toHmsTileOverlayOptions
 import at.bluesource.choicesdk.maps.common.shape.*
-import at.bluesource.choicesdk.maps.common.shape.Circle.CircleOptions.Companion.toHmsCircleOptions
 import at.bluesource.choicesdk.maps.common.shape.Circle.Companion.toChoiceCircle
+import at.bluesource.choicesdk.maps.common.shape.CircleOptions.Companion.toHmsCircleOptions
 import at.bluesource.choicesdk.maps.common.shape.Polygon.Companion.toChoicePolygon
 import at.bluesource.choicesdk.maps.common.shape.PolygonOptions.Companion.toHmsPolygonOptions
 import at.bluesource.choicesdk.maps.common.shape.Polyline.Companion.toChoicePolyline
@@ -219,7 +219,7 @@ internal class HmsMap(private var map: HuaweiMap) : Map {
         return HmsMarker(map.addMarker(options.toHmsMarkerOptions()))
     }
 
-    override fun addCircle(options: Circle.CircleOptions): Circle {
+    override fun addCircle(options: CircleOptions): Circle {
         return map.addCircle(options.toHmsCircleOptions()).toChoiceCircle()
     }
 

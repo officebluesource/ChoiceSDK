@@ -2,6 +2,10 @@ package at.bluesource.choicesdk.maps.gms.shape
 
 import at.bluesource.choicesdk.maps.common.LatLng
 import at.bluesource.choicesdk.maps.common.LatLng.Companion.toChoiceLatLng
+import at.bluesource.choicesdk.maps.common.LatLng.Companion.toGmsLatLng
+import at.bluesource.choicesdk.maps.common.PatternItem
+import at.bluesource.choicesdk.maps.common.PatternItem.Companion.toChoice
+import at.bluesource.choicesdk.maps.common.PatternItem.Companion.toGmsPatternItem
 import at.bluesource.choicesdk.maps.common.shape.Cap
 import at.bluesource.choicesdk.maps.common.shape.Cap.Companion.toChoiceCap
 import at.bluesource.choicesdk.maps.common.shape.Cap.Companion.toGmsCap
@@ -10,60 +14,87 @@ import at.bluesource.choicesdk.maps.common.shape.Polyline
 /**
  * Wrapper class for gms polyline version
  *
- * @property polyLine gms Polyline instance
+ * @property polyline gms Polyline instance
  * @see com.google.android.gms.maps.model.Polyline
  */
-internal class GmsPolyline(private val polyLine: com.google.android.gms.maps.model.Polyline) : Polyline {
-    override val linePoints: List<LatLng>
-        get() = polyLine.points.map { it.toChoiceLatLng() }
+internal class GmsPolyline(private val polyline: com.google.android.gms.maps.model.Polyline) : Polyline {
+
+    override val id: String
+        get() = polyline.id
+
+    override var points: List<LatLng>
+        get() = polyline.points.map { it.toChoiceLatLng() }
+        set(value) {
+            polyline.points = value.map { it.toGmsLatLng() }
+        }
 
     override var geodesic: Boolean
-        get() = polyLine.isGeodesic
+        get() = polyline.isGeodesic
         set(value) {
-            polyLine.isGeodesic = value
+            polyline.isGeodesic = value
         }
+
+    override var jointType: Int
+        get() = polyline.jointType
+        set(value) {
+            polyline.jointType = value
+        }
+
+    override var pattern: List<PatternItem>
+        get() = polyline.pattern.orEmpty().map { it.toChoice() }
+        set(value) {
+            polyline.pattern = value.map { it.toGmsPatternItem() }
+        }
+
     override var startCap: Cap
-        get() = polyLine.startCap.toChoiceCap()
+        get() = polyline.startCap.toChoiceCap()
         set(value) {
-            polyLine.startCap = value.toGmsCap()
+            polyline.startCap = value.toGmsCap()
         }
+
     override var endCap: Cap
-        get() = polyLine.endCap.toChoiceCap()
+        get() = polyline.endCap.toChoiceCap()
         set(value) {
-            polyLine.endCap = value.toGmsCap()
+            polyline.endCap = value.toGmsCap()
         }
+
     override var clickable: Boolean
-        get() = polyLine.isClickable
+        get() = polyline.isClickable
         set(value) {
-            polyLine.isClickable = value
+            polyline.isClickable = value
         }
-    override var strokeColor: Int
-        get() = polyLine.color
+
+    override var color: Int
+        get() = polyline.color
         set(value) {
-            polyLine.color = value
+            polyline.color = value
         }
-    override var strokeWidth: Float
-        get() = polyLine.width
+
+    override var width: Float
+        get() = polyline.width
         set(value) {
-            polyLine.width = value
+            polyline.width = value
         }
+
     override var visible: Boolean
-        get() = polyLine.isVisible
+        get() = polyline.isVisible
         set(value) {
-            polyLine.isVisible = value
+            polyline.isVisible = value
         }
+
     override var zIndex: Float
-        get() = polyLine.zIndex
+        get() = polyline.zIndex
         set(value) {
-            polyLine.zIndex = value
+            polyline.zIndex = value
         }
+
     override var tag: Any?
-        get() = polyLine.tag
+        get() = polyline.tag
         set(value) {
-            polyLine.tag = value
+            polyline.tag = value
         }
 
     override fun remove() {
-        polyLine.remove()
+        polyline.remove()
     }
 }

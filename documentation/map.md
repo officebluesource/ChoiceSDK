@@ -74,7 +74,7 @@ map.addMarker(
 Adding a circle:
 ```kotlin
 map.addCircle(
-    Circle.CircleOptions()
+    CircleOptions()
         .center(location)
         .radius(100.0)
         .fillColor(Color.YELLOW)
@@ -103,7 +103,7 @@ Adding a polyline:
 map.addPolyline(
     PolylineOptions()
         .add(location1, location2)
-        .strokeWidth(15f)
+        .width(15f)
         .startCap(Cap.RoundCap())
         .endCap(Cap.SquareCap())
         .zIndex(2f)

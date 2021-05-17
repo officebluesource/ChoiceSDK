@@ -16,15 +16,19 @@ import at.bluesource.choicesdk.maps.common.shape.Cap.Companion.toHmsCap
  * Defines options for a [Polyline].
  * Use this Builder to add a polyline to the map.
  */
-class PolylineOptions : ShapeOptions() {
+class PolylineOptions {
 
-    val points: MutableList<LatLng> = mutableListOf()
-    var isGeodesic: Boolean = false
-        private set
-
-    private var startCap: Cap = Cap.ButtCap()
+    private var clickable: Boolean = false
+    private var color: Int = 0xff000000.toInt() // black, also toInt workaround for compiler issue: https://youtrack.jetbrains.com/issue/KT-4749
     private var endCap: Cap = Cap.ButtCap()
+    private var geodesic: Boolean = false
+    private var jointType: Int = Polygon.DEFAULT
     private var pattern: List<PatternItem> = listOf()
+    private val points: MutableList<LatLng> = mutableListOf()
+    private var startCap: Cap = Cap.ButtCap()
+    private var visible = true
+    private var width: Float = 10f
+    private var zIndex: Float = 0f
 
     fun add(vararg points: LatLng): PolylineOptions {
         this.points.addAll(points)
@@ -41,23 +45,53 @@ class PolylineOptions : ShapeOptions() {
         return this
     }
 
-    fun geodesic(geodesic: Boolean): PolylineOptions {
-        this.isGeodesic = geodesic
+    fun clickable(clickable: Boolean): PolylineOptions {
+        this.clickable = clickable
         return this
     }
 
-    fun startCap(cap: Cap): PolylineOptions {
-        startCap = cap
+    fun color(color: Int): PolylineOptions {
+        this.color = color
         return this
     }
 
     fun endCap(cap: Cap): PolylineOptions {
-        endCap = cap
+        this.endCap = cap
         return this
     }
 
-    fun strokePattern(pattern: List<PatternItem>): PolylineOptions {
+    fun geodesic(geodesic: Boolean): PolylineOptions {
+        this.geodesic = geodesic
+        return this
+    }
+
+    fun jointType(jointType: Int): PolylineOptions {
+        this.jointType = jointType
+        return this
+    }
+
+    fun pattern(pattern: List<PatternItem>): PolylineOptions {
         this.pattern = pattern
+        return this
+    }
+
+    fun startCap(cap: Cap): PolylineOptions {
+        this.startCap = cap
+        return this
+    }
+
+    fun visible(visible: Boolean): PolylineOptions {
+        this.visible = visible
+        return this
+    }
+
+    fun width(width: Float): PolylineOptions {
+        this.width = width
+        return this
+    }
+
+    fun zIndex(zIndex: Float): PolylineOptions {
+        this.zIndex = zIndex
         return this
     }
 
@@ -65,64 +99,36 @@ class PolylineOptions : ShapeOptions() {
         return points.map { it.toGmsLatLng() }
     }
 
-    override fun clickable(clickable: Boolean): PolylineOptions {
-        super.clickable(clickable)
-        return this
-    }
-
-    override fun strokeColor(color: Int): PolylineOptions {
-        super.strokeColor(color)
-        return this
-    }
-
-    override fun strokeWidth(widthInPx: Float): PolylineOptions {
-        super.strokeWidth(widthInPx)
-        return this
-    }
-
-    override fun visible(visible: Boolean): PolylineOptions {
-        super.visible(visible)
-        return this
-    }
-
-    override fun zIndex(zIndex: Float): PolylineOptions {
-        super.zIndex(zIndex)
-        return this
-    }
-
     companion object {
 
         @JvmStatic
         fun com.google.android.gms.maps.model.PolylineOptions.toChoice(): PolylineOptions {
-
-            val linePoints: List<LatLng> = points.map { it.toChoiceLatLng() }
-            val mappedPattern = pattern.orEmpty().map { it.toChoice() }
-
             return PolylineOptions()
-                    .clickable(isClickable)
-                    .strokeColor(color)
-                    .strokeWidth(width)
-                    .visible(isVisible)
-                    .zIndex(zIndex)
-                    .addAll(linePoints)
-                    .geodesic(isGeodesic)
-                    .startCap(startCap.toChoiceCap())
-                    .endCap(endCap.toChoiceCap())
-                    .strokePattern(mappedPattern)
-
+                .clickable(isClickable)
+                .color(color)
+                .endCap(endCap.toChoiceCap())
+                .geodesic(isGeodesic)
+                .jointType(jointType)
+                .pattern(pattern.orEmpty().map { it.toChoice() })
+                .startCap(startCap.toChoiceCap())
+                .visible(isVisible)
+                .width(width)
+                .zIndex(zIndex)
+                .addAll(points.map { it.toChoiceLatLng() })
         }
 
         internal fun PolylineOptions.toGmsPolylineOptions(): com.google.android.gms.maps.model.PolylineOptions {
             val po = com.google.android.gms.maps.model.PolylineOptions()
-                    .clickable(clickable)
-                    .color(strokeColor)
-                    .width(strokeWidthInPx)
-                    .visible(visible)
-                    .zIndex(zIndex)
-                    .addAll(points.map { it.toGmsLatLng() })
-                    .geodesic(isGeodesic)
-                    .startCap(startCap.toGmsCap())
-                    .endCap(endCap.toGmsCap())
+                .clickable(clickable)
+                .color(color)
+                .endCap(endCap.toGmsCap())
+                .geodesic(geodesic)
+                .jointType(jointType)
+                .startCap(startCap.toGmsCap())
+                .visible(visible)
+                .width(width)
+                .zIndex(zIndex)
+                .addAll(points.map { it.toGmsLatLng() })
 
             // special case since gms does not draw anything if the list is empty
             if (pattern.isNotEmpty()) {
@@ -133,16 +139,17 @@ class PolylineOptions : ShapeOptions() {
 
         internal fun PolylineOptions.toHmsPolylineOptions(): com.huawei.hms.maps.model.PolylineOptions {
             return com.huawei.hms.maps.model.PolylineOptions()
-                    .clickable(clickable)
-                    .color(strokeColor)
-                    .width(strokeWidthInPx)
-                    .visible(visible)
-                    .zIndex(zIndex)
-                    .addAll(points.map { it.toHmsLatLng() })
-                    .geodesic(isGeodesic)
-                    .startCap(startCap.toHmsCap())
-                    .endCap(endCap.toHmsCap())
-                    .pattern(pattern.map { it.toHmsPatternItem() })
+                .clickable(clickable)
+                .color(color)
+                .endCap(endCap.toHmsCap())
+                .geodesic(geodesic)
+                .jointType(jointType)
+                .pattern(pattern.map { it.toHmsPatternItem() })
+                .startCap(startCap.toHmsCap())
+                .visible(visible)
+                .width(width)
+                .zIndex(zIndex)
+                .addAll(points.map { it.toHmsLatLng() })
         }
     }
 }

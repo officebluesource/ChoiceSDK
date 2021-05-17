@@ -2,7 +2,7 @@
     <img src="./documentation/img/logo-choiceSDK.png"/>
 </p>
 
-A SDK that aims to wrap similar functionalities from HMS and GMS services to one common interface. This is the launchpad for app providers expanding from GMS (Google Mobile Services) to HMS (Huawei Mobile Services) without having another codebranch to be setup, published and maintained. Choice SDK is already in use in multiple commercial, public and privat operated apps. The goal is to save development, maintainance and security issues now and in future.
+A SDK that aims to wrap similar functionalities from HMS and GMS services to one common interface. This is the launchpad for app providers expanding from GMS (Google Mobile Services) to HMS (Huawei Mobile Services) without having another codebranch to be setup, published and maintained. Choice SDK is already in use in multiple commercial, public and private operated apps. The goal is to save development, maintainance and security issues now and in future.
 
 ## Contents
 - [Features](#features)
@@ -69,11 +69,12 @@ apply plugin: 'com.huawei.agconnect'
 Add the following dependencies as required to your app. GMS, Firebase and HMS dependencies are included, so they do not need to be declared in your app.
 ```gradle
 dependencies {
-    implementation 'at.bluesource.choicesdk:choicesdk-analytics:0.1.5'
-    implementation 'at.bluesource.choicesdk:choicesdk-location:0.1.5'
-    implementation 'at.bluesource.choicesdk:choicesdk-maps:0.1.5'
-    implementation 'at.bluesource.choicesdk:choicesdk-messaging:0.1.5'
-    implementation 'at.bluesource.choicesdk:choicesdk-signin:0.1.5'
+    def choicesdk_version = '0.1.6'
+    implementation "at.bluesource.choicesdk:choicesdk-analytics:$choicesdk_version"
+    implementation "at.bluesource.choicesdk:choicesdk-location:$choicesdk_version"
+    implementation "at.bluesource.choicesdk:choicesdk-maps:$choicesdk_version"
+    implementation "at.bluesource.choicesdk:choicesdk-messaging:$choicesdk_version"
+    implementation "at.bluesource.choicesdk:choicesdk-signin:$choicesdk_version"
 }
 ```
 

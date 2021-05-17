@@ -13,42 +13,81 @@ import at.bluesource.choicesdk.maps.common.PatternItem.Companion.toHmsPatternIte
  * Defines options for a [Polygon].
  * Use this Builder to add a polygon to the map.
  */
-class PolygonOptions : ShapeOptions() {
-    private val linePoints: MutableList<LatLng> = mutableListOf()
-    internal val lineHoles: MutableList<LatLng> = mutableListOf()
+class PolygonOptions {
+    private val holes: MutableList<LatLng> = mutableListOf()
+    private val points: MutableList<LatLng> = mutableListOf()
+    private var clickable = false
     private var fillColor: Int = 0x00000000 // transparent
-    var isGeodesic: Boolean = false
-        private set
+    private var geodesic: Boolean = false
+    private var strokeColor: Int = 0xff000000.toInt() // black, also toInt workaround for compiler issue: https://youtrack.jetbrains.com/issue/KT-4749
     private var strokeJointType: Int = Polygon.DEFAULT
-    private var pattern: List<PatternItem> = listOf()
+    private var strokePattern: List<PatternItem> = listOf()
+    private var strokeWidth: Float = 10f
+    private var visible = true
+    private var zIndex: Float = 0f
 
     fun add(vararg points: LatLng): PolygonOptions {
-        linePoints.addAll(points)
+        this.points.addAll(points)
         return this
     }
 
     fun add(point: LatLng): PolygonOptions {
-        linePoints.add(point)
+        this.points.add(point)
         return this
     }
 
     fun addAll(points: Iterable<LatLng>): PolygonOptions {
-        linePoints.addAll(points)
+        this.points.addAll(points)
         return this
     }
 
     fun addHole(points: Iterable<LatLng>): PolygonOptions {
-        lineHoles.addAll(points)
+        this.holes.addAll(points)
+        return this
+    }
+
+    fun clickable(clickable: Boolean): PolygonOptions {
+        this.clickable = clickable
         return this
     }
 
     fun fillColor(color: Int): PolygonOptions {
-        fillColor = color
+        this.fillColor = color
         return this
     }
 
     fun geodesic(geodesic: Boolean): PolygonOptions {
-        this.isGeodesic = geodesic
+        this.geodesic = geodesic
+        return this
+    }
+
+    fun strokeColor(color: Int): PolygonOptions {
+        this.strokeColor = color
+        return this
+    }
+
+    fun strokeJointType(strokeJointType: Int): PolygonOptions {
+        this.strokeJointType = strokeJointType
+        return this
+    }
+
+    fun strokePattern(pattern: List<PatternItem>): PolygonOptions {
+        this.strokePattern = pattern
+        return this
+    }
+
+    fun strokeWidth(width: Float): PolygonOptions {
+        this.strokeWidth = width
+        return this
+    }
+
+    fun visible(visible: Boolean): PolygonOptions {
+        this.visible = visible
+        return this
+    }
+
+    fun zIndex(zIndex: Float): PolygonOptions {
+        this.zIndex = zIndex
         return this
     }
 
@@ -59,43 +98,8 @@ class PolygonOptions : ShapeOptions() {
         return this
     }
 
-    fun strokePattern(pattern: List<PatternItem>): PolygonOptions {
-        this.pattern = pattern
-        return this
-    }
-
-    fun strokeJointType(strokeJointType: Int): PolygonOptions {
-        this.strokeJointType = strokeJointType
-        return this
-    }
-
     fun getPointsForGms(): List<com.google.android.gms.maps.model.LatLng> {
-        return linePoints.map { it.toGmsLatLng() }
-    }
-
-    override fun clickable(clickable: Boolean): PolygonOptions {
-        super.clickable(clickable)
-        return this
-    }
-
-    override fun strokeColor(color: Int): PolygonOptions {
-        super.strokeColor(color)
-        return this
-    }
-
-    override fun strokeWidth(widthInPx: Float): PolygonOptions {
-        super.strokeWidth(widthInPx)
-        return this
-    }
-
-    override fun visible(visible: Boolean): PolygonOptions {
-        super.visible(visible)
-        return this
-    }
-
-    override fun zIndex(zIndex: Float): PolygonOptions {
-        super.zIndex(zIndex)
-        return this
+        return points.map { it.toGmsLatLng() }
     }
 
     companion object {
@@ -103,65 +107,63 @@ class PolygonOptions : ShapeOptions() {
         @JvmStatic
         fun com.google.android.gms.maps.model.PolygonOptions.toChoice(): PolygonOptions {
 
-            val linePoints: List<LatLng> = this.points.map { it.toChoiceLatLng() }
-            val pattern: List<PatternItem> = this.strokePattern.orEmpty().map { it.toChoice() }
-            val mappedHoles: List<List<LatLng>> = this.holes.map { hole -> hole.map { it.toChoiceLatLng() } }
+            val holes: List<List<LatLng>> = this.holes.map { hole -> hole.map { it.toChoiceLatLng() } }
 
             val options = PolygonOptions()
-                    .clickable(isClickable)
-                    .fillColor(fillColor)
-                    .strokeColor(strokeColor)
-                    .strokeWidth(strokeWidth)
-                    .visible(isVisible)
-                    .zIndex(zIndex)
-                    .addAll(linePoints)
-                    .geodesic(isGeodesic)
-                    .strokeJointType(strokeJointType)
-                    .strokePattern(pattern)
+                .clickable(isClickable)
+                .fillColor(fillColor)
+                .geodesic(isGeodesic)
+                .strokeColor(strokeColor)
+                .strokeJointType(strokeJointType)
+                .strokePattern(strokePattern.orEmpty().map { it.toChoice() })
+                .strokeWidth(strokeWidth)
+                .visible(isVisible)
+                .zIndex(zIndex)
 
-            mappedHoles.forEach { hole -> options.addHole(hole) }
+            options.addAll(points.map { it.toChoiceLatLng() })
+            holes.forEach { hole -> options.addHole(hole) }
 
             return options
         }
 
         internal fun PolygonOptions.toGmsPolygonOptions(): com.google.android.gms.maps.model.PolygonOptions {
             val po = com.google.android.gms.maps.model.PolygonOptions()
-                    .clickable(clickable)
-                    .fillColor(fillColor)
-                    .strokeColor(strokeColor)
-                    .strokeWidth(strokeWidthInPx)
-                    .visible(visible)
-                    .zIndex(zIndex)
-                    .addAll(linePoints.map { it.toGmsLatLng() })
-                    .geodesic(isGeodesic)
-                    .strokeJointType(strokeJointType)
+                .clickable(clickable)
+                .fillColor(fillColor)
+                .geodesic(geodesic)
+                .strokeColor(strokeColor)
+                .strokeJointType(strokeJointType)
+                .strokeWidth(strokeWidth)
+                .visible(visible)
+                .zIndex(zIndex)
 
+            po.addAll(points.map { it.toGmsLatLng() })
 
             // special case since gms adds an empty hole if list is empty
             // which leads to an ApiException
-            if (lineHoles.size > 0) {
-                po.addHole(lineHoles.map { it.toGmsLatLng() })
+            if (holes.size > 0) {
+                po.addHole(holes.map { it.toGmsLatLng() })
+            }
+            if (strokePattern.isNotEmpty()) {
+                po.strokePattern(strokePattern.map { it.toGmsPatternItem() })
             }
 
-            if (pattern.isNotEmpty()) {
-                po.strokePattern(pattern.map { it.toGmsPatternItem() })
-            }
             return po
         }
 
         internal fun PolygonOptions.toHmsPolygonOptions(): com.huawei.hms.maps.model.PolygonOptions {
             return com.huawei.hms.maps.model.PolygonOptions()
-                    .clickable(clickable)
-                    .fillColor(fillColor)
-                    .strokeColor(strokeColor)
-                    .strokeWidth(strokeWidthInPx)
-                    .visible(visible)
-                    .zIndex(zIndex)
-                    .addAll(linePoints.map { it.toHmsLatLng() })
-                    .addHole(lineHoles.map { it.toHmsLatLng() })
-                    .geodesic(isGeodesic)
-                    .strokeJointType(strokeJointType)
-                    .strokePattern(pattern.map { it.toHmsPatternItem() })
+                .clickable(clickable)
+                .fillColor(fillColor)
+                .geodesic(geodesic)
+                .strokeColor(strokeColor)
+                .strokeJointType(strokeJointType)
+                .strokePattern(strokePattern.map { it.toHmsPatternItem() })
+                .strokeWidth(strokeWidth)
+                .visible(visible)
+                .zIndex(zIndex)
+                .addAll(points.map { it.toHmsLatLng() })
+                .addHole(holes.map { it.toHmsLatLng() })
         }
     }
 }

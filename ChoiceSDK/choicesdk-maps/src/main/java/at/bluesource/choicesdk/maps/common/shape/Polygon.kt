@@ -3,6 +3,7 @@
 package at.bluesource.choicesdk.maps.common.shape
 
 import at.bluesource.choicesdk.maps.common.LatLng
+import at.bluesource.choicesdk.maps.common.PatternItem
 import at.bluesource.choicesdk.maps.gms.shape.GmsPolygon
 import at.bluesource.choicesdk.maps.hms.shape.HmsPolygon
 
@@ -10,13 +11,20 @@ import at.bluesource.choicesdk.maps.hms.shape.HmsPolygon
  * A polygon on the earth's surface. A polygon can be convex or concave, it may span the
  * 180 meridian and it can have holes that are not filled in.
  */
-interface Polygon : Shape {
-
-    val linePoints: List<LatLng>
-    val lineHoles: List<List<LatLng>>
+interface Polygon {
+    val id: String
+    var clickable: Boolean
     var fillColor: Int
     var geodesic: Boolean
+    var holes: List<List<LatLng>>
+    var points: List<LatLng>
+    var strokeColor: Int
     var strokeJointType: Int
+    var strokePattern: List<PatternItem>
+    var strokeWidth: Float
+    var tag: Any?
+    var visible: Boolean
+    var zIndex: Float
 
     fun remove()
 
