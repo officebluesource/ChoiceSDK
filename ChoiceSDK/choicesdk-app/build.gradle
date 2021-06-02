@@ -18,7 +18,7 @@ def hmsProperties = new Properties()
 hmsProperties.load(new FileInputStream(hmsPropertiesFile))
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -28,7 +28,7 @@ android {
     defaultConfig {
         applicationId "com.bluesource.choicesdk_app"
         minSdkVersion 19
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode project.versionCode
         versionName project.appVersionName
         multiDexEnabled true
