@@ -101,5 +101,5 @@ settingsClient.checkLocationSettings(locationSettingsRequest)
 ```
 
 ## Links
-- [HMS Location](https://developer.android.com/training/location/request-updates)
-- [GMS Location](https://developer.huawei.com/consumer/en/hms/huawei-locationkit)
+- [GMS Location](https://developer.android.com/training/location/request-updates)
+- [HMS Location](https://developer.huawei.com/consumer/en/hms/huawei-locationkit)
