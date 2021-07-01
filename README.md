@@ -90,6 +90,11 @@ class YourApp : Application() {
 }
 ```
 
+By default the SDK checks for GMS availability first. It is also possible to set the priority in which order the service availability is checked (for example if you prefer HMS services over GMS services on devices where both are available):
+```kotlin
+ChoiceSdk.init(this, listOf(MobileService.HMS, MobileService.GMS))
+```
+
 ## Usage
 Usually instances of SDK classes can be created by using their corresponding factory, for example `AnalyticsFactory.getAnalytics(this)`. These calls can throw an `UnsupportedOperationException` if neither GMS nor HMS services are available, so make sure to check beforehand.
 
