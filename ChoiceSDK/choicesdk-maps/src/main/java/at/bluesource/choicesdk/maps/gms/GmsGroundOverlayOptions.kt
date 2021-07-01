@@ -46,8 +46,8 @@ internal class GmsGroundOverlayOptions(private val groundOverlayOptions: com.goo
         return groundOverlayOptions.bearing
     }
 
-    override fun getBounds(): LatLngBounds {
-        return groundOverlayOptions.bounds.toChoiceLatLngBounds()
+    override fun getBounds(): LatLngBounds? {
+        return groundOverlayOptions.bounds?.toChoiceLatLngBounds()
     }
 
     override fun getHeight(): Float {
@@ -58,8 +58,8 @@ internal class GmsGroundOverlayOptions(private val groundOverlayOptions: com.goo
         return BitmapDescriptor.GmsBitmapDescriptor(groundOverlayOptions.image)
     }
 
-    override fun getLocation(): LatLng {
-        return groundOverlayOptions.location.toChoiceLatLng()
+    override fun getLocation(): LatLng? {
+        return groundOverlayOptions.location?.toChoiceLatLng()
     }
 
     override fun getTransparency(): Float {

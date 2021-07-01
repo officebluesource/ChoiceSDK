@@ -25,10 +25,10 @@ interface GroundOverlayOptions {
     fun getAnchorU(): Float
     fun getAnchorV(): Float
     fun getBearing(): Float
-    fun getBounds(): LatLngBounds
+    fun getBounds(): LatLngBounds?
     fun getHeight(): Float
     fun getImage(): BitmapDescriptor
-    fun getLocation(): LatLng
+    fun getLocation(): LatLng?
     fun getTransparency(): Float
     fun getWidth(): Float
     fun getZIndex(): Float

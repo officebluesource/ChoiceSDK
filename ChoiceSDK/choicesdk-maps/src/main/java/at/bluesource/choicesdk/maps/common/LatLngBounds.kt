@@ -1,5 +1,6 @@
 package at.bluesource.choicesdk.maps.common
 
+import at.bluesource.choicesdk.core.MobileService
 import at.bluesource.choicesdk.core.MobileServicesDetector
 import at.bluesource.choicesdk.maps.common.LatLng.Companion.toGmsLatLng
 import at.bluesource.choicesdk.maps.common.LatLng.Companion.toHmsLatLng
@@ -48,19 +49,17 @@ interface LatLngBounds {
     companion object {
 
         fun getBuilder(): Builder {
-            return when {
-                MobileServicesDetector.isGmsAvailable() -> GmsLatLngBoundsBuilder()
-                MobileServicesDetector.isHmsAvailable() -> HmsLatLngBoundsBuilder()
-                else -> throw IllegalStateException("Neither GMS nor HMS services are available.")
+            return when (MobileServicesDetector.getAvailableMobileService()) {
+                MobileService.GMS -> GmsLatLngBoundsBuilder()
+                MobileService.HMS -> HmsLatLngBoundsBuilder()
             }
         }
 
         @JvmStatic
         fun getFactory(): Factory {
-            return when {
-                MobileServicesDetector.isGmsAvailable() -> GmsLatLngBoundsFactory()
-                MobileServicesDetector.isHmsAvailable() -> HmsLatLngBoundsFactory()
-                else -> throw IllegalStateException("Neither GMS nor HMS services are available.")
+            return when (MobileServicesDetector.getAvailableMobileService()) {
+                MobileService.GMS -> GmsLatLngBoundsFactory()
+                MobileService.HMS -> HmsLatLngBoundsFactory()
             }
         }
 

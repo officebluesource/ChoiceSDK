@@ -214,8 +214,8 @@ internal class GmsMap(private val map: GoogleMap) : Map {
      * Other
      ***************/
 
-    override fun addMarker(options: MarkerOptions): Marker {
-        return GmsMarker(map.addMarker(options.toGmsMarkerOptions()))
+    override fun addMarker(options: MarkerOptions): Marker? {
+        return map.addMarker(options.toGmsMarkerOptions())?.let { GmsMarker(it) }
     }
 
     override fun addCircle(options: CircleOptions): Circle {
@@ -223,7 +223,7 @@ internal class GmsMap(private val map: GoogleMap) : Map {
     }
 
     override fun addGroundOverlay(options: GroundOverlayOptions) {
-        map.addGroundOverlay(options.toGmsGroundOverlayOptions())
+        options.toGmsGroundOverlayOptions()?.let { map.addGroundOverlay(it) }
     }
 
     override fun addPolygon(options: PolygonOptions): Polygon {
@@ -234,9 +234,9 @@ internal class GmsMap(private val map: GoogleMap) : Map {
         return map.addPolyline(options.toGmsPolylineOptions()).toChoicePolyline()
     }
 
-    override fun addTileOverlay(options: TileOverlayOptions): TileOverlay {
-        val overlay = map.addTileOverlay(options.toGmsTileOverlayOptions())
-        return TileOverlay.create(overlay)
+    override fun addTileOverlay(options: TileOverlayOptions): TileOverlay? {
+        val overlay = options.toGmsTileOverlayOptions()?.let { map.addTileOverlay(it) }
+        return if (overlay != null) TileOverlay.create(overlay) else null
     }
 
     override fun animateCamera(update: CameraUpdate) {

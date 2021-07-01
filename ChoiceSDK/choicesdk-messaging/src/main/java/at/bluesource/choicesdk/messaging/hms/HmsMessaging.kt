@@ -14,8 +14,7 @@ import com.huawei.hms.push.HmsMessaging
  *
  * @see com.huawei.hms.push.HmsMessaging
  */
-internal class HmsMessaging(private var context: Context) :
-    Messaging {
+internal class HmsMessaging(private var context: Context) : Messaging {
 
     override fun isAutoInitEnabled(): Boolean {
         return HmsMessaging.getInstance(context).isAutoInitEnabled
@@ -50,7 +49,7 @@ internal class HmsMessaging(private var context: Context) :
         fun getInstance(context: Context): at.bluesource.choicesdk.messaging.hms.HmsMessaging {
             return INSTANCE
                 ?: synchronized(this) {
-                    HmsMessaging(context).also {
+                    at.bluesource.choicesdk.messaging.hms.HmsMessaging(context).also {
                         INSTANCE = it
                     }
                 }

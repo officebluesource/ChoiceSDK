@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.util.AttributeSet
 import android.widget.FrameLayout
+import at.bluesource.choicesdk.core.MobileService
 import at.bluesource.choicesdk.core.MobileServicesDetector
 import at.bluesource.choicesdk.maps.gms.GmsMapView
 import at.bluesource.choicesdk.maps.hms.HmsMapView
@@ -22,18 +23,16 @@ abstract class MapView @JvmOverloads constructor(context: Context, attrs: Attrib
 
     companion object Factory {
         fun create(context: Context): MapView {
-            return when {
-                MobileServicesDetector.isGmsAvailable() -> GmsMapView(context)
-                MobileServicesDetector.isHmsAvailable() -> HmsMapView(context)
-                else -> throw IllegalStateException("Neither GMS nor HMS is available.")
+            return when (MobileServicesDetector.getAvailableMobileService()) {
+                MobileService.GMS -> GmsMapView(context)
+                MobileService.HMS -> HmsMapView(context)
             }
         }
 
         fun create(context: Context, options: MapOptions): MapView {
-            return when {
-                MobileServicesDetector.isGmsAvailable() -> GmsMapView(context, options)
-                MobileServicesDetector.isHmsAvailable() -> HmsMapView(context, options)
-                else -> throw IllegalStateException("Neither GMS nor HMS is available.")
+            return when (MobileServicesDetector.getAvailableMobileService()) {
+                MobileService.GMS -> GmsMapView(context, options)
+                MobileService.HMS -> HmsMapView(context, options)
             }
         }
     }

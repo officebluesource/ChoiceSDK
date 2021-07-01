@@ -2,6 +2,7 @@ package at.bluesource.choicesdk.location.factory
 
 import android.app.Activity
 import android.content.Context
+import at.bluesource.choicesdk.core.MobileService
 import at.bluesource.choicesdk.core.MobileServicesDetector
 import at.bluesource.choicesdk.location.common.SettingsClient
 import at.bluesource.choicesdk.location.gms.GmsSettingsClient
@@ -19,53 +20,36 @@ import com.google.android.gms.location.LocationServices
  */
 class SettingsClientFactory {
     companion object {
-        private const val EXCEPTION_MESSAGE = "Missing underlying GMS/HMS API."
 
         @Throws(UnsupportedOperationException::class)
         fun getSettingsClient(context: Context): SettingsClient {
-
-            return when {
-                MobileServicesDetector.isGmsAvailable() -> {
-                    GmsSettingsClient(
-                        LocationServices.getSettingsClient(
-                            context
-                        )
+            return when (MobileServicesDetector.getAvailableMobileService()) {
+                MobileService.GMS -> GmsSettingsClient(
+                    LocationServices.getSettingsClient(
+                        context
                     )
-                }
-                MobileServicesDetector.isHmsAvailable() -> {
-                    HmsSettingsClient(
-                        com.huawei.hms.location.LocationServices.getSettingsClient(
-                            context
-                        )
+                )
+                MobileService.HMS -> HmsSettingsClient(
+                    com.huawei.hms.location.LocationServices.getSettingsClient(
+                        context
                     )
-                }
-                else -> {
-                    throw UnsupportedOperationException(EXCEPTION_MESSAGE)
-                }
+                )
             }
         }
 
         @Throws(UnsupportedOperationException::class)
         fun getSettingsClient(activity: Activity): SettingsClient {
-
-            return when {
-                MobileServicesDetector.isGmsAvailable() -> {
-                    GmsSettingsClient(
-                        LocationServices.getSettingsClient(
-                            activity
-                        )
+            return when (MobileServicesDetector.getAvailableMobileService()) {
+                MobileService.GMS -> GmsSettingsClient(
+                    LocationServices.getSettingsClient(
+                        activity
                     )
-                }
-                MobileServicesDetector.isHmsAvailable() -> {
-                    HmsSettingsClient(
-                        com.huawei.hms.location.LocationServices.getSettingsClient(
-                            activity
-                        )
+                )
+                MobileService.HMS -> HmsSettingsClient(
+                    com.huawei.hms.location.LocationServices.getSettingsClient(
+                        activity
                     )
-                }
-                else -> {
-                    throw UnsupportedOperationException(EXCEPTION_MESSAGE)
-                }
+                )
             }
         }
     }

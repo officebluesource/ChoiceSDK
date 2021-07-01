@@ -61,11 +61,11 @@ internal class HmsMarkerOptions(private val markerOptions: com.huawei.hms.maps.m
         return markerOptions.rotation
     }
 
-    override fun getSnippet(): String {
+    override fun getSnippet(): String? {
         return markerOptions.snippet
     }
 
-    override fun getTitle(): String {
+    override fun getTitle(): String? {
         return markerOptions.title
     }
 

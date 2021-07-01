@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import at.bluesource.choicesdk.core.MobileService
 import at.bluesource.choicesdk.core.MobileServicesDetector
 import at.bluesource.choicesdk.maps.R
 import at.bluesource.choicesdk.maps.common.Map.Companion.toChoiceMap
@@ -45,8 +46,8 @@ open class MapFragment(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val mapFragment: Fragment = when {
-            MobileServicesDetector.isGmsAvailable() -> {
+        val mapFragment: Fragment = when (MobileServicesDetector.getAvailableMobileService()) {
+            MobileService.GMS -> {
                 val instance = if (options == null) {
                     com.google.android.gms.maps.SupportMapFragment.newInstance()
                 } else {
@@ -60,7 +61,7 @@ open class MapFragment(
                 instance
             }
 
-            MobileServicesDetector.isHmsAvailable() -> {
+            MobileService.HMS -> {
                 val instance = if (options == null) {
                     com.huawei.hms.maps.SupportMapFragment.newInstance()
                 } else {
@@ -73,8 +74,6 @@ open class MapFragment(
 
                 instance
             }
-
-            else -> throw IllegalArgumentException("Neither GMS nor HMS services are available. Therefore no MapFragment can be instantiated.")
         }
 
         replaceFragment(mapFragment)

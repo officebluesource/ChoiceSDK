@@ -8,10 +8,7 @@ import at.bluesource.choicesdk.messaging.factory.MessagingRepositoryFactory
 import com.jakewharton.rxrelay3.BehaviorRelay
 import com.jakewharton.rxrelay3.PublishRelay
 import io.reactivex.rxjava3.core.Observable
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 /**
  * Common class for the messaging service to communicate with
@@ -34,7 +31,7 @@ internal class MessagingRepository : MessagingService {
 
     override fun requestToken(context: Context) {
         Log.d("ChoiceSDK", "Request token")
-        GlobalScope.launch {
+        applicationScope.launch {
             val token = tokenProvider.requestToken(context)
             withContext(Dispatchers.Main) {
                 tokenRelay.accept(token)
@@ -48,7 +45,7 @@ internal class MessagingRepository : MessagingService {
 
     override fun deleteToken(context: Context) {
         Log.d("ChoiceSDK", "Delete token")
-        GlobalScope.launch {
+        applicationScope.launch {
             tokenProvider.deleteToken(context)
             withContext(Dispatchers.Main) {
                 tokenRelay.accept("")
@@ -89,6 +86,8 @@ internal class MessagingRepository : MessagingService {
     }
 
     companion object {
+        private val applicationScope = CoroutineScope(SupervisorJob())
+
         @Volatile
         private var INSTANCE: MessagingRepository? = null
 

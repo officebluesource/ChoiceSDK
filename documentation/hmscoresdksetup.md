@@ -62,8 +62,9 @@ Project integration:
       repositories {
           maven { url 'http://developer.huawei.com/repo/' }
       }
+      
       dependencies {
-          classpath 'com.huawei.agconnect:agcp:1.5.0.300'
+          classpath 'com.huawei.agconnect:agcp:1.5.2.300'
       }
   }
   
@@ -73,14 +74,9 @@ Project integration:
       }
   }
   ```
-- Add dependencies and plugin to app-level `build.gradle` file
+- Add this plugin to app-level `build.gradle` file
   ```gradle
   apply plugin: 'com.huawei.agconnect'
-
-  dependencies {
-      // Add dependencies.
-      implementation 'com.huawei.agconnect:agconnect-core:1.4.0.300'
-  }
   ```
 - If needed: Configure Proguard to prevent HMS from being obfuscated
   ```java

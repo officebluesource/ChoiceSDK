@@ -23,8 +23,8 @@ internal class HmsTileOverlayOptions(private val tileOverlayOptions: com.huawei.
         return tileOverlayOptions.fadeIn
     }
 
-    override fun getTileProvider(): TileProvider {
-        return tileOverlayOptions.tileProvider.toChoiceTileProvider()
+    override fun getTileProvider(): TileProvider? {
+        return tileOverlayOptions.tileProvider?.toChoiceTileProvider()
     }
 
     override fun getTransparency(): Float {
@@ -39,8 +39,8 @@ internal class HmsTileOverlayOptions(private val tileOverlayOptions: com.huawei.
         return tileOverlayOptions.isVisible
     }
 
-    override fun tileProvider(tileProvider: TileProvider): TileOverlayOptions {
-        tileOverlayOptions.tileProvider(tileProvider.toHmsTileProvider())
+    override fun tileProvider(tileProvider: TileProvider?): TileOverlayOptions {
+        tileProvider?.toHmsTileProvider()?.let { tileOverlayOptions.tileProvider(it) }
         return this
     }
 

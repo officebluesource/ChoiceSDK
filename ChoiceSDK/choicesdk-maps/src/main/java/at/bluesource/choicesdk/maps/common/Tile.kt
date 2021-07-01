@@ -1,6 +1,7 @@
 package at.bluesource.choicesdk.maps.common
 
 import android.os.Parcel
+import at.bluesource.choicesdk.core.MobileService
 import at.bluesource.choicesdk.core.MobileServicesDetector
 import at.bluesource.choicesdk.maps.gms.GmsTile
 import at.bluesource.choicesdk.maps.gms.GmsTileFactory
@@ -25,10 +26,9 @@ abstract class Tile(val width: Int, val height: Int, val data: ByteArray?) {
 
         @JvmStatic
         fun getFactory(): Factory {
-            return when {
-                MobileServicesDetector.isGmsAvailable() -> GmsTileFactory()
-                MobileServicesDetector.isHmsAvailable() -> HmsTileFactory()
-                else -> throw IllegalStateException("Neither GMS nor HMS services are available.")
+            return when (MobileServicesDetector.getAvailableMobileService()) {
+                MobileService.GMS -> GmsTileFactory()
+                MobileService.HMS -> HmsTileFactory()
             }
         }
 

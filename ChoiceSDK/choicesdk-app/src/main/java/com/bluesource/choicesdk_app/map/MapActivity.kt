@@ -14,8 +14,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import at.bluesource.choicesdk.core.MobileServicesDetector
 import at.bluesource.choicesdk.location.common.FusedLocationProviderClient
 import at.bluesource.choicesdk.location.factory.FusedLocationProviderFactory
@@ -36,12 +34,11 @@ class MapActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
 
-        val fragmentManager: FragmentManager = supportFragmentManager
-        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-
-        mapFragment = MapFragment.newInstance()
-        fragmentTransaction.add(R.id.mapContainer, mapFragment)
-        fragmentTransaction.commit()
+        supportFragmentManager.beginTransaction().apply {
+            mapFragment = MapFragment.newInstance()
+            add(R.id.mapContainer, mapFragment)
+            commit()
+        }
 
         if (!hasPermissions(this)) {
             ActivityCompat.requestPermissions(this, PERMISSIONS, 3)
@@ -328,7 +325,6 @@ class MapActivity : AppCompatActivity() {
         private const val TAG = "MapActivity"
 
         private val PERMISSIONS = arrayOf(
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION,

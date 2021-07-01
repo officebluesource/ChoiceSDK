@@ -181,36 +181,35 @@ interface LocationRequest {
         }
 
         internal fun LocationRequest.toGmsLocationRequest(): com.google.android.gms.location.LocationRequest {
-            return com.google.android.gms.location.LocationRequest().also {
-                it.setSmallestDisplacement(smallestDisplacement)
-                    .setNumUpdates(numUpdates)
-                    .setMaxWaitTime(maxWaitTime)
-                    .setInterval(interval)
-                    .setFastestInterval(fastestInterval)
-                    .setExpirationTime(expirationTime)
-                    .setExpirationDuration(expirationDuration)
-                    .setPriority(priority)
-            }
+            return com.google.android.gms.location.LocationRequest.create()
+                .setSmallestDisplacement(smallestDisplacement)
+                .setNumUpdates(numUpdates)
+                .setMaxWaitTime(maxWaitTime)
+                .setInterval(interval)
+                .setFastestInterval(fastestInterval)
+                .setExpirationTime(expirationTime)
+                .setExpirationDuration(expirationDuration)
+                .setPriority(priority)
         }
 
         internal fun LocationRequest.toHmsLocationRequest(): com.huawei.hms.location.LocationRequest {
-            return com.huawei.hms.location.LocationRequest().also {
-                it.setSmallestDisplacement(smallestDisplacement)
-                    .setNumUpdates(numUpdates)
-                    .setMaxWaitTime(maxWaitTime)
-                    .setInterval(interval)
-                    .setFastestInterval(fastestInterval)
-                    .setExpirationTime(expirationTime)
-                    .setExpirationDuration(expirationDuration)
-                    .setNeedAddress(needAddress)
-                    .setLanguage(language)
-                    .setCountryCode(countryCode)
-                    .setPriority(priority)
-
-                extras?.forEach { entry ->
-                    it.putExtras(entry.key, entry.value)
+            return com.huawei.hms.location.LocationRequest.create()
+                .setSmallestDisplacement(smallestDisplacement)
+                .setNumUpdates(numUpdates)
+                .setMaxWaitTime(maxWaitTime)
+                .setInterval(interval)
+                .setFastestInterval(fastestInterval)
+                .setExpirationTime(expirationTime)
+                .setExpirationDuration(expirationDuration)
+                .setNeedAddress(needAddress)
+                .setLanguage(language)
+                .setCountryCode(countryCode)
+                .setPriority(priority)
+                .apply {
+                    extras?.forEach { entry ->
+                        putExtras(entry.key, entry.value)
+                    }
                 }
-            }
         }
     }
 }

@@ -45,10 +45,10 @@ buildscript{
 
     dependencies {
         // GMS
-        classpath 'com.google.gms:google-services:4.3.3'
+        classpath 'com.google.gms:google-services:4.3.8'
 
         // HMS
-        classpath 'com.huawei.agconnect:agcp:1.4.1.300'
+        classpath 'com.huawei.agconnect:agcp:1.5.2.300'
     }
 }
 
@@ -69,7 +69,7 @@ apply plugin: 'com.huawei.agconnect'
 Add the following dependencies as required to your app. GMS, Firebase and HMS dependencies are included, so they do not need to be declared in your app.
 ```gradle
 dependencies {
-    def choicesdk_version = '0.1.6'
+    def choicesdk_version = '0.2.0'
     implementation "at.bluesource.choicesdk:choicesdk-analytics:$choicesdk_version"
     implementation "at.bluesource.choicesdk:choicesdk-location:$choicesdk_version"
     implementation "at.bluesource.choicesdk:choicesdk-maps:$choicesdk_version"
@@ -88,6 +88,11 @@ class YourApp : Application() {
         ChoiceSdk.init(this)
     }
 }
+```
+
+By default the SDK checks for GMS availability first. It is also possible to set the priority in which order the service availability is checked (for example if you prefer HMS services over GMS services on devices where both are available):
+```kotlin
+ChoiceSdk.init(this, listOf(MobileService.HMS, MobileService.GMS))
 ```
 
 ## Usage

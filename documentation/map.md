@@ -21,12 +21,11 @@ If the app accesses the user's current location by enabling the `MyLocation` lay
 
 Create the map fragment and add it to a `FrameLayout` with id `mapContainer`:
 ```kotlin
-val fragmentManager: FragmentManager = supportFragmentManager
-val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-
 val mapFragment: MapFragment = MapFragment.newInstance()
-fragmentTransaction.add(R.id.mapContainer, mapFragment)
-fragmentTransaction.commit()
+supportFragmentManager.beginTransaction().apply {
+    add(R.id.mapContainer, mapFragment)
+    commit()
+}
 ```
 
 Working with the map:

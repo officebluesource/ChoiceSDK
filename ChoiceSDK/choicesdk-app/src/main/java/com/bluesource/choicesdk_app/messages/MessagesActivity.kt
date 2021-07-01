@@ -14,6 +14,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.lifecycle.lifecycleScope
+import at.bluesource.choicesdk.core.MobileService
 import at.bluesource.choicesdk.core.MobileServicesDetector
 import at.bluesource.choicesdk.messaging.common.MessagingService
 import at.bluesource.choicesdk.messaging.common.RemoteMessage
@@ -23,7 +25,6 @@ import com.bluesource.choicesdk_app.R
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.observers.DisposableObserver
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -84,9 +85,8 @@ class MessagesActivity : AppCompatActivity() {
 
         disposables.addAll(tokenObserver, messageObserver)
 
-        messagingService.getNewTokenObservable().subscribeWith(tokenObserver)
-        messagingService.getMessageReceivedObservable().observeOn(AndroidSchedulers.mainThread())
-            .subscribeWith(messageObserver)
+        messagingService.getNewTokenObservable().observeOn(AndroidSchedulers.mainThread()).subscribeWith(tokenObserver)
+        messagingService.getMessageReceivedObservable().observeOn(AndroidSchedulers.mainThread()).subscribeWith(messageObserver)
     }
 
 
@@ -100,10 +100,13 @@ class MessagesActivity : AppCompatActivity() {
         textViewPush.movementMethod = ScrollingMovementMethod()
 
         val txtPushServiceType = findViewById<TextView>(R.id.textView_push_service_type)
-        txtPushServiceType.text = when {
-            MobileServicesDetector.isGmsAvailable() -> "Using GSM Push Service"
-            MobileServicesDetector.isHmsAvailable() -> "Using HSM Push Service"
-            else -> ""
+        txtPushServiceType.text = try {
+            when (MobileServicesDetector.getAvailableMobileService()) {
+                MobileService.GMS -> "Using GMS Push Service"
+                MobileService.HMS -> "Using HMS Push Service"
+            }
+        } catch (e: UnsupportedOperationException) {
+            ""
         }
 
         btnToken.setOnClickListener { getToken() }
@@ -169,16 +172,18 @@ class MessagesActivity : AppCompatActivity() {
     }
 
     private fun getServiceType(): String {
-        if (MobileServicesDetector.isGmsAvailable()) {
-            return "google"
-        } else if (MobileServicesDetector.isHmsAvailable()) {
-            return "huawei"
+        return try {
+            when (MobileServicesDetector.getAvailableMobileService()) {
+                MobileService.GMS -> "google"
+                MobileService.HMS -> "huawei"
+            }
+        } catch (e: UnsupportedOperationException) {
+            ""
         }
-        return ""
     }
 
     private fun triggerNotification() {
-        GlobalScope.launch {
+        lifecycleScope.launch {
             try {
                 val response: String = notificationApi.triggerNotification(getServiceType(), token)
                 Log.d("ChoiceSDK", "Response: $response")
