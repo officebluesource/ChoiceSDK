@@ -64,7 +64,7 @@ dependencies {
     implementation 'com.google.maps.android:android-maps-utils:0.5'
 
     // HMS
-    implementation 'com.huawei.hms:maps:5.0.5.301'
+    implementation 'com.huawei.hms:maps:5.3.0.300'
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.3.1"
 }
 

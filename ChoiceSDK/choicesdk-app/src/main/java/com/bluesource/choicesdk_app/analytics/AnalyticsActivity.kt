@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import at.bluesource.choicesdk.analytics.common.Analytics
 import at.bluesource.choicesdk.analytics.factory.AnalyticsFactory
 import com.bluesource.choicesdk_app.R
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.observers.DisposableObserver
 
@@ -55,7 +56,7 @@ class AnalyticsActivity : AppCompatActivity() {
         }
         disposables.add(observer)
 
-        analytics.getAppInstanceIdObservable().subscribeWith(observer)
+        analytics.getAppInstanceIdObservable().observeOn(AndroidSchedulers.mainThread()).subscribeWith(observer)
     }
 
     override fun onDestroy() {

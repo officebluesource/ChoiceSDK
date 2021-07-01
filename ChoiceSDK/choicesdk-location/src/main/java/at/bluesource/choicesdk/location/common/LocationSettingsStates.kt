@@ -62,9 +62,9 @@ interface LocationSettingsStates {
             return object :
                 LocationSettingsStates {
                 override val isGpsUsable: Boolean
-                    get() = this@toChoiceLocationSettingsStates.isGpsUsable
+                    get() = this@toChoiceLocationSettingsStates.isGnssUsable
                 override val isGpsPresent: Boolean
-                    get() = this@toChoiceLocationSettingsStates.isGpsPresent
+                    get() = this@toChoiceLocationSettingsStates.isGnssPresent
                 override val isNetworkLocationUsable: Boolean
                     get() = this@toChoiceLocationSettingsStates.isNetworkLocationUsable
                 override val isNetworkLocationPresent: Boolean

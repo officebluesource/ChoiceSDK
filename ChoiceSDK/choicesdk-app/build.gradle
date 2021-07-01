@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.huawei.agconnect'
 apply plugin: 'com.google.firebase.crashlytics'
-apply plugin: 'com.huawei.hms.plugin.analytics'
 apply plugin: 'com.jaredsburrows.license'
 apply from: "../licenseCheck.gradle"
 
@@ -102,11 +102,7 @@ dependencies {
     implementation project(":choicesdk-signin")
 
     // for HMS map clustering
-    implementation 'com.huawei.hms:maps:5.0.5.301'
-
-    // hms plugin version of analytics needs to have a dependency
-    // in the gradle file where the plugin is applied
-    implementation 'com.huawei.hms:hianalytics:5.0.1.300'
+    implementation 'com.huawei.hms:maps:5.3.0.300'
 
     // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0"

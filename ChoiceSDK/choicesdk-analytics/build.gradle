@@ -64,9 +64,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
 
     // HMS
-    implementation 'com.huawei.hms:hianalytics:5.0.1.300'
+    implementation 'com.huawei.hms:hianalytics:6.0.0.300'
 }
-
 
 
 dokkaHtml {
