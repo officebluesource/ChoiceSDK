@@ -11,7 +11,15 @@ import at.bluesource.choicesdk.maps.common.OnMapReadyCallback
 
 class GmsMapView : MapView {
 
-    constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context) : super(context) {
+        mapView = com.google.android.gms.maps.MapView(context)
+    }
+
+    constructor(context: Context, attrs: AttributeSet? = null) : super(context, attrs) {
+        mapView = com.google.android.gms.maps.MapView(context, attrs)
+    }
+
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int = 0) : super(context, attrs, defStyleAttr) {
         mapView = com.google.android.gms.maps.MapView(context, attrs, defStyleAttr)
     }
 

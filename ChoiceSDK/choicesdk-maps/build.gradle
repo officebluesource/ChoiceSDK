@@ -60,12 +60,12 @@ dependencies {
     api project(":choicesdk-core")
 
     // GMS
-    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.google.android.gms:play-services-maps:17.0.1'
     implementation 'com.google.maps.android:android-maps-utils:0.5'
 
     // HMS
     implementation 'com.huawei.hms:maps:5.0.5.301'
-    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.3.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.3.1"
 }
 
 

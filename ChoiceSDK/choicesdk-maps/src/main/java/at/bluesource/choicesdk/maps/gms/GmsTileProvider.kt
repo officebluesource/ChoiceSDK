@@ -12,8 +12,8 @@ import at.bluesource.choicesdk.maps.common.TileProvider
  */
 internal class GmsTileProvider(private val tileProvider: com.google.android.gms.maps.model.TileProvider) :
     TileProvider {
-    override fun getTile(x: Int, y: Int, zoom: Int): Tile {
-        return tileProvider.getTile(x, y, zoom).toChoiceTile()
+    override fun getTile(x: Int, y: Int, zoom: Int): Tile? {
+        return tileProvider.getTile(x, y, zoom)?.toChoiceTile()
     }
 
     internal fun getTileProvider(): com.google.android.gms.maps.model.TileProvider {

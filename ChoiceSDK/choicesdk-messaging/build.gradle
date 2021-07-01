@@ -65,8 +65,8 @@ dependencies {
     api project(":choicesdk-core")
 
     // GMS
-    implementation platform('com.google.firebase:firebase-bom:26.5.0')
-    implementation 'com.google.firebase:firebase-messaging'
+    implementation platform('com.google.firebase:firebase-bom:28.2.0')
+    implementation 'com.google.firebase:firebase-messaging-ktx'
 
     // HMS
     implementation 'com.huawei.hms:push:5.0.0.300'

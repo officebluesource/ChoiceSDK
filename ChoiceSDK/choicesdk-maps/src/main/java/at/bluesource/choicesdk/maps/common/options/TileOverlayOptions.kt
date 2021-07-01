@@ -18,11 +18,11 @@ import at.bluesource.choicesdk.maps.hms.HmsTileOverlayOptions
 interface TileOverlayOptions {
     fun fadeIn(fadeIn: Boolean): TileOverlayOptions
     fun getFadeIn(): Boolean
-    fun getTileProvider(): TileProvider
+    fun getTileProvider(): TileProvider?
     fun getTransparency(): Float
     fun getZIndex(): Float
     fun isVisible(): Boolean
-    fun tileProvider(tileProvider: TileProvider): TileOverlayOptions
+    fun tileProvider(tileProvider: TileProvider?): TileOverlayOptions
     fun transparency(transparency: Float): TileOverlayOptions
     fun visible(visible: Boolean): TileOverlayOptions
     fun writeToParcel(out: Parcel, flags: Int)
@@ -38,7 +38,7 @@ interface TileOverlayOptions {
         fun com.google.android.gms.maps.model.TileOverlayOptions.toChoice(): TileOverlayOptions {
             return create()
                     .fadeIn(this.fadeIn)
-                    .tileProvider(this.tileProvider.toChoiceTileProvider())
+                    .tileProvider(this.tileProvider?.toChoiceTileProvider())
                     .transparency(this.transparency)
                     .visible(this.isVisible)
                     .zIndex(this.zIndex)

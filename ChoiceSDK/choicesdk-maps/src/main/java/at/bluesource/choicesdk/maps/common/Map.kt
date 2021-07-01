@@ -64,10 +64,10 @@ interface Map {
     @Throws(ApiException::class)
     fun addCircle(options: CircleOptions): Circle
     fun addGroundOverlay(options: GroundOverlayOptions)
-    fun addMarker(options: MarkerOptions): Marker
+    fun addMarker(options: MarkerOptions): Marker?
     fun addPolygon(options: PolygonOptions): Polygon
     fun addPolyline(options: PolylineOptions): Polyline
-    fun addTileOverlay(options: TileOverlayOptions): TileOverlay
+    fun addTileOverlay(options: TileOverlayOptions): TileOverlay?
     fun animateCamera(update: CameraUpdate)
     fun animateCamera(update: CameraUpdate, callback: CancelableCallback?)
     fun animateCamera(

@@ -37,8 +37,8 @@ interface MarkerOptions {
     fun getInfoWindowAnchorV(): Float
     fun getPosition(): LatLng
     fun getRotation(): Float
-    fun getSnippet(): String
-    fun getTitle(): String
+    fun getSnippet(): String?
+    fun getTitle(): String?
     fun getZIndex(): Float
     fun icon(bitmapDescriptor: BitmapDescriptor): MarkerOptions
     fun defaultIcon(): MarkerOptions

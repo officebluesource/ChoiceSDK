@@ -28,8 +28,8 @@ buildscript {
         classpath 'com.jaredsburrows:gradle-license-plugin:0.8.80'
 
         // GMS
-        classpath 'com.google.gms:google-services:4.3.5'
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.5.0'
+        classpath 'com.google.gms:google-services:4.3.8'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.7.1'
 
         // HMS
         classpath 'com.huawei.agconnect:agcp:1.5.0.300'

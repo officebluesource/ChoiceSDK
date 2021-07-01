@@ -23,8 +23,8 @@ internal class GmsTileOverlayOptions(private val tileOverlayOptions: com.google.
         return tileOverlayOptions.fadeIn
     }
 
-    override fun getTileProvider(): TileProvider {
-        return tileOverlayOptions.tileProvider.toChoiceTileProvider()
+    override fun getTileProvider(): TileProvider? {
+        return tileOverlayOptions.tileProvider?.toChoiceTileProvider()
     }
 
     override fun getTransparency(): Float {
@@ -39,8 +39,8 @@ internal class GmsTileOverlayOptions(private val tileOverlayOptions: com.google.
         return tileOverlayOptions.isVisible
     }
 
-    override fun tileProvider(tileProvider: TileProvider): TileOverlayOptions {
-        tileOverlayOptions.tileProvider(tileProvider.toGmsTileProvider())
+    override fun tileProvider(tileProvider: TileProvider?): TileOverlayOptions {
+        tileProvider?.toGmsTileProvider()?.let { tileOverlayOptions.tileProvider(it) }
         return this
     }
 

@@ -46,8 +46,8 @@ internal class HmsGroundOverlayOptions(private val groundOverlayOptions: com.hua
         return groundOverlayOptions.bearing
     }
 
-    override fun getBounds(): LatLngBounds {
-        return groundOverlayOptions.bounds.toChoiceLatLngBounds()
+    override fun getBounds(): LatLngBounds? {
+        return groundOverlayOptions.bounds?.toChoiceLatLngBounds()
     }
 
     override fun getHeight(): Float {
@@ -58,8 +58,8 @@ internal class HmsGroundOverlayOptions(private val groundOverlayOptions: com.hua
         return BitmapDescriptor.HmsBitmapDescriptor(groundOverlayOptions.image)
     }
 
-    override fun getLocation(): LatLng {
-        return groundOverlayOptions.location.toChoiceLatLng()
+    override fun getLocation(): LatLng? {
+        return groundOverlayOptions.location?.toChoiceLatLng()
     }
 
     override fun getTransparency(): Float {

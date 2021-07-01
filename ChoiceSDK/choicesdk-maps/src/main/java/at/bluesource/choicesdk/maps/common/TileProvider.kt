@@ -13,7 +13,7 @@ import at.bluesource.choicesdk.maps.hms.HmsTileProvider
  */
 fun interface TileProvider {
 
-    fun getTile(x: Int, y: Int, zoom: Int): Tile
+    fun getTile(x: Int, y: Int, zoom: Int): Tile?
 
     companion object {
 

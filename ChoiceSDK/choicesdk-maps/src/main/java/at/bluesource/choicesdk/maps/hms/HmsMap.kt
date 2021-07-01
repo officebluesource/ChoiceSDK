@@ -215,8 +215,8 @@ internal class HmsMap(private var map: HuaweiMap) : Map {
      * Other
      ***************/
 
-    override fun addMarker(options: MarkerOptions): Marker {
-        return HmsMarker(map.addMarker(options.toHmsMarkerOptions()))
+    override fun addMarker(options: MarkerOptions): Marker? {
+        return map.addMarker(options.toHmsMarkerOptions())?.let { HmsMarker(it) }
     }
 
     override fun addCircle(options: CircleOptions): Circle {
@@ -235,9 +235,9 @@ internal class HmsMap(private var map: HuaweiMap) : Map {
         return map.addPolyline(options.toHmsPolylineOptions()).toChoicePolyline()
     }
 
-    override fun addTileOverlay(options: TileOverlayOptions): TileOverlay {
-        val overlay = map.addTileOverlay(options.toHmsTileOverlayOptions())
-        return TileOverlay.create(overlay)
+    override fun addTileOverlay(options: TileOverlayOptions): TileOverlay? {
+        val overlay = options.toHmsTileOverlayOptions()?.let { map.addTileOverlay(it) }
+        return if (overlay != null) TileOverlay.create(overlay) else null
     }
 
     override fun animateCamera(update: CameraUpdate) {
