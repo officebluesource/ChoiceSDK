@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import at.bluesource.choicesdk.core.MobileService
 import at.bluesource.choicesdk.core.MobileServicesDetector
 import at.bluesource.choicesdk.messaging.common.MessagingService
 import at.bluesource.choicesdk.messaging.common.RemoteMessage
@@ -100,10 +101,13 @@ class MessagesActivity : AppCompatActivity() {
         textViewPush.movementMethod = ScrollingMovementMethod()
 
         val txtPushServiceType = findViewById<TextView>(R.id.textView_push_service_type)
-        txtPushServiceType.text = when {
-            MobileServicesDetector.isGmsAvailable() -> "Using GSM Push Service"
-            MobileServicesDetector.isHmsAvailable() -> "Using HSM Push Service"
-            else -> ""
+        txtPushServiceType.text = try {
+            when (MobileServicesDetector.getAvailableMobileService()) {
+                MobileService.GMS -> "Using GMS Push Service"
+                MobileService.HMS -> "Using HMS Push Service"
+            }
+        } catch (e: UnsupportedOperationException) {
+            ""
         }
 
         btnToken.setOnClickListener { getToken() }
@@ -169,12 +173,14 @@ class MessagesActivity : AppCompatActivity() {
     }
 
     private fun getServiceType(): String {
-        if (MobileServicesDetector.isGmsAvailable()) {
-            return "google"
-        } else if (MobileServicesDetector.isHmsAvailable()) {
-            return "huawei"
+        return try {
+            when (MobileServicesDetector.getAvailableMobileService()) {
+                MobileService.GMS -> "google"
+                MobileService.HMS -> "huawei"
+            }
+        } catch (e: UnsupportedOperationException) {
+            ""
         }
-        return ""
     }
 
     private fun triggerNotification() {

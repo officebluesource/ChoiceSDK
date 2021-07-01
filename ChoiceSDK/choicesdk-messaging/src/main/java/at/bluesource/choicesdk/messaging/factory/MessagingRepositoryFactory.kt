@@ -1,5 +1,6 @@
 package at.bluesource.choicesdk.messaging.factory
 
+import at.bluesource.choicesdk.core.MobileService
 import at.bluesource.choicesdk.core.MobileServicesDetector
 import at.bluesource.choicesdk.messaging.common.MessagingRepository
 import at.bluesource.choicesdk.messaging.common.MessagingService
@@ -25,18 +26,10 @@ class MessagingRepositoryFactory {
 
         @Throws(UnsupportedOperationException::class)
         fun getTokenProvider(): TokenProvider {
-            return when {
-                MobileServicesDetector.isGmsAvailable() -> {
-                    GmsTokenProvider
-                }
-                MobileServicesDetector.isHmsAvailable() -> {
-                    HmsTokenProvider
-                }
-                else -> {
-                    throw UnsupportedOperationException("Missing underlying GMS/HMS API.")
-                }
+            return when (MobileServicesDetector.getAvailableMobileService()) {
+                MobileService.GMS -> GmsTokenProvider
+                MobileService.HMS -> HmsTokenProvider
             }
-
         }
     }
 }

@@ -1,5 +1,6 @@
 package at.bluesource.choicesdk.maps.common
 
+import at.bluesource.choicesdk.core.MobileService
 import at.bluesource.choicesdk.core.MobileServicesDetector
 import at.bluesource.choicesdk.maps.gms.GmsMapOptionsFactory
 import at.bluesource.choicesdk.maps.hms.HmsMapOptionsFactory
@@ -22,10 +23,9 @@ interface MapOptions {
 
         @JvmStatic
         fun getFactory(): Factory {
-            return when {
-                MobileServicesDetector.isGmsAvailable() -> GmsMapOptionsFactory()
-                MobileServicesDetector.isHmsAvailable() -> HmsMapOptionsFactory()
-                else -> throw IllegalStateException("Neither GMS nor HMS services are available.")
+            return when (MobileServicesDetector.getAvailableMobileService()) {
+                MobileService.GMS -> GmsMapOptionsFactory()
+                MobileService.HMS -> HmsMapOptionsFactory()
             }
         }
 

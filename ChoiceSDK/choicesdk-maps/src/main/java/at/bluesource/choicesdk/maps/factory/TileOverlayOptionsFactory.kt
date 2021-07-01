@@ -1,5 +1,6 @@
 package at.bluesource.choicesdk.maps.factory
 
+import at.bluesource.choicesdk.core.MobileService
 import at.bluesource.choicesdk.core.MobileServicesDetector
 import at.bluesource.choicesdk.maps.common.options.TileOverlayOptions
 import at.bluesource.choicesdk.maps.gms.GmsTileOverlayOptions
@@ -16,21 +17,11 @@ import at.bluesource.choicesdk.maps.hms.HmsTileOverlayOptions
  */
 internal class TileOverlayOptionsFactory {
     companion object {
-        private const val EXCEPTION_MESSAGE = "Missing underlying GMS/HMS API."
-
         @Throws(UnsupportedOperationException::class)
         fun getTileOverlayOptions(): TileOverlayOptions {
-
-            return when {
-                MobileServicesDetector.isGmsAvailable() -> {
-                    GmsTileOverlayOptions(com.google.android.gms.maps.model.TileOverlayOptions())
-                }
-                MobileServicesDetector.isHmsAvailable() -> {
-                    HmsTileOverlayOptions(com.huawei.hms.maps.model.TileOverlayOptions())
-                }
-                else -> {
-                    throw UnsupportedOperationException(EXCEPTION_MESSAGE)
-                }
+            return when (MobileServicesDetector.getAvailableMobileService()) {
+                MobileService.GMS -> GmsTileOverlayOptions(com.google.android.gms.maps.model.TileOverlayOptions())
+                MobileService.HMS -> HmsTileOverlayOptions(com.huawei.hms.maps.model.TileOverlayOptions())
             }
         }
     }

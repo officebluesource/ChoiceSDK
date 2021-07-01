@@ -1,6 +1,7 @@
 package at.bluesource.choicesdk.maps.common
 
 import android.graphics.Point
+import at.bluesource.choicesdk.core.MobileService
 import at.bluesource.choicesdk.core.MobileServicesDetector
 import at.bluesource.choicesdk.maps.gms.GmsCameraUpdateFactory
 import at.bluesource.choicesdk.maps.hms.HmsCameraUpdateFactory
@@ -21,17 +22,17 @@ interface CameraUpdateFactory {
     fun newLatLngBounds(bounds: LatLngBounds, padding: Int): CameraUpdate
 
     fun newLatLngBounds(
-            latLngNorthEast: LatLng,
-            latLngSouthWest: LatLng,
-            width: Int,
-            height: Int,
-            padding: Int
+        latLngNorthEast: LatLng,
+        latLngSouthWest: LatLng,
+        width: Int,
+        height: Int,
+        padding: Int
     ): CameraUpdate
 
     fun newLatLngBounds(
-            latLngNorthEast: LatLng,
-            latLngSouthWest: LatLng,
-            padding: Int
+        latLngNorthEast: LatLng,
+        latLngSouthWest: LatLng,
+        padding: Int
     ): CameraUpdate
 
     fun newLatLngZoom(latLng: LatLng, zoom: Float): CameraUpdate
@@ -46,11 +47,9 @@ interface CameraUpdateFactory {
 
         @JvmStatic
         fun get(): CameraUpdateFactory {
-            return when {
-                MobileServicesDetector.isGmsAvailable() -> GmsCameraUpdateFactory.getInstance()
-                MobileServicesDetector.isHmsAvailable() -> HmsCameraUpdateFactory.getInstance()
-                else -> throw UnsupportedOperationException("Missing underlying GMS/HMS API.")
-
+            return when (MobileServicesDetector.getAvailableMobileService()) {
+                MobileService.GMS -> GmsCameraUpdateFactory.getInstance()
+                MobileService.HMS -> HmsCameraUpdateFactory.getInstance()
             }
         }
     }

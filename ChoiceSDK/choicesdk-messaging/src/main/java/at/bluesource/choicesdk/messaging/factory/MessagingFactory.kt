@@ -1,6 +1,7 @@
 package at.bluesource.choicesdk.messaging.factory
 
 import at.bluesource.choicesdk.core.ChoiceSdk
+import at.bluesource.choicesdk.core.MobileService
 import at.bluesource.choicesdk.core.MobileServicesDetector
 import at.bluesource.choicesdk.messaging.common.Messaging
 import at.bluesource.choicesdk.messaging.gms.GmsMessaging
@@ -19,16 +20,9 @@ class MessagingFactory {
     companion object {
         @Throws(UnsupportedOperationException::class)
         fun getMessaging(): Messaging {
-            return when {
-                MobileServicesDetector.isGmsAvailable() -> {
-                    GmsMessaging.getInstance()
-                }
-                MobileServicesDetector.isHmsAvailable() -> {
-                    HmsMessaging.getInstance(ChoiceSdk.getContext())
-                }
-                else -> {
-                    throw UnsupportedOperationException("Missing underlying GMS/HMS API.")
-                }
+            return when (MobileServicesDetector.getAvailableMobileService()) {
+                MobileService.GMS -> GmsMessaging.getInstance()
+                MobileService.HMS -> HmsMessaging.getInstance(ChoiceSdk.getContext())
             }
         }
     }

@@ -1,5 +1,6 @@
 package at.bluesource.choicesdk.maps.factory
 
+import at.bluesource.choicesdk.core.MobileService
 import at.bluesource.choicesdk.core.MobileServicesDetector
 import at.bluesource.choicesdk.maps.common.options.GroundOverlayOptions
 import at.bluesource.choicesdk.maps.gms.GmsGroundOverlayOptions
@@ -16,21 +17,11 @@ import at.bluesource.choicesdk.maps.hms.HmsGroundOverlayOptions
  */
 internal class GroundOverlayOptionsFactory {
     companion object {
-        private const val EXCEPTION_MESSAGE = "Missing underlying GMS/HMS API."
-
         @Throws(UnsupportedOperationException::class)
         fun getGroundOverlayOptions(): GroundOverlayOptions {
-
-            return when {
-                MobileServicesDetector.isGmsAvailable() -> {
-                    GmsGroundOverlayOptions(com.google.android.gms.maps.model.GroundOverlayOptions())
-                }
-                MobileServicesDetector.isHmsAvailable() -> {
-                    HmsGroundOverlayOptions(com.huawei.hms.maps.model.GroundOverlayOptions())
-                }
-                else -> {
-                    throw UnsupportedOperationException(EXCEPTION_MESSAGE)
-                }
+            return when (MobileServicesDetector.getAvailableMobileService()) {
+                MobileService.GMS -> GmsGroundOverlayOptions(com.google.android.gms.maps.model.GroundOverlayOptions())
+                MobileService.HMS -> HmsGroundOverlayOptions(com.huawei.hms.maps.model.GroundOverlayOptions())
             }
         }
     }

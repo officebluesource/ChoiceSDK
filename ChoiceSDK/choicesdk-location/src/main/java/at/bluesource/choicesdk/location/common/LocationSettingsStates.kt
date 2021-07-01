@@ -1,6 +1,7 @@
 package at.bluesource.choicesdk.location.common
 
 import android.content.Intent
+import at.bluesource.choicesdk.core.MobileService
 import at.bluesource.choicesdk.core.MobileServicesDetector
 
 /**
@@ -25,15 +26,13 @@ interface LocationSettingsStates {
     companion object {
 
         fun fromIntent(intent: Intent): LocationSettingsStates? {
-
-            return when {
-                MobileServicesDetector.isGmsAvailable() -> {
-                    com.google.android.gms.location.LocationSettingsStates.fromIntent(intent)?.toChoiceLocationSettingsStates()
+            return try {
+                when (MobileServicesDetector.getAvailableMobileService()) {
+                    MobileService.GMS -> com.google.android.gms.location.LocationSettingsStates.fromIntent(intent)?.toChoiceLocationSettingsStates()
+                    MobileService.HMS -> com.huawei.hms.location.LocationSettingsStates.fromIntent(intent)?.toChoiceLocationSettingsStates()
                 }
-                MobileServicesDetector.isHmsAvailable() -> {
-                    com.huawei.hms.location.LocationSettingsStates.fromIntent(intent)?.toChoiceLocationSettingsStates()
-                }
-                else -> null
+            } catch (e: UnsupportedOperationException) {
+                null
             }
         }
 

@@ -1,5 +1,6 @@
 package at.bluesource.choicesdk.signin.factory
 
+import at.bluesource.choicesdk.core.MobileService
 import at.bluesource.choicesdk.core.MobileServicesDetector
 import at.bluesource.choicesdk.signin.common.SignInService
 import at.bluesource.choicesdk.signin.gms.GmsSignInService
@@ -18,16 +19,9 @@ internal class SignInFactory {
     companion object {
         @Throws(UnsupportedOperationException::class)
         fun getSignIn(): SignInService {
-            return when {
-                MobileServicesDetector.isGmsAvailable() -> {
-                    GmsSignInService.getInstance()
-                }
-                MobileServicesDetector.isHmsAvailable() -> {
-                    HmsSignInService.getInstance()
-                }
-                else -> {
-                    throw UnsupportedOperationException("Missing underlying GMS/HMS API.")
-                }
+            return when (MobileServicesDetector.getAvailableMobileService()) {
+                MobileService.GMS -> GmsSignInService.getInstance()
+                MobileService.HMS -> HmsSignInService.getInstance()
             }
         }
     }

@@ -1,6 +1,7 @@
 package at.bluesource.choicesdk.location.common
 
 import android.content.Intent
+import at.bluesource.choicesdk.core.MobileService
 import at.bluesource.choicesdk.core.MobileServicesDetector
 
 
@@ -24,26 +25,24 @@ interface LocationAvailability {
     @Suppress("ExplicitThis")
     companion object {
         fun extractLocationAvailability(intent: Intent): LocationAvailability? {
-            return when {
-                MobileServicesDetector.isGmsAvailable() -> {
-                    return com.google.android.gms.location.LocationAvailability.extractLocationAvailability(intent).toChoiceLocationAvailability()
+            return try {
+                when (MobileServicesDetector.getAvailableMobileService()) {
+                    MobileService.GMS -> com.google.android.gms.location.LocationAvailability.extractLocationAvailability(intent).toChoiceLocationAvailability()
+                    MobileService.HMS -> com.huawei.hms.location.LocationAvailability.extractLocationAvailability(intent).toChoiceLocationAvailability()
                 }
-                MobileServicesDetector.isHmsAvailable() -> {
-                    return com.huawei.hms.location.LocationAvailability.extractLocationAvailability(intent).toChoiceLocationAvailability()
-                }
-                else -> null
+            } catch (e: UnsupportedOperationException) {
+                null
             }
         }
 
         fun hasLocationAvailability(intent: Intent): Boolean {
-            return when {
-                MobileServicesDetector.isGmsAvailable() -> {
-                    return com.google.android.gms.location.LocationAvailability.hasLocationAvailability(intent)
+            return try {
+                when (MobileServicesDetector.getAvailableMobileService()) {
+                    MobileService.GMS -> com.google.android.gms.location.LocationAvailability.hasLocationAvailability(intent)
+                    MobileService.HMS -> com.huawei.hms.location.LocationAvailability.hasLocationAvailability(intent)
                 }
-                MobileServicesDetector.isHmsAvailable() -> {
-                    return com.huawei.hms.location.LocationAvailability.hasLocationAvailability(intent)
-                }
-                else -> false
+            } catch (e: UnsupportedOperationException) {
+                false
             }
         }
 

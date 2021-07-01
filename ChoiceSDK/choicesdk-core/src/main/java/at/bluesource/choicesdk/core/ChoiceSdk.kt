@@ -11,15 +11,28 @@ class ChoiceSdk {
 
     companion object {
         private lateinit var appContext: Application
+        internal var mobileServicePriorities: List<MobileService> = listOf(MobileService.GMS, MobileService.HMS)
 
         /**
-         * Initialize the ChoiceSdk with the application context
+         * Initialize the ChoiceSdk.
          *
          * @param context - Application context
          */
         @JvmStatic
         fun init(context: Application) {
-            appContext = context
+            this.appContext = context
+        }
+
+        /**
+         * Initialize the ChoiceSdk with custom mobile service priorities.
+         *
+         * @param context - Application context
+         * @param mobileServicePriorities - Mobile services (GMS, HMS) are prioritized in the order of this list.
+         */
+        @JvmStatic
+        fun init(context: Application, mobileServicePriorities: List<MobileService>) {
+            this.appContext = context
+            this.mobileServicePriorities = mobileServicePriorities
         }
 
         /**

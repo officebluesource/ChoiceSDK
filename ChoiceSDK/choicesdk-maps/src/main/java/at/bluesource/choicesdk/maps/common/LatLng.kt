@@ -1,5 +1,6 @@
 package at.bluesource.choicesdk.maps.common
 
+import at.bluesource.choicesdk.core.MobileService
 import at.bluesource.choicesdk.core.MobileServicesDetector
 import at.bluesource.choicesdk.maps.gms.GmsLatLngFactory
 import at.bluesource.choicesdk.maps.hms.HmsLatLngFactory
@@ -49,10 +50,9 @@ data class LatLng(var latitude: Double, var longitude: Double) {
 
         @JvmStatic
         fun getFactory(): Factory {
-            return when {
-                MobileServicesDetector.isGmsAvailable() -> GmsLatLngFactory()
-                MobileServicesDetector.isHmsAvailable() -> HmsLatLngFactory()
-                else -> throw IllegalStateException("Neither GMS nor HMS services are available.")
+            return when (MobileServicesDetector.getAvailableMobileService()) {
+                MobileService.GMS -> GmsLatLngFactory()
+                MobileService.HMS -> HmsLatLngFactory()
             }
         }
 
@@ -72,8 +72,8 @@ data class LatLng(var latitude: Double, var longitude: Double) {
         @JvmStatic
         fun com.huawei.hms.maps.model.LatLng.toChoiceLatLng(): LatLng {
             return LatLng(
-                    latitude,
-                    longitude
+                latitude,
+                longitude
             )
         }
 

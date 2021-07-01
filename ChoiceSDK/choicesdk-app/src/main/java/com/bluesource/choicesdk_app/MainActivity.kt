@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import at.bluesource.choicesdk.core.MobileService
 import at.bluesource.choicesdk.core.MobileServicesDetector
 import com.bluesource.choicesdk_app.analytics.AnalyticsActivity
 import com.bluesource.choicesdk_app.biometrics.BiometricsActivity
@@ -35,10 +36,13 @@ class MainActivity : AppCompatActivity() {
         val crashBtn: Button = findViewById(R.id.btn_crash_it)
         val txtVersion: TextView = findViewById(R.id.txt_version)
 
-        txtView.text = when {
-            MobileServicesDetector.isGmsAvailable() -> "GMS detected | GMS demo"
-            MobileServicesDetector.isHmsAvailable() -> "HMS detected | HMS demo"
-            else -> "No GMS nor HMS service detected!"
+        txtView.text = try {
+            when (MobileServicesDetector.getAvailableMobileService()) {
+                MobileService.GMS -> "GMS detected | GMS demo"
+                MobileService.HMS -> "HMS detected | HMS demo"
+            }
+        } catch (e: UnsupportedOperationException) {
+            "No GMS nor HMS service detected!"
         }
 
         locationBtn.setOnClickListener {

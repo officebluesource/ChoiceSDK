@@ -1,5 +1,6 @@
 package at.bluesource.choicesdk.signin.common
 
+import at.bluesource.choicesdk.core.MobileService
 import at.bluesource.choicesdk.core.MobileServicesDetector
 
 /**
@@ -13,14 +14,14 @@ sealed class Scopes {
         const val PROFILE = "profile"
         const val OPEN_ID = "openid"
         const val EMAIL = "email"
-        val GAMES = when {
-            MobileServicesDetector.isGmsAvailable() -> {
-                "https://www.googleapis.com/auth/games"
+
+        val GAMES = try {
+            when (MobileServicesDetector.getAvailableMobileService()) {
+                MobileService.GMS -> "https://www.googleapis.com/auth/games"
+                MobileService.HMS -> "https://www.huawei.com/auth/games"
             }
-            MobileServicesDetector.isHmsAvailable() -> {
-                "https://www.huawei.com/auth/games"
-            }
-            else -> ""
+        } catch (e: UnsupportedOperationException) {
+            ""
         }
     }
 }
