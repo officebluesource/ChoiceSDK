@@ -8,9 +8,9 @@ buildscript {
     }
     project.ext.buildNumber = buildNumber
 
-    project.ext.sdkVersionName = "0.1.6"
+    project.ext.sdkVersionName = "0.2.0"
     project.ext.appVersionName = "${project.sdkVersionName}.${project.buildNumber}"
-    project.ext.versionCode = 7
+    project.ext.versionCode = 8
     project.ext.groupId = "at.bluesource.choicesdk"
 
     ext.kotlin_version = "1.4.32"
