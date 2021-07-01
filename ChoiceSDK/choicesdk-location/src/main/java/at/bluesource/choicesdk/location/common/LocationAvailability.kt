@@ -23,33 +23,25 @@ interface LocationAvailability {
 
     @Suppress("ExplicitThis")
     companion object {
-        fun extractLocationAvailability(intent: Intent?): LocationAvailability? {
+        fun extractLocationAvailability(intent: Intent): LocationAvailability? {
             return when {
                 MobileServicesDetector.isGmsAvailable() -> {
-                    return com.google.android.gms.location.LocationAvailability.extractLocationAvailability(
-                        intent
-                    )?.toChoiceLocationAvailability()
+                    return com.google.android.gms.location.LocationAvailability.extractLocationAvailability(intent).toChoiceLocationAvailability()
                 }
                 MobileServicesDetector.isHmsAvailable() -> {
-                    return com.huawei.hms.location.LocationAvailability.extractLocationAvailability(
-                        intent
-                    ).toChoiceLocationAvailability()
+                    return com.huawei.hms.location.LocationAvailability.extractLocationAvailability(intent).toChoiceLocationAvailability()
                 }
                 else -> null
             }
         }
 
-        fun hasLocationAvailability(intent: Intent?): Boolean {
+        fun hasLocationAvailability(intent: Intent): Boolean {
             return when {
                 MobileServicesDetector.isGmsAvailable() -> {
-                    return com.google.android.gms.location.LocationAvailability.hasLocationAvailability(
-                        intent
-                    )
+                    return com.google.android.gms.location.LocationAvailability.hasLocationAvailability(intent)
                 }
                 MobileServicesDetector.isHmsAvailable() -> {
-                    return com.huawei.hms.location.LocationAvailability.hasLocationAvailability(
-                        intent
-                    )
+                    return com.huawei.hms.location.LocationAvailability.hasLocationAvailability(intent)
                 }
                 else -> false
             }

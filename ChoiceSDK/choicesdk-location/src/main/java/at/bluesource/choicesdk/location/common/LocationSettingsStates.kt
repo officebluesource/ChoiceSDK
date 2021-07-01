@@ -28,12 +28,10 @@ interface LocationSettingsStates {
 
             return when {
                 MobileServicesDetector.isGmsAvailable() -> {
-                    com.google.android.gms.location.LocationSettingsStates.fromIntent(intent)
-                        .toChoiceLocationSettingsStates()
+                    com.google.android.gms.location.LocationSettingsStates.fromIntent(intent)?.toChoiceLocationSettingsStates()
                 }
                 MobileServicesDetector.isHmsAvailable() -> {
-                    com.huawei.hms.location.LocationSettingsStates.fromIntent(intent)
-                        .toChoiceLocationSettingsStates()
+                    com.huawei.hms.location.LocationSettingsStates.fromIntent(intent)?.toChoiceLocationSettingsStates()
                 }
                 else -> null
             }
