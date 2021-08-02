@@ -15,6 +15,11 @@ buildscript {
 
     ext.kotlin_version = "1.5.21"
     ext.coroutines_version = "1.5.1"
+    ext.ktlint_version = "0.42.0"
+    ext.core_ktx_version = "1.6.0"
+    ext.rxjava_version = "3.0.13"
+    ext.rxandroid_version = "3.0.0"
+    ext.rxrelay_version = "3.0.1"
 
     repositories {
         google()
