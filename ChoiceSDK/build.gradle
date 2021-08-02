@@ -21,6 +21,8 @@ buildscript {
     ext.rxandroid_version = "3.0.0"
     ext.rxrelay_version = "3.0.1"
 
+    ext.firebase_bom_version = "28.3.0"
+
     repositories {
         google()
         gradlePluginPortal()
