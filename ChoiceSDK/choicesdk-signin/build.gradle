@@ -15,9 +15,6 @@ android {
         minSdkVersion 19
         targetSdkVersion 29
 
-        versionName project.sdkVersionName
-        versionCode project.versionCode
-
         consumerProguardFiles "consumer-rules.pro"
     }
 

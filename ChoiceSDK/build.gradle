@@ -13,16 +13,18 @@ buildscript {
     project.ext.versionCode = 8
     project.ext.groupId = "at.bluesource.choicesdk"
 
-    ext.kotlin_version = "1.5.20"
+    ext.kotlin_version = "1.5.21"
+    ext.coroutines_version = "1.5.0"
 
     repositories {
         google()
-        jcenter()
-        maven { url 'http://developer.huawei.com/repo/' }
+        gradlePluginPortal()
+
+        maven { url 'https://developer.huawei.com/repo/' }
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.2'
+        classpath 'com.android.tools.build:gradle:7.0.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         classpath 'com.jaredsburrows:gradle-license-plugin:0.8.80'
@@ -45,9 +47,9 @@ plugins {
 allprojects {
     repositories {
         google()
-        jcenter()
+        gradlePluginPortal()
 
-        maven { url 'http://developer.huawei.com/repo/' }
+        maven { url 'https://developer.huawei.com/repo/' }
 
         maven {
             name "Gitlab"
