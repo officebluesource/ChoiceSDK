@@ -1,11 +1,15 @@
 package at.bluesource.choicesdk.maps.gms
 
+import android.os.Parcelable
 import at.bluesource.choicesdk.maps.common.MapOptions
 import com.google.android.gms.maps.GoogleMapOptions
+import kotlinx.parcelize.Parcelize
 
 
-internal class GmsMapOptions : MapOptions {
-    private val mapOptions = GoogleMapOptions()
+@Parcelize
+internal class GmsMapOptions(
+    private val mapOptions: GoogleMapOptions = GoogleMapOptions()
+) : MapOptions, Parcelable {
 
     override val liteMode: Boolean?
         get() = mapOptions.liteMode

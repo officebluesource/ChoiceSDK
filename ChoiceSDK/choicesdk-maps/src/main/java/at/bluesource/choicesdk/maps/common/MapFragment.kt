@@ -23,9 +23,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
  * @see com.google.android.gms.maps.SupportMapFragment
  * @see com.huawei.hms.maps.SupportMapFragment
  */
-open class MapFragment(
-    private val options: MapOptions?
-) : Fragment() {
+open class MapFragment : Fragment() {
 
     private val disposables = CompositeDisposable()
 
@@ -45,6 +43,8 @@ open class MapFragment(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val options: MapOptions? = arguments?.getParcelable(ARG_MAP_OPTIONS)
 
         val mapFragment: Fragment = when (MobileServicesDetector.getAvailableMobileService()) {
             MobileService.GMS -> {
@@ -102,6 +102,8 @@ open class MapFragment(
 
     companion object {
 
+        private const val ARG_MAP_OPTIONS = "ARG_MAP_OPTIONS"
+
         @JvmStatic
         fun newInstance(): MapFragment {
             return newInstance(null)
@@ -109,7 +111,11 @@ open class MapFragment(
 
         @JvmStatic
         fun newInstance(options: MapOptions? = null): MapFragment {
-            return MapFragment(options)
+            return MapFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelable(ARG_MAP_OPTIONS, options)
+                }
+            }
         }
     }
 }
