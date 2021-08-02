@@ -18,6 +18,8 @@ android {
         consumerProguardFiles "consumer-rules.pro"
     }
 
+    resourcePrefix 'choicesdk'
+
     buildTypes {
         release {
             minifyEnabled false

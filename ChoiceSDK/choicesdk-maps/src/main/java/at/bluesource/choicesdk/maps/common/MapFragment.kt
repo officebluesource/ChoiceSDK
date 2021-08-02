@@ -92,7 +92,7 @@ open class MapFragment(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_map, container, false)
+        return inflater.inflate(R.layout.choicesdk_fragment_map, container, false)
     }
 
     override fun onDestroy() {
