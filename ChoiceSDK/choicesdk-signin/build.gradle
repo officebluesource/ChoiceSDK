@@ -51,13 +51,13 @@ dependencies {
     api 'io.reactivex.rxjava3:rxandroid:3.0.0'
 
     // RxRelay3
-    implementation 'com.jakewharton.rxrelay3:rxrelay:3.0.0'
+    implementation 'com.jakewharton.rxrelay3:rxrelay:3.0.1'
 
     // ChoiceSDK Core
     api project(":choicesdk-core")
 
     // GMS
-    implementation 'com.google.android.gms:play-services-auth:19.0.0'
+    implementation 'com.google.android.gms:play-services-auth:19.2.0'
 
     // HMS
     implementation 'com.huawei.hms:hwid:5.3.0.302' // account kit
