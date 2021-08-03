@@ -109,6 +109,15 @@ map.addPolyline(
 )
 ```
 
+Adding a tile provider:
+```kotlin
+val tileProvider = TileProvider.create { x, y, zoom ->
+    // TODO return a ChoiceSDK tile via Tile.getFactory().create(...)
+}
+val tileOverlayOptions = TileOverlayOptions.create().tileProvider(tileProvider)
+map.addTileOverlay(tileOverlayOptions)
+```
+
 The Google or Huawei map object can be retrieved for use-cases which ChoiceSDK does not provide, e.g. clustering. Please note that you need to add the corresponding GMS/HMS dependencies in your `build.gradle` file.
 ```kotlin
 val googleMap: com.google.android.gms.maps.GoogleMap? = map.getGoogleMap()

@@ -69,7 +69,7 @@ apply plugin: 'com.huawei.agconnect'
 Add the following dependencies as required to your app. GMS, Firebase and HMS dependencies are included, so they do not need to be declared in your app.
 ```gradle
 dependencies {
-    def choicesdk_version = '0.2.0'
+    def choicesdk_version = '0.3.0'
     implementation "at.bluesource.choicesdk:choicesdk-analytics:$choicesdk_version"
     implementation "at.bluesource.choicesdk:choicesdk-location:$choicesdk_version"
     implementation "at.bluesource.choicesdk:choicesdk-maps:$choicesdk_version"
