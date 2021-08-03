@@ -1,5 +1,6 @@
 package at.bluesource.choicesdk.maps.common
 
+import android.os.Parcelable
 import at.bluesource.choicesdk.core.MobileService
 import at.bluesource.choicesdk.core.MobileServicesDetector
 import at.bluesource.choicesdk.maps.gms.GmsMapOptionsFactory
@@ -7,7 +8,7 @@ import at.bluesource.choicesdk.maps.hms.HmsMapOptionsFactory
 import com.google.android.gms.maps.GoogleMapOptions
 import com.huawei.hms.maps.HuaweiMapOptions
 
-interface MapOptions {
+interface MapOptions : Parcelable {
 
     val liteMode: Boolean?
     val mapToolbarEnabled: Boolean?

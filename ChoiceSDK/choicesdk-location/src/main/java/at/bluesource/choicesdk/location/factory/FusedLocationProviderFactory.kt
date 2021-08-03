@@ -10,7 +10,7 @@ import at.bluesource.choicesdk.location.hms.HmsFusedLocationProviderClient
 
 /**
  * FusedLocationProvider factory, uses [MobileServicesDetector] to get instance of [FusedLocationProviderClient]
- * Automatically decides if GMS or HMS should be used. GMS is always preferred first.
+ * Automatically decides if GMS or HMS should be used.
  *
  * Throws [UnsupportedOperationException] if no underlying api has been found.
  *

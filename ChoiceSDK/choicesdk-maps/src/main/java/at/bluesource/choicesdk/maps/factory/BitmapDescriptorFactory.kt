@@ -8,7 +8,7 @@ import at.bluesource.choicesdk.maps.hms.HmsBitmapDescriptorFactory
 
 /**
  * BitmapDescriptorFactory factory, uses [MobileServicesDetector] to get instance of [BitmapDescriptorFactory]
- * Automatically decides if GMS or HMS should be used. GMS is always preferred first.
+ * Automatically decides if GMS or HMS should be used.
  *
  * Throws [UnsupportedOperationException] if no underlying api has been found.
  *

@@ -1,5 +1,6 @@
 package at.bluesource.choicesdk.maps.common
 
+import at.bluesource.choicesdk.maps.factory.TileProviderFactory
 import at.bluesource.choicesdk.maps.gms.GmsTileProvider
 import at.bluesource.choicesdk.maps.hms.HmsTileProvider
 
@@ -19,6 +20,10 @@ fun interface TileProvider {
 
         @JvmStatic
         fun noTile(): Tile = Tile.getFactory().create(-1, -1, null)
+
+        fun create(getTile: (x: Int, y: Int, zoom: Int) -> Tile?): TileProvider {
+            return TileProviderFactory.getTileProvider(getTile)
+        }
 
         @JvmStatic
         fun com.google.android.gms.maps.model.TileProvider.toChoiceTileProvider(): TileProvider {

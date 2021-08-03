@@ -22,7 +22,7 @@ class BiometricsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_biometrics)
 
         val biometricManager = BiometricManager.from(this)
-        when (biometricManager.canAuthenticate()) {
+        when (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK)) {
             BiometricManager.BIOMETRIC_SUCCESS ->
                 Log.d("ChoiceSdkApp", "App can authenticate using biometrics.")
             BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE ->
@@ -30,10 +30,14 @@ class BiometricsActivity : AppCompatActivity() {
             BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE ->
                 Log.e("ChoiceSdkApp", "Biometric features are currently unavailable.")
             BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED ->
-                Log.e(
-                    "ChoiceSdkApp", "The user hasn't associated " +
-                            "any biometric credentials with their account."
-                )
+                Log.e("ChoiceSdkApp", "The user hasn't associated any biometric credentials with their account.")
+            BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED ->
+                Log.e("ChoiceSdkApp", "Biometric security update required.")
+            BiometricManager.BIOMETRIC_ERROR_UNSUPPORTED ->
+                Log.e("ChoiceSdkApp", "Biometric error unsupported.")
+            BiometricManager.BIOMETRIC_STATUS_UNKNOWN ->
+                Log.e("ChoiceSdkApp", "Biometric status unknown.")
+
         }
 
 

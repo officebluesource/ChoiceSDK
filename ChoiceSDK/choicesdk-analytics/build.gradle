@@ -15,11 +15,10 @@ android {
         minSdkVersion 19
         targetSdkVersion 29
 
-        versionName project.sdkVersionName
-        versionCode project.versionCode
-
         consumerProguardFiles "consumer-rules.pro"
     }
+
+    resourcePrefix 'choicesdk'
 
     buildTypes {
         release {
@@ -47,20 +46,20 @@ android {
 dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.6.0'
+    implementation "androidx.core:core-ktx:$core_ktx_version"
 
     // RX
-    api 'io.reactivex.rxjava3:rxjava:3.0.13'
-    api 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    api "io.reactivex.rxjava3:rxjava:$rxjava_version"
+    api "io.reactivex.rxjava3:rxandroid:$rxandroid_version"
 
     // RxRelay
-    implementation 'com.jakewharton.rxrelay3:rxrelay:3.0.0'
+    implementation "com.jakewharton.rxrelay3:rxrelay:$rxrelay_version"
 
     // ChoiceSDK Core
     api project(":choicesdk-core")
 
     // GMS
-    implementation platform('com.google.firebase:firebase-bom:28.2.0')
+    implementation platform("com.google.firebase:firebase-bom:$firebase_bom_version")
     implementation 'com.google.firebase:firebase-analytics-ktx'
 
     // HMS

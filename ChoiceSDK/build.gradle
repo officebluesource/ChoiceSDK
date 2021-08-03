@@ -8,21 +8,30 @@ buildscript {
     }
     project.ext.buildNumber = buildNumber
 
-    project.ext.sdkVersionName = "0.2.0"
+    project.ext.sdkVersionName = "0.3.0"
     project.ext.appVersionName = "${project.sdkVersionName}.${project.buildNumber}"
-    project.ext.versionCode = 8
+    project.ext.versionCode = 9
     project.ext.groupId = "at.bluesource.choicesdk"
 
-    ext.kotlin_version = "1.5.20"
+    ext.kotlin_version = "1.5.21"
+    ext.coroutines_version = "1.5.1"
+    ext.ktlint_version = "0.42.0"
+    ext.core_ktx_version = "1.6.0"
+    ext.rxjava_version = "3.0.13"
+    ext.rxandroid_version = "3.0.0"
+    ext.rxrelay_version = "3.0.1"
+
+    ext.firebase_bom_version = "28.3.0"
 
     repositories {
         google()
-        jcenter()
-        maven { url 'http://developer.huawei.com/repo/' }
+        gradlePluginPortal()
+
+        maven { url 'https://developer.huawei.com/repo/' }
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.2'
+        classpath 'com.android.tools.build:gradle:7.0.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         classpath 'com.jaredsburrows:gradle-license-plugin:0.8.80'
@@ -45,9 +54,9 @@ plugins {
 allprojects {
     repositories {
         google()
-        jcenter()
+        gradlePluginPortal()
 
-        maven { url 'http://developer.huawei.com/repo/' }
+        maven { url 'https://developer.huawei.com/repo/' }
 
         maven {
             name "Gitlab"

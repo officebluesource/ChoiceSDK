@@ -8,7 +8,7 @@ import at.bluesource.choicesdk.signin.hms.HmsSignInService
 
 /**
  * SignIn factory, uses [MobileServicesDetector] to get instance of [SignInService]
- * Automatically decides if GMS or HMS should be used. GMS is always preferred first.
+ * Automatically decides if GMS or HMS should be used.
  *
  * Throws [UnsupportedOperationException] if no underlying api has been found.
  *

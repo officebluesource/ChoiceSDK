@@ -10,7 +10,7 @@ import at.bluesource.choicesdk.messaging.hms.HmsTokenProvider
 
 /**
  * MessagingRepository factory, uses [MobileServicesDetector] to get instance of [MessagingService] and [TokenProvider] (repository)
- * Automatically decides if GMS or HMS should be used. GMS is always preferred first.
+ * Automatically decides if GMS or HMS should be used.
  *
  * Throws [UnsupportedOperationException] if no underlying api has been found.
  *

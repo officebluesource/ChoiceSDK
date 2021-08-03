@@ -1,11 +1,15 @@
 package at.bluesource.choicesdk.maps.hms
 
+import android.os.Parcelable
 import at.bluesource.choicesdk.maps.common.MapOptions
 import com.huawei.hms.maps.HuaweiMapOptions
+import kotlinx.parcelize.Parcelize
 
 
-internal class HmsMapOptions : MapOptions {
-    private val mapOptions = HuaweiMapOptions()
+@Parcelize
+internal class HmsMapOptions(
+    private val mapOptions: HuaweiMapOptions = HuaweiMapOptions()
+) : MapOptions, Parcelable {
 
     override val liteMode: Boolean?
         get() = mapOptions.liteMode
