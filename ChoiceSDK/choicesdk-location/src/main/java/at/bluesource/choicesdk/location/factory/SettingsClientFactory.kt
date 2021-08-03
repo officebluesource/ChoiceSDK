@@ -11,7 +11,7 @@ import com.google.android.gms.location.LocationServices
 
 /**
  * SettingsClient factory, uses [MobileServicesDetector] to get instance of [SettingsClient]
- * Automatically decides if GMS or HMS should be used. GMS is always preferred first.
+ * Automatically decides if GMS or HMS should be used.
  *
  * Throws [UnsupportedOperationException] if no underlying api has been found.
  *
