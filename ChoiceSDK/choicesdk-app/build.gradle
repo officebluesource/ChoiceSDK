@@ -102,7 +102,7 @@ dependencies {
     implementation project(":choicesdk-signin")
 
     // for HMS map clustering
-    implementation 'com.huawei.hms:maps:5.3.0.300'
+    implementation 'com.huawei.hms:maps:6.5.0.301'
 
     // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
