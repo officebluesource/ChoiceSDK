@@ -62,7 +62,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:18.0.0'
 
     // HMS
-    implementation 'com.huawei.hms:location:5.1.0.303'
+    implementation 'com.huawei.hms:location:6.4.0.300'
 }
 
 dokkaHtml {

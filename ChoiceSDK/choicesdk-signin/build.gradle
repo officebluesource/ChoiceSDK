@@ -62,7 +62,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:19.2.0'
 
     // HMS
-    implementation 'com.huawei.hms:hwid:5.3.0.302' // account kit
+    implementation 'com.huawei.hms:hwid:6.4.0.301' // account kit
 }
 
 dokkaHtml {
